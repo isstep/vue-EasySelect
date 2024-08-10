@@ -21,18 +21,33 @@ const onChangeSearchInput = (event) => {
   filters.searchQuery = event.target.value
 }
 
+const addToFavorite = async (food) =>{
+  food.isFavorite = true
+}
+//запрашивает закладки
 const fetchFavorites = async () => {
   try {
-    const { data } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/favorites')
-    foods.value = foods.value.map((food) => ({
-      ...food,
-      isFavorite: data.some((favorite) => favorite.id === food.id)
-    }))
+    const { data: favorites } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/favorites')
+
+    foods.value = foods.value.map((food) => {
+      const favorite = favorites.find((favorite) => favorite.parentId === food.id)
+
+      if (!favorite) {
+        return food
+      }
+
+      return {
+        ...food,
+        isFavorite: true,
+        favoriteId: favorite.id
+      }
+    })
   } catch (err) {
     console.log(err)
   }
 }
 
+// запрашивает список товаров еды
 const fetchFoods = async () => {
   try {
     const params = {
@@ -60,7 +75,7 @@ onMounted(async () => {
   await fetchFavorites()
 })
 
-watch(filters, fetchFoods)
+watch(filters,fetchFoods)
 </script>
 
 <template>

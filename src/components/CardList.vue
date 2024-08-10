@@ -3,7 +3,6 @@ import CardComponent from './CardComponent.vue'
 
 defineProps({
   foods: Array
-  
 })
 
 const onClickAdd = () => {
@@ -20,7 +19,7 @@ const onClickAdd = () => {
       :imgUrl="food.imgUrl"
       :price="food.price"
       :onClickAdd="onClickAdd"
-      isFavorite=""
+      :isFavorite="food.isFavorite"
     />
-  </div>
+  </div>  
 </template>
