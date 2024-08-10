@@ -1,4 +1,4 @@
-# CosmoExpress [vue-cosmo-express.vercel.app](vue-cosmo-express.vercel.app)
+# [CosmoExpress](https://vue-cosmo-express.vercel.app)
 
 CosmoExpress — это веб-приложение, которое позволяет пользователям просматривать и сортировать различные виды еды, а также отмечать их как избранные. Проект построен на основе фреймворка Vue.js и включает основные функции для взаимодействия с пользователями.
 
