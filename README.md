@@ -1,35 +1,30 @@
-# vue-project
+# CosmoExpress
 
-This template should help get you started developing with Vue 3 in Vite.
+##CosmoExpress — это веб-приложение, которое позволяет пользователям просматривать и сортировать различные виды еды, а также отмечать их как избранные. Проект построен на основе фреймворка Vue.js и включает основные функции для взаимодействия с пользователями.
 
-## Recommended IDE Setup
+## Используемые технологии
+Vue.js: Основной фреймворк для разработки пользовательского интерфейса.
+Tailwind CSS: Утилитарный CSS-фреймворк для стилизации интерфейса.
+Axios: Библиотека для выполнения HTTP-запросов.
+Vite: Быстрый и легковесный инструмент для разработки, использующий нативные ES-модули.
+Vue3 Carousel: Компонент для создания карусели в Vue 3.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Основные компоненты
+HeaderMain: Компонент для отображения основного заголовка и навигации.
+CardList: Компонент для отображения списка продуктов с возможностью сортировки.
+DrawerComponent: (Закомментирован) Компонент для боковой панели, которая может использоваться для дополнительной навигации или фильтров.
+Carouse: Карусель для отображения промо-контента или избранных продуктов.
 
-## Customize configuration
+## Функциональность
+Поиск и сортировка: Пользователи могут искать продукты по названию и сортировать их по цене или названию.
+Избранное: Возможность добавлять продукты в избранное.
+Автоматическое обновление: Данные продуктов и избранного обновляются автоматически при изменении фильтров.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+### Установка и запуск
+Клонируйте репозиторий:
+git clone https://github.com/yourusername/cosmoexpress.git
+Установите зависимости:
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+### Запустите локальный сервер разработки:
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
