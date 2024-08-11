@@ -1,15 +1,3 @@
-<template>
-  <Carousel :autoplay="4000" :wrap-around="true">
-    <Slide v-for="(image, index) in images" :key="index">
-      <img :src="image.src" :alt="image.alt" class="carousel__image" />
-    </Slide>
-
-    <template #addons>
-      <Pagination />
-    </template>
-  </Carousel>
-</template>
-
 <script>
 import { defineComponent } from 'vue'
 import { Carousel, Pagination, Slide } from 'vue3-carousel'
@@ -48,9 +36,21 @@ export default defineComponent({
 })
 </script>
 
+<template>
+  <Carousel :autoplay="4000" :wrap-around="true">
+    <Slide v-for="(image, index) in images" :key="index">
+      <img :src="image.src" :alt="image.alt" class="carousel__image" />
+    </Slide>
+
+    <template #addons>
+      <Pagination />
+    </template>
+  </Carousel>
+</template>
+
+
 <style scoped>
 .carousel__image {
-  margin-top: 50px;
   width: 95%;
   height: 300px;
   object-fit: cover;
