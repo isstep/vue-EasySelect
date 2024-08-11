@@ -108,7 +108,7 @@ provide('cardActions',
 </script>
 
 <template>
-  <DrawerComponent v-if="drawerOpen"/>
+  <DrawerComponent v-if="drawerOpen"  @close-drawer="closeDrawer"/>
   <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
     <div class="stars"></div>
     <div class="stars2"></div>
