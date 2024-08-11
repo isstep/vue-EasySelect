@@ -152,7 +152,7 @@ onMounted(async () => {
   foods.value = foods.value.map((food) => ({
     ...food,
     isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id)
-  })) 
+  }))
 })
 
 watch(filters, fetchFoods)
@@ -184,7 +184,7 @@ provide('cartFoodActions', { cartFood, closeDrawer, openDrawer, addToCartFood, r
     @create-order="createOrder"
     :button-disabled="cartButtonDisabled"
   />
-  <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
+  <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10" >
     <HeaderMain :total-price="totalPrice" @open-drawer="openDrawer" />
     <Carouse />
     <div class="p-10">
@@ -218,5 +218,4 @@ provide('cartFoodActions', { cartFood, closeDrawer, openDrawer, addToCartFood, r
       </div>
     </div>
   </div>
-  iv>
 </template>

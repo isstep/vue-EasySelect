@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-  <header class="flex justify-between border-b border-slate-300 px-9 p-1">
+  <header class="flex justify-between border-b border-slate-300 px-9 p-1" >
     <div class="flex items-center gap-5">
       <img src="/logo.svg" alt="logo" class="w-12" />
       <div>
