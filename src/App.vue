@@ -8,6 +8,16 @@ import Carouse from './components/Carouse.vue'
 
 const foods = ref([])
 
+const drawerOpen = ref(false);
+
+const closeDrawer = () => {
+ drawerOpen.value=false
+}
+
+const openDrawer = () => {
+ drawerOpen.value = true
+}
+
 const filters = reactive({
   sortBy: 'title',
   searchQuery: ''
@@ -92,15 +102,17 @@ onMounted(async () => {
 
 watch(filters, fetchFoods)
 
-provide('addToFavorite', addToFavorite)
+provide('cardActions',
+ closeDrawer,
+ openDrawer)
 </script>
 
 <template>
-  <!-- <DrawerComponent /> -->
+  <DrawerComponent v-if="drawerOpen"/>
   <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
     <div class="stars"></div>
     <div class="stars2"></div>
-    <HeaderMain />
+    <HeaderMain @open-drawer="openDrawer"/>
     <Carouse />
     <div class="p-10">
       <div class="flex justify-between items-center">
@@ -125,7 +137,7 @@ provide('addToFavorite', addToFavorite)
         </div>
       </div>
       <div class="mt-5">
-        <CardList :foods="foods" @addToFavorite="addToFavorite" />
+        <CardList :foods="foods" @add-to-favorite="addToFavorite" />
       </div>
     </div>
   </div>
