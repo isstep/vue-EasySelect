@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 body {
-  background-color: rgba(57, 203, 203, 0.241);
+  background-image: url("fon.jpg");
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
 }

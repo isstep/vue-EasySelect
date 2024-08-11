@@ -9,7 +9,7 @@ const emit = defineEmits(['addToFavorite', 'addPlusToCartFood'])
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-5" v-auto-animate="{ duration: 250 }">
+  <div class="grid grid-cols-4 gap-5" v-auto-animate>
     <CardComponent
       v-for="food in foods"
       :id="food.id"

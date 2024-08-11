@@ -15,7 +15,7 @@ export default defineComponent({
     return {
       images: [
         {
-          src: 'https://api-static.edostavka.by/media/665f1fa81ea37_2832h600-zakataem.webp?id=20142',
+          src: 'https://api-static.edostavka.by/media/669e04b7053ef_2832h600-kras.webp?id=20852',
           alt: 'Product 1'
         },
         {
