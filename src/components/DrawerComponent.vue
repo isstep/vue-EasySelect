@@ -1,6 +1,7 @@
 <script setup>
 import DrawerHead from './DrawerHead.vue'
 import CardItemList from './CardItemList.vue'
+import InfoBlock from './InfoBlock.vue'
 
 defineProps({
   totalPrice: Number,
@@ -18,20 +19,29 @@ const emit = defineEmits(['closeDrawer', 'createOrder'])
   ></div>
   <div class="bg-white w-96 h-full fixed right-0 top-0 z-20 p-8">
     <DrawerHead />
-    <CardItemList />
 
-    <div class="flex flex-col gap-5 mt-7">
-      <div class="flex gap-2">
-        <span>Итого:</span>
-        <div class="flex-1 border-b border-dashed"></div>
-        <b>{{ totalPrice }} р.</b>
-      </div>
+    <div v-if="!totalPrice" class="flex h-full items-center">
+      <InfoBlock
+        title="В корзине пусто"
+        description="Ищите товары в каталоге и поиске, смотрите интересные подборки на главной"
+        imgUrl="/package-icon.png"
+      />
+    </div>
+    <CardItemList v-if="totalPrice" />
 
+    <div v-if="totalPrice" class="flex flex-col gap-5 mt-7">
       <div class="flex gap-2">
-        <span>5%:</span>
+        <span>Скидка 5%:</span>
         <div class="flex-1 border-b border-dashed"></div>
         <b>{{ vatPrice }} р.</b>
       </div>
+
+      <div class="flex gap-2">
+        <span>Итого:</span>
+        <div class="flex-1 border-b border-dashed"></div>
+        <b>{{ totalPrice - vatPrice }} р.</b>
+      </div>
+
       <button
         :disabled="buttonDisabled"
         @click="() => emit('createOrder')"

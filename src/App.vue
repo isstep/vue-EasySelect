@@ -131,7 +131,7 @@ const createOrder = async () => {
     isCreatingOrder.value = true
     const { data } = await axios.post(`https://f4f1d0c1ac4cb845.mokky.dev/orders`, {
       foods: cartFood.value,
-      totalPrice: totalPrice.value
+      totalPrice: totalPrice.value - vatPrice.value
     })
     cartFood.value = []
     return data
@@ -143,8 +143,16 @@ const createOrder = async () => {
 }
 
 onMounted(async () => {
+  const localCartFood = localStorage.getItem('cartFood')
+  cartFood.value = localCartFood ? JSON.parse(localCartFood) : []
+
   await fetchFoods()
   await fetchFavorites()
+
+  foods.value = foods.value.map((food) => ({
+    ...food,
+    isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id)
+  })) 
 })
 
 watch(filters, fetchFoods)
@@ -155,6 +163,14 @@ watch(cartFood, () => {
     isAdded: false
   }))
 })
+
+watch(
+  cartFood,
+  () => {
+    localStorage.setItem('cartFood', JSON.stringify(cartFood.value))
+  },
+  { deep: true }
+)
 
 provide('cartFoodActions', { cartFood, closeDrawer, openDrawer, addToCartFood, removeFoodFromCart })
 </script>
@@ -169,8 +185,6 @@ provide('cartFoodActions', { cartFood, closeDrawer, openDrawer, addToCartFood, r
     :button-disabled="cartButtonDisabled"
   />
   <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
-    <div class="stars"></div>
-    <div class="stars2"></div>
     <HeaderMain :total-price="totalPrice" @open-drawer="openDrawer" />
     <Carouse />
     <div class="p-10">
