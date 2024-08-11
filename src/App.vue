@@ -7,21 +7,45 @@ import DrawerComponent from './components/DrawerComponent.vue'
 import Carouse from './components/Carouse.vue'
 
 const foods = ref([])
+const cartFood = ref([])
 
-const drawerOpen = ref(false);
+const drawerOpen = ref(false)
 
 const closeDrawer = () => {
- drawerOpen.value=false
+  drawerOpen.value = false
 }
 
 const openDrawer = () => {
- drawerOpen.value = true
+  drawerOpen.value = true
 }
 
 const filters = reactive({
   sortBy: 'title',
   searchQuery: ''
 })
+
+const cartFoodSet = new Set();
+
+const addToCartFood = (food) => {
+  if (cartFoodSet.has(food)) {
+    removeFoodFromCart(food);
+  } else {
+    addFoodToCart(food);
+  }
+}
+
+const addFoodToCart = (food) => {
+  cartFoodSet.add(food);
+  cartFood.value.push(food);
+  food.isAdded = true;
+}
+
+const removeFoodFromCart = (food) => {
+  cartFoodSet.delete(food);
+  cartFood.value = cartFood.value.filter(item => item !== food);
+  food.isAdded = false;
+}
+
 
 const onChangeSelect = (event) => {
   filters.sortBy = event.target.value
@@ -38,7 +62,7 @@ const addToFavorite = async (food) => {
         parentId: food.id
       }
       food.isFavorite = true
-      const { data } = await axios.post('https://f4f1d0c1ac4cb845.mokky.dev/favorites',obj)
+      const { data } = await axios.post('https://f4f1d0c1ac4cb845.mokky.dev/favorites', obj)
       food.favoriteId = data.id
     } else {
       food.isFavorite = false
@@ -102,17 +126,15 @@ onMounted(async () => {
 
 watch(filters, fetchFoods)
 
-provide('cardActions',
- closeDrawer,
- openDrawer)
+provide('cardActions', closeDrawer, openDrawer)
 </script>
 
 <template>
-  <DrawerComponent v-if="drawerOpen"  @close-drawer="closeDrawer"/>
+  <DrawerComponent v-if="drawerOpen" @close-drawer="closeDrawer" />
   <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
     <div class="stars"></div>
     <div class="stars2"></div>
-    <HeaderMain @open-drawer="openDrawer"/>
+    <HeaderMain @open-drawer="openDrawer" />
     <Carouse />
     <div class="p-10">
       <div class="flex justify-between items-center">
@@ -137,7 +159,11 @@ provide('cardActions',
         </div>
       </div>
       <div class="mt-5">
-        <CardList :foods="foods" @add-to-favorite="addToFavorite" />
+        <CardList
+          :foods="foods"
+          @add-to-favorite="addToFavorite"
+          @add-to-cart-food="addToCartFood"
+        />
       </div>
     </div>
   </div>
