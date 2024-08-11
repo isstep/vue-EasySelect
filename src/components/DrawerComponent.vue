@@ -1,12 +1,14 @@
 <script setup>
 import DrawerHead from './DrawerHead.vue'
 import CardItemList from './CardItemList.vue'
-const emit = defineEmits(['closeDrawer', 'createOrder'])
 
 defineProps({
   totalPrice: Number,
-  vatPrice: Number
+  vatPrice: Number,
+  buttonDisabled: Boolean
 })
+
+const emit = defineEmits(['closeDrawer', 'createOrder'])
 </script>
 
 <template>
@@ -31,7 +33,7 @@ defineProps({
         <b>{{ vatPrice }} р.</b>
       </div>
       <button
-        :disabled="totalPrice ? false : true"
+        :disabled="buttonDisabled"
         @click="() => emit('createOrder')"
         class="mt-5 transition bg-lime-500 w-full rounded-xl py-3 text-white disabled:bg-slate-400 hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
       >

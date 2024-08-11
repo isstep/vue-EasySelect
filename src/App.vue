@@ -8,6 +8,7 @@ import Carouse from './components/Carouse.vue'
 
 const foods = ref([])
 const cartFood = ref([])
+const isCreatingOrder = ref(false)
 
 const drawerOpen = ref(false)
 
@@ -18,6 +19,9 @@ const closeDrawer = () => {
 const totalPrice = computed(() => cartFood.value.reduce((acc, food) => acc + food.price, 0))
 
 const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
+
+const cartIsEmpty = computed(() => cartFood.value.length === 0)
+const cartButtonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value)
 
 const openDrawer = () => {
   drawerOpen.value = true
@@ -124,6 +128,7 @@ const fetchFoods = async () => {
 
 const createOrder = async () => {
   try {
+    isCreatingOrder.value = true
     const { data } = await axios.post(`https://f4f1d0c1ac4cb845.mokky.dev/orders`, {
       foods: cartFood.value,
       totalPrice: totalPrice.value
@@ -132,6 +137,8 @@ const createOrder = async () => {
     return data
   } catch (err) {
     console.log(err)
+  } finally {
+    isCreatingOrder.value = false
   }
 }
 
@@ -141,6 +148,13 @@ onMounted(async () => {
 })
 
 watch(filters, fetchFoods)
+
+watch(cartFood, () => {
+  foods.value = foods.value.map((food) => ({
+    ...food,
+    isAdded: false
+  }))
+})
 
 provide('cartFoodActions', { cartFood, closeDrawer, openDrawer, addToCartFood, removeFoodFromCart })
 </script>
@@ -152,6 +166,7 @@ provide('cartFoodActions', { cartFood, closeDrawer, openDrawer, addToCartFood, r
     :total-price="totalPrice"
     :vat-price="vatPrice"
     @create-order="createOrder"
+    :button-disabled="cartButtonDisabled"
   />
   <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
     <div class="stars"></div>
