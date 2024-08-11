@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, provide, ref, watch } from 'vue'
+import { onMounted, reactive, provide, ref, watch, computed } from 'vue'
 import axios from 'axios'
 import HeaderMain from './components/HeaderMain.vue'
 import CardList from './components/CardList.vue'
@@ -15,6 +15,10 @@ const closeDrawer = () => {
   drawerOpen.value = false
 }
 
+const totalPrice = computed(() => cartFood.value.reduce((acc, food) => acc + food.price, 0))
+
+const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
+
 const openDrawer = () => {
   drawerOpen.value = true
 }
@@ -24,28 +28,27 @@ const filters = reactive({
   searchQuery: ''
 })
 
-const cartFoodSet = new Set();
+const cartFoodSet = new Set()
 
 const addToCartFood = (food) => {
   if (cartFoodSet.has(food)) {
-    removeFoodFromCart(food);
+    removeFoodFromCart(food)
   } else {
-    addFoodToCart(food);
+    addFoodToCart(food)
   }
 }
 
 const addFoodToCart = (food) => {
-  cartFoodSet.add(food);
-  cartFood.value.push(food);
-  food.isAdded = true;
+  cartFoodSet.add(food)
+  cartFood.value.push(food)
+  food.isAdded = true
 }
 
 const removeFoodFromCart = (food) => {
-  cartFoodSet.delete(food);
-  cartFood.value = cartFood.value.filter(item => item !== food);
-  food.isAdded = false;
+  cartFoodSet.delete(food)
+  cartFood.value = cartFood.value.filter((item) => item !== food)
+  food.isAdded = false
 }
-
 
 const onChangeSelect = (event) => {
   filters.sortBy = event.target.value
@@ -119,6 +122,19 @@ const fetchFoods = async () => {
   }
 }
 
+const createOrder = async () => {
+  try {
+    const { data } = await axios.post(`https://f4f1d0c1ac4cb845.mokky.dev/orders`, {
+      foods: cartFood.value,
+      totalPrice: totalPrice.value
+    })
+    cartFood.value = []
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 onMounted(async () => {
   await fetchFoods()
   await fetchFavorites()
@@ -126,15 +142,21 @@ onMounted(async () => {
 
 watch(filters, fetchFoods)
 
-provide('cardActions', closeDrawer, openDrawer)
+provide('cartFoodActions', { cartFood, closeDrawer, openDrawer, addToCartFood, removeFoodFromCart })
 </script>
 
 <template>
-  <DrawerComponent v-if="drawerOpen" @close-drawer="closeDrawer" />
+  <DrawerComponent
+    v-if="drawerOpen"
+    @close-drawer="closeDrawer"
+    :total-price="totalPrice"
+    :vat-price="vatPrice"
+    @create-order="createOrder"
+  />
   <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
     <div class="stars"></div>
     <div class="stars2"></div>
-    <HeaderMain @open-drawer="openDrawer" />
+    <HeaderMain :total-price="totalPrice" @open-drawer="openDrawer" />
     <Carouse />
     <div class="p-10">
       <div class="flex justify-between items-center">

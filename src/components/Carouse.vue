@@ -26,10 +26,22 @@ export default defineComponent({
   data() {
     return {
       images: [
-        { src: 'https://api-static.edostavka.by/media/665f1fa81ea37_2832h600-zakataem.webp?id=20142', alt: 'Product 1' },
-        { src: 'https://api-static.edostavka.by/media/668d4c19dd1b5_2832h600-dostavka-arbuzy.webp?id=20752', alt: 'Product 2' },
-        { src: 'https://api-static.edostavka.by/media/669e04b7053ef_2832h600-kras.webp?id=20852', alt: 'Product 3' },
-        { src: 'https://api-static.edostavka.by/media/66ac7bac1d701_2832h600-socnoe-sezonnoe.webp?id=21001', alt: 'Product 4' },
+        {
+          src: 'https://api-static.edostavka.by/media/665f1fa81ea37_2832h600-zakataem.webp?id=20142',
+          alt: 'Product 1'
+        },
+        {
+          src: 'https://api-static.edostavka.by/media/668d4c19dd1b5_2832h600-dostavka-arbuzy.webp?id=20752',
+          alt: 'Product 2'
+        },
+        {
+          src: 'https://api-static.edostavka.by/media/669e04b7053ef_2832h600-kras.webp?id=20852',
+          alt: 'Product 3'
+        },
+        {
+          src: 'https://api-static.edostavka.by/media/66ac7bac1d701_2832h600-socnoe-sezonnoe.webp?id=21001',
+          alt: 'Product 4'
+        }
       ]
     }
   }
@@ -41,7 +53,7 @@ export default defineComponent({
   margin-top: 50px;
   width: 95%;
   height: 300px;
-  object-fit: cover; 
+  object-fit: cover;
   border-radius: 10px;
 }
 </style>
