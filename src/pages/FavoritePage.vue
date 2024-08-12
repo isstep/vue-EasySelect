@@ -8,7 +8,9 @@ const favorites = ref([])
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get(`https://f4f1d0c1ac4cb845.mokky.dev/favorites?_relations=foods`)
+    const { data } = await axios.get(
+      `https://f4f1d0c1ac4cb845.mokky.dev/favorites?_relations=foods`
+    )
 
     favorites.value = data.map((obj) => obj.food)
   } catch (err) {
@@ -18,7 +20,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1>Избранные товары</h1>
 
-  <CardList :foods="favorites" />
+<h2 class="text-3xl font-bold mb-8">Избранные товары</h2>
+
+  <CardList :foods="favorites" is-favorites />
 </template>

@@ -2,7 +2,8 @@
 import CardComponent from './CardComponent.vue'
 
 defineProps({
-  foods: Array
+  foods: Array,
+  isFavorites: Boolean
 })
 
 const emit = defineEmits(['addToFavorite', 'addPlusToCartFood'])
@@ -17,8 +18,8 @@ const emit = defineEmits(['addToFavorite', 'addPlusToCartFood'])
       :title="food.title"
       :imgUrl="food.imgUrl"
       :price="food.price"
-      :onClickAdd="() => emit('addPlusToCartFood', food)"
-      :onCLickFavorite="() => emit('addToFavorite', food)"
+      :onClickAdd="isFavorites ? null : () => emit('addPlusToCartFood', food)"
+      :onCLickFavorite="isFavorites ? null : () => emit('addToFavorite', food)"
       :isFavorite="food.isFavorite"
       :isAdded="food.isAdded"
     />
