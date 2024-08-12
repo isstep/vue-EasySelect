@@ -21,17 +21,17 @@ defineProps({
     <ul class="flex items-center gap-10 gap-3">
       <li
         @click="() => emit('openDrawer')"
-        class="flex items-center cursor-pointer gap-2  text-gray-500 hover:text-black"
+        class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
       >
         <img src="/public/cart.svg" alt="cart" />
         <b>{{ totalPrice }} руб.</b>
       </li>
       <router-link to="/favorites">
-      <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-        <img src="/public/heart.svg" alt="heart" />
-        <span>Избранное</span>
-      </li>
-    </router-link>
+        <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+          <img src="/public/heart.svg" alt="heart" />
+          <span>Избранное</span>
+        </li>
+      </router-link>
 
       <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
         <img src="/public/profile.svg" alt="profile" />

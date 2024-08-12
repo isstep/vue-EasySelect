@@ -34,7 +34,8 @@ const addToFavorite = async (food) => {
   try {
     if (!food.isFavorite) {
       const obj = {
-        parentId: food.id
+        parentId: food.id,
+        food
       }
       food.isFavorite = true
       const { data } = await axios.post('https://f4f1d0c1ac4cb845.mokky.dev/favorites', obj)
