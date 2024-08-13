@@ -10,9 +10,10 @@ const props = defineProps({
   vatPrice: Number
 })
 
-const isCreatingOrder = ref(false)
-
 const { cartFood, closeDrawer } = inject('cartFoodActions')
+
+const isCreatingOrder = ref(false)
+const orderID = ref(null)
 
 const cartIsEmpty = computed(() => cartFood.value.length === 0)
 
@@ -26,7 +27,8 @@ const createOrder = async () => {
       totalPrice: props.totalPrice.value - props.vatPrice.value
     })
     cartFood.value = []
-    return data
+    
+    orderID.value = data.id;
   } catch (err) {
     console.log(err)
   } finally {
@@ -40,11 +42,22 @@ const createOrder = async () => {
   <div class="bg-white w-96 h-full fixed right-0 top-0 z-20 p-8">
     <DrawerHead />
 
-    <div v-if="!totalPrice" class="flex h-full items-center">
+
+
+    <div  v-if = "!totalPrice ||  orderID" class="flex h-full items-center">
       <InfoBlock
+        v-if = "!totalPrice &&  !orderID"
         title="В корзине пусто"
         description="Ищите товары в каталоге и поиске, смотрите интересные подборки на главной"
         imgUrl="/package-icon.png"
+      />
+
+      <InfoBlock
+
+       v-if = "orderID"
+        title="Заказ оформлен"
+        :description="`Ваш заказ #${orderID} скоро будет прередан курьерской доставке`"
+        imgUrl="/order-success-icon.png"
       />
     </div>
 
@@ -52,7 +65,7 @@ const createOrder = async () => {
     <div v-else>
     <CardItemList v-if="totalPrice" />
 
-    <div v-if="totalPrice" class="flex flex-col gap-5 mt-7">
+    <div class="flex flex-col gap-5 mt-7">
       <div class="flex gap-2">
         <span>Скидка 5%:</span>
         <div class="flex-1 border-b border-dashed"></div>
