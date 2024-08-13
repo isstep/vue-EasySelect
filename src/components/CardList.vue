@@ -7,7 +7,6 @@ defineProps({
 })
 
 const emit = defineEmits(['addToFavorite', 'addPlusToCartFood'])
-
 </script>
 
 <template>
@@ -26,4 +25,3 @@ const emit = defineEmits(['addToFavorite', 'addPlusToCartFood'])
     />
   </div>
 </template>
-

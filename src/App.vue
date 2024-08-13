@@ -46,12 +46,8 @@ provide('cartFoodActions', {
 </script>
 
 <template>
-  <DrawerComponent
-    v-if="drawerOpen"
-    :total-price="totalPrice"
-    :vat-price="vatPrice"
-  />
-  <div class="bg-white w-auto m-auto max-w-7xl rounded-t-xl p-1 shadow-xl mt-10">
+  <DrawerComponent v-if="drawerOpen" :total-price="totalPrice" :vat-price="vatPrice" />
+  <div class="bg-white/70 w-auto m-auto max-w-7xl p-1 shadow-xl">
     <HeaderMain :total-price="totalPrice" @open-drawer="openDrawer" />
     <div class="p-10">
       <router-view></router-view>

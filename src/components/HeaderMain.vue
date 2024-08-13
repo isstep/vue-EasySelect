@@ -1,5 +1,23 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
 const emit = defineEmits(['openDrawer'])
+const isSticky = ref(false)
+const isCollapsed = ref(false)
+
+const handleScroll = () => {
+  const scrollThreshold = 50
+  isSticky.value = window.scrollY > scrollThreshold
+  isCollapsed.value = window.scrollY > scrollThreshold + 50
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 
 defineProps({
   totalPrice: Number
@@ -7,36 +25,49 @@ defineProps({
 </script>
 
 <template>
-  <header class="flex justify-between border-b border-slate-300 px-9 p-1">
-    <router-link to="/">
-      <div class="flex items-center gap-5">
+  <header
+    :class="[
+      'transition-all duration-300 ease-in-out fixed top-0 left-0 w-full bg-white border-b border-slate-300 z-40',
+      isSticky ? (isCollapsed ? 'py-2' : 'py-4') : 'py-4',
+      isCollapsed ? 'shadow-none' : 'shadow-lg'
+    ]"
+    :style="{
+      height: isSticky ? (isCollapsed ? '60px' : '80px') : '80px',
+      overflow: 'hidden'
+    }"
+  >
+    <div
+      class="container mx-auto flex items-center justify-between h-full px-[9em]"
+    >
+      <router-link to="/" class="flex items-center gap-5">
         <img src="/logo.svg" alt="logo" class="w-12" />
-        <div>
+        <div v-if="!isCollapsed">
           <h2 class="text-2xl font-bold">CosmoExpress</h2>
           <p class="text-slate-400">Еда, которая прилетает к вам!</p>
         </div>
-      </div>
-    </router-link>
-
-    <ul class="flex items-center gap-10 gap-3">
-      <li
-        @click="() => emit('openDrawer')"
-        class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
-      >
-        <img src="/public/cart.svg" alt="cart" />
-        <b>{{ totalPrice }} руб.</b>
-      </li>
-      <router-link to="/favorites">
-        <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-          <img src="/public/heart.svg" alt="heart" />
-          <span>Избранное</span>
-        </li>
       </router-link>
+      <ul class="flex items-center gap-10 gap-3">
+        <li
+          @click="() => emit('openDrawer')"
+          class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
+        >
+          <img src="/public/cart.svg" alt="cart" />
+          <b>{{ totalPrice }} руб.</b>
+        </li>
+        <router-link to="/favorites">
+          <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+            <img src="/public/heart.svg" alt="heart" />
+            <span>Избранное</span>
+          </li>
+        </router-link>
 
-      <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-        <img src="/public/profile.svg" alt="profile" />
-        <span>Профиль</span>
-      </li>
-    </ul>
+        <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+          <img src="/public/profile.svg" alt="profile" />
+          <span>Профиль</span>
+        </li>
+      </ul>
+    </div>
   </header>
 </template>
+
+

@@ -48,7 +48,6 @@ export default defineComponent({
   </Carousel>
 </template>
 
-
 <style scoped>
 .carousel__image {
   width: 95%;

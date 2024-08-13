@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  background-image: url("/fon.png");
+  background-image: url("/i.webp");
   background-position: 50% 50%;
   background-attachment: fixed;
   background-size: cover;
