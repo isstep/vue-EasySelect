@@ -6,7 +6,7 @@ defineProps({
   price: Number,
   isFavorite: Boolean,
   isAdded: Boolean,
-  onCLickFavorite: Function,
+  onClickFavorite: Function,
   onClickAdd: Function
 })
 </script>
@@ -16,7 +16,8 @@ defineProps({
     class="relative bg-white border border-slate-100 rounded-[10px] p-9 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition"
   >
     <img
-      v-if="onCLickFavorite"
+      v-if="onClickFavorite"
+      @click="onClickFavorite"
       :src="!isFavorite ? '/like-1.svg' : '/like-2.svg'"
       alt="Like 1"
       class="absolute top-7 left-7"
@@ -27,7 +28,12 @@ defineProps({
     </div>
     <p class="mt-1">{{ title }}</p>
     <div class="flex justify-between mt-1">
-      <img v-if="onCLickAdd" @click="onClickAdd" :src="!isAdded ? '/plus.svg' : '/checked.svg'" alt="plus" class="" />
+      <img
+        v-if="onClickFavorite"
+        @click="onClickAdd"
+        :src="!isAdded ? '/plus.svg' : '/checked.svg'"
+        alt="plus"
+      />
     </div>
   </div>
 </template>

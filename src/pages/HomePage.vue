@@ -119,9 +119,9 @@ watch(filters, fetchFoods)
 </script>
 
 <template>
-<div class="mb-[5em]">
-<Carouse />
-</div>
+  <div class="mb-[5em]">
+    <Carouse />
+  </div>
   <div class="flex justify-between items-center">
     <h2 class="text-3xl font-bold mb-8">Вся еда</h2>
 
