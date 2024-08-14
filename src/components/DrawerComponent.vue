@@ -39,7 +39,7 @@ const createOrder = async () => {
 
 <template>
   <div @click="closeDrawer" class="fixed top-0 left-0 h-full w-full bg-black z-50 opacity-70"></div>
-  <div class="bg-white w-96 h-full fixed right-0 top-0 z-50 p-8">
+  <div class="bg-white w-96 h-full fixed right-0 top-0 z-50 p-8 overflow-y-auto">
     <DrawerHead />
 
     <div v-if="!totalPrice || orderID" class="flex h-full items-center">
@@ -60,28 +60,41 @@ const createOrder = async () => {
 
     <div v-else>
       <CardItemList v-if="totalPrice" />
+      <div class="fixed bottom-0 right-0 w-96 h-[8em] bg-white p-3 z-50 border-t border-gray-300">
+        <div class="flex flex-col">
+          <div class="flex gap-2">
+            <span>Скидка 5%:</span>
+            <div class="flex-1 border-b border-dashed"></div>
+            <b>{{ vatPrice }} р.</b>
+          </div>
 
-      <div class="flex flex-col gap-5 mt-7">
-        <div class="flex gap-2">
-          <span>Скидка 5%:</span>
-          <div class="flex-1 border-b border-dashed"></div>
-          <b>{{ vatPrice }} р.</b>
+          <div class="flex gap-2">
+            <span>Итого:</span>
+            <div class="flex-1 border-b border-dashed"></div>
+            <b>{{ totalPrice - vatPrice }} р.</b>
+          </div>
+
+          <button
+            :disabled="buttonDisabled"
+            @click="createOrder"
+            class="mt-3 transition bg-lime-500 w-full rounded-xl py-[0.7em] text-white disabled:bg-slate-400 hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
+          >
+            Оформить заказ
+          </button>
         </div>
-
-        <div class="flex gap-2">
-          <span>Итого:</span>
-          <div class="flex-1 border-b border-dashed"></div>
-          <b>{{ totalPrice - vatPrice }} р.</b>
-        </div>
-
-        <button
-          :disabled="buttonDisabled"
-          @click="createOrder"
-          class="mt-5 transition bg-lime-500 w-full rounded-xl py-3 text-white disabled:bg-slate-400 hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
-        >
-          Оформить заказ
-        </button>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.bg-white::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.bg-white {
+  -ms-overflow-style: none; /* для Internet Explorer и Edge */
+  scrollbar-width: none; /* для Firefox */
+}
+</style>

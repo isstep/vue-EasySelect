@@ -50,9 +50,18 @@ export default defineComponent({
 
 <style scoped>
 .carousel__image {
-  width: 95%;
-  height: 300px;
-  object-fit: cover;
+  width: 100%;
+  height: 100%; 
   border-radius: 10px;
 }
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 1024px) {
+  .carousel__image {  
+    border-radius: 5px;
+
+  }
+}
+
+
 </style>

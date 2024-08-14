@@ -37,7 +37,7 @@ defineProps({
     }"
   >
     <div
-      class="container mx-auto flex items-center justify-between h-full px-[9em]"
+      class="container mx-auto flex items-center justify-between h-full px-[11em] max-[1400px]:px-[3em] max-[1284px]:px-[0em]  max-[1024px]:px-[3em]"
     >
       <router-link to="/" class="flex items-center gap-5">
         <img src="/logo.svg" alt="logo" class="w-12" />
@@ -69,5 +69,3 @@ defineProps({
     </div>
   </header>
 </template>
-
-
