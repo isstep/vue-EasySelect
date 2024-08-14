@@ -42,8 +42,8 @@ defineProps({
       <router-link to="/" class="flex items-center gap-5">
         <img src="/logo.svg" alt="logo" class="w-12" />
         <div v-if="!isCollapsed">
-          <h2 class="text-2xl font-bold">CosmoExpress</h2>
-          <p class="text-slate-400">Еда, которая прилетает к вам!</p>
+          <h2 class="text-2xl font-bold max-[768px]:hidden">CosmoExpress</h2>
+          <p class="text-slate-400 max-[768px]:hidden">Еда, которая прилетает к вам!</p>
         </div>
       </router-link>
       <ul class="flex items-center gap-10 gap-3">
@@ -52,18 +52,18 @@ defineProps({
           class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
         >
           <img src="/public/cart.svg" alt="cart" />
-          <b>{{ totalPrice }} руб.</b>
+          <b class="max-[768px]:hidden">{{ totalPrice }} руб.</b>
         </li>
         <router-link to="/favorites">
           <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
             <img src="/public/heart.svg" alt="heart" />
-            <span>Избранное</span>
+            <span class="max-[768px]:hidden">Избранное</span>
           </li>
         </router-link>
 
         <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
           <img src="/public/profile.svg" alt="profile" />
-          <span>Профиль</span>
+          <span class="max-[768px]:hidden">Профиль</span>
         </li>
       </ul>
     </div>
