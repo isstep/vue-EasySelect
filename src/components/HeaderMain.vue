@@ -44,7 +44,7 @@ defineProps({
     }"
   >
     <div
-      class="container mx-auto flex items-center justify-between h-full px-[11em] max-[1400px]:px-[3em] max-[1284px]:px-[0em]  max-[1024px]:px-[3em]"
+      class="container mx-auto flex items-center justify-between h-full px-[11em] max-[1400px]:px-[3em] max-[1284px]:px-[0em] max-[1024px]:px-[3em]"
     >
       <router-link to="/" class="flex items-center gap-5">
         <img src="/logo.svg" alt="logo" class="w-12" />
@@ -54,7 +54,10 @@ defineProps({
         </div>
       </router-link>
       <div class="relative">
-        <img class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5" src="/search.svg" />
+        <img
+          class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
+          src="/search.svg"
+        />
         <input
           v-model="store.filters.searchQuery"
           class="border border-gray-300 rounded-md py-2 pl-9 pr-[20em] outline-none text-sm sm:text-base focus:border-gray-400 focus:ring focus:ring-gray-300"
@@ -83,7 +86,6 @@ defineProps({
           <span class="max-[768px]:hidden">Профиль</span>
         </li>
       </ul>
-    
     </div>
   </header>
 </template>
