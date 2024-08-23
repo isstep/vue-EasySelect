@@ -1,9 +1,12 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useMainStore } from '../store'
 
 const emit = defineEmits(['openDrawer'])
 const isSticky = ref(false)
 const isCollapsed = ref(false)
+
+const store = useMainStore()
 
 const handleScroll = () => {
   const scrollThreshold = 50
@@ -18,6 +21,10 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
+const onSearchInput = (event) => {
+  store.setSearchQuery(event.target.value)
+}
 
 defineProps({
   totalPrice: Number
@@ -46,26 +53,37 @@ defineProps({
           <p class="text-slate-400 max-[768px]:hidden">Еда, которая прилетает к вам!</p>
         </div>
       </router-link>
+      <div class="relative">
+        <img class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5" src="/search.svg" />
+        <input
+          v-model="store.filters.searchQuery"
+          class="border border-gray-300 rounded-md py-2 pl-9 pr-[20em] outline-none text-sm sm:text-base focus:border-gray-400 focus:ring focus:ring-gray-300"
+          type="text"
+          placeholder="Поиск..."
+          @input="onSearchInput"
+        />
+      </div>
       <ul class="flex items-center gap-10 gap-3">
         <li
           @click="() => emit('openDrawer')"
           class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
         >
-          <img src="/public/cart.svg" alt="cart" />
+          <img src="/cart.svg" alt="cart" />
           <b class="max-[768px]:hidden">{{ totalPrice }} руб.</b>
         </li>
         <router-link to="/favorites">
           <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-            <img src="/public/heart.svg" alt="heart" />
+            <img src="/heart.svg" alt="heart" />
             <span class="max-[768px]:hidden">Избранное</span>
           </li>
         </router-link>
 
         <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-          <img src="/public/profile.svg" alt="profile" />
+          <img src="/profile.svg" alt="profile" />
           <span class="max-[768px]:hidden">Профиль</span>
         </li>
       </ul>
+    
     </div>
   </header>
 </template>
