@@ -1,7 +1,6 @@
 <script setup>
 import { computed, onMounted, watch } from 'vue'
 import { useMainStore } from '../store'
-import debounce from 'lodash.debounce'
 import CardList from '../components/CardList.vue'
 import Carouse from '../components/Carouse.vue'
 
@@ -23,10 +22,6 @@ const onChangeSelect = (event) => {
   store.fetchFoods()
 }
 
-const onChangeSearchInput = debounce((event) => {
-  store.filters.searchQuery = event.target.value
-  store.fetchFoods()
-}, 500)
 
 const addToFavorite = async (food) => {
   await store.toggleFavorite(food)
@@ -74,18 +69,7 @@ watch(
           <option value="-price">По цене (дорогие)</option>
         </select>
 
-        <div class="relative">
-          <img
-            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
-            src="/search.svg"
-          />
-          <input
-            @input="onChangeSearchInput"
-            class="border border-gray-300 rounded-md py-2 pl-9 pr-4 outline-none text-sm sm:text-base focus:border-gray-400 focus:ring focus:ring-gray-300"
-            type="text"
-            placeholder="Поиск..."
-          />
-        </div>
+      
       </div>
     </div>
     <div class="mt-5">

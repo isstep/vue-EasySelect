@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useMainStore } from '../store'
+import debounce from 'lodash.debounce'
 
 const emit = defineEmits(['openDrawer'])
 const isSticky = ref(false)
@@ -14,6 +15,7 @@ const handleScroll = () => {
   isCollapsed.value = window.scrollY > scrollThreshold + 50
 }
 
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
@@ -22,9 +24,13 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-const onSearchInput = (event) => {
-  store.setSearchQuery(event.target.value)
-}
+
+const onChangeSearchInput = debounce((event) => {
+  store.filters.searchQuery = event.target.value
+  store.fetchFoods()
+}, 500)
+
+
 
 defineProps({
   totalPrice: Number
@@ -54,18 +60,17 @@ defineProps({
         </div>
       </router-link>
       <div class="relative">
-        <img
-          class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
-          src="/search.svg"
-        />
-        <input
-          v-model="store.filters.searchQuery"
-          class="border border-gray-300 rounded-md py-2 pl-9 pr-[20em] outline-none text-sm sm:text-base focus:border-gray-400 focus:ring focus:ring-gray-300"
-          type="text"
-          placeholder="Поиск..."
-          @input="onSearchInput"
-        />
-      </div>
+          <img
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
+            src="/search.svg"
+          />
+          <input
+            @input="onChangeSearchInput"
+            class="border border-gray-300 rounded-md py-2 pl-9 pr-[16em] outline-none text-sm sm:text-base focus:border-gray-400 focus:ring focus:ring-gray-300"
+            type="text"
+            placeholder="Поиск..."
+          />
+        </div>
       <ul class="flex items-center gap-10 gap-3">
         <li
           @click="() => emit('openDrawer')"
