@@ -29,7 +29,7 @@ defineProps({
     :class="[
       'transition-all duration-300 ease-in-out fixed top-0 left-0 w-full bg-white border-b border-slate-300 z-40',
       isSticky ? (isCollapsed ? 'py-2' : 'py-4') : 'py-4',
-      isCollapsed ? 'shadow-none' : 'shadow-lg'
+      isCollapsed ? 'shadow-none' : 'shadow-none'
     ]"
     :style="{
       height: isSticky ? (isCollapsed ? '60px' : '80px') : '80px',
@@ -37,7 +37,7 @@ defineProps({
     }"
   >
     <div
-      class="container mx-auto flex items-center justify-between h-full px-[11em] max-[1400px]:px-[3em] max-[1284px]:px-[0em]  max-[1024px]:px-[3em]"
+      class="container mx-auto flex items-center justify-between h-full px-[11em] max-[1400px]:px-[3em] max-[1284px]:px-[0em] max-[1024px]:px-[3em]"
     >
       <router-link to="/" class="flex items-center gap-5">
         <img src="/logo.svg" alt="logo" class="w-12" />
@@ -61,11 +61,14 @@ defineProps({
           </li>
         </router-link>
 
+        <router-link to="/login">
         <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
           <img src="/public/profile.svg" alt="profile" />
           <span class="max-[768px]:hidden">Профиль</span>
         </li>
+      </router-link>
       </ul>
+      
     </div>
   </header>
 </template>

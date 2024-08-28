@@ -122,8 +122,8 @@ watch(filters, fetchFoods)
 <template>
   <div class="mt-20">
     <div class="max-[768px]:hidden">
-    <Carouse />
-  </div>
+      <Carouse />
+    </div>
     <div class="mt-5 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
       <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 sm:mb-0">Вся еда</h2>
 
@@ -137,17 +137,20 @@ watch(filters, fetchFoods)
           <option value="-price">По цене (дорогие)</option>
         </select>
 
-       <div class="absoulute top-0">
-        <div class="relative">
-          <img class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5" src="/search.svg" />
-          <input
-            @input="onChangeSearchInput"
-            class="border border-gray-300 rounded-md py-2 pl-9 pr-4 outline-none text-sm sm:text-base focus:border-gray-400 focus:ring focus:ring-gray-300"
-            type="text"
-            placeholder="Поиск..."
-          />
+        <div class="absoulute top-0">
+          <div class="relative">
+            <img
+              class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
+              src="/search.svg"
+            />
+            <input
+              @input="onChangeSearchInput"
+              class="border border-gray-300 rounded-md py-2 pl-9 pr-4 outline-none text-sm sm:text-base focus:border-gray-400 focus:ring focus:ring-gray-300"
+              type="text"
+              placeholder="Поиск..."
+            />
+          </div>
         </div>
-       </div>
       </div>
     </div>
     <div class="mt-5">

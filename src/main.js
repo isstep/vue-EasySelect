@@ -6,12 +6,14 @@ import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import App from './App.vue'
 import HomePage from './pages/HomePage.vue'
 import FavoritePage from './pages/FavoritePage.vue'
+import LoginComponent from './components/LoginComponent.vue'
 
 const app = createApp(App)
 
 const routes = [
     { path: '/', name: '', component: HomePage  },
     { path: '/favorites', name: 'favorites', component: FavoritePage },
+    { path: '/login', name: 'login', component: LoginComponent },
   ]
 
 const router = createRouter({
