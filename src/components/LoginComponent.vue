@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
@@ -18,16 +19,19 @@ const register = () => {
 <template>
   <div
     id="loginModal"
-    class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
+    class="fixed inset-0 flex items-center justify-center"
+    style="background-image: url('/i.webp'); background-size: cover; background-position: center;"
   >
-    <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+    <div class="relative bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
       <div class="flex justify-end">
         <router-link to="/" class="flex items-center">
-      <div class="relative ">
-        <div class="absolute inset-0 w-8 h-8 -left-3 cursor-pointer"></div>
-        <button class="relative text-gray-500 hover:text-gray-700 z-10">&times;</button>
-      </div>
-    </router-link>
+          <div class="relative">
+            <div class="absolute inset-0 w-8 h-8 -left-3 cursor-pointer"></div>
+            <button class="relative text-gray-500 hover:text-gray-700 z-10">&times;</button>
+          </div>
+        </router-link>
       </div>
       <form @submit.prevent="login">
         <h2 class="text-2xl font-semibold mb-4 text-center">Войти в систему</h2>
