@@ -54,6 +54,7 @@ defineProps({
           <img src="/public/cart.svg" alt="cart" />
           <b class="max-[768px]:hidden">{{ totalPrice }} руб.</b>
         </li>
+
         <router-link to="/favorites">
           <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
             <img src="/public/heart.svg" alt="heart" />
@@ -67,8 +68,8 @@ defineProps({
           <span class="max-[768px]:hidden">Профиль</span>
         </li>
       </router-link>
-      </ul>
       
+      </ul>
     </div>
   </header>
 </template>

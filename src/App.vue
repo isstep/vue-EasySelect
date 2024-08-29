@@ -48,8 +48,7 @@ provide('cartFoodActions', {
 <template>
   <DrawerComponent v-if="drawerOpen" :total-price="totalPrice" :vat-price="vatPrice" />
   <div class="bg-white w-auto m-auto max-w-7xl p-1">
-    >
-    <HeaderMain :total-price="totalPrice" @open-drawer="openDrawer" />
+    <HeaderMain v-if="!$route.meta.hideHeader" :total-price="totalPrice" @open-drawer="openDrawer"  />
     <div class="p-10">
       <router-view></router-view>
     </div>

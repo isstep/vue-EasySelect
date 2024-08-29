@@ -1,7 +1,7 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import { createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import App from './App.vue'
 import HomePage from './pages/HomePage.vue'
@@ -11,14 +11,14 @@ import LoginComponent from './components/LoginComponent.vue'
 const app = createApp(App)
 
 const routes = [
-    { path: '/', name: '', component: HomePage  },
-    { path: '/favorites', name: 'favorites', component: FavoritePage },
-    { path: '/login', name: 'login', component: LoginComponent },
-  ]
+  { path: '/', name: '', component: HomePage, meta: { hideHeader: false } },
+  { path: '/favorites', name: 'favorites', component: FavoritePage, meta: { hideHeader: false } },
+  { path: '/login', name: 'login', component: LoginComponent, meta: { hideHeader: true } }
+]
 
 const router = createRouter({
-    history: createWebHistory(), 
-    routes
+  history: createWebHistory(),
+  routes
 })
 
 app.use(router)
