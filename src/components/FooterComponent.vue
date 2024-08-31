@@ -100,47 +100,47 @@
           </button>
 
           <img
-            src="/public/payment/rWaaDdpvYwXfYzhvC8aAarYG72zA5MIV8MljqWVf.svg"
+            src="/payment/rWaaDdpvYwXfYzhvC8aAarYG72zA5MIV8MljqWVf.svg"
             class="h-6 w-16"
             title="Visa"
           />
           <img
-            src="/public/payment/CMMKFnrXbY1YjXh3mMJqVgMRLHlTFuH6ZSvYBCsL.svg"
+            src="/payment/CMMKFnrXbY1YjXh3mMJqVgMRLHlTFuH6ZSvYBCsL.svg"
             class="h-6 w-16"
             title="Mastercard"
           />
           <img
-            src="/public/payment/acQmwvOAlAawGVEWPIPamS1NOnupaa92JCDox28E.svg"
+            src="/payment/acQmwvOAlAawGVEWPIPamS1NOnupaa92JCDox28E.svg"
             class="h-6 w-16"
             title="UnionPay"
           />
           <img
-            src="/public/payment/fqlZm5vc9Rw974FKyXWWU3ZHpY1myPqweWgotfPV.webp"
+            src="/payment/fqlZm5vc9Rw974FKyXWWU3ZHpY1myPqweWgotfPV.webp"
             class="h-6 w-16"
             title="Asist"
           />
           <img
-            src="/public/payment/Gm8BshWn7TVXP5TRBP7lFyHMAxfG6DL3kUqjYOID.svg"
+            src="/payment/Gm8BshWn7TVXP5TRBP7lFyHMAxfG6DL3kUqjYOID.svg"
             class="h-6 w-16"
             title="Mastercard SecureCode"
           />
           <img
-            src="/public/payment/qMQ0XBZWYwyoifRknFzUVUq9er3pP27ITuLX9XDR.webp"
+            src="/payment/qMQ0XBZWYwyoifRknFzUVUq9er3pP27ITuLX9XDR.webp"
             class="h-6 w-16"
             title="Ассоциация предприятий онлайн-торговли"
           />
           <img
-            src="/public/payment/s9wfMOoaMvulhKflitoHujkmWZI77FfcRHZIMncF.svg"
+            src="/payment/s9wfMOoaMvulhKflitoHujkmWZI77FfcRHZIMncF.svg"
             class="h-6 w-16"
             title="Белкарт"
           />
           <img
-            src="/public/payment/SXEIuiIEdZ2TB9Dwc479I8TyR3yMg6qpveXlSnQK.svg"
+            src="/payment/SXEIuiIEdZ2TB9Dwc479I8TyR3yMg6qpveXlSnQK.svg"
             class="h-6 w-16"
             title="Ассоциация предприятий онлайн-торговли"
           />
           <img
-            src="/public/payment/tkDULe6ysEdOnCMYtWUTBmiSw5swFlp2YbgHlxMm.svg"
+            src="/payment/tkDULe6ysEdOnCMYtWUTBmiSw5swFlp2YbgHlxMm.svg"
             class="h-6 w-16"
             title="Verified by Visa"
           />
