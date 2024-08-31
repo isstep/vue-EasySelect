@@ -54,8 +54,6 @@ export default defineComponent({
   height: 100%; 
   border-radius: 10px;
 }
-
-/* Медиа-запросы для адаптивности */
 @media (max-width: 1024px) {
   .carousel__image {  
     border-radius: 5px;

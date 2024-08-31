@@ -63,12 +63,11 @@ defineProps({
         </router-link>
 
         <router-link to="/login">
-        <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-          <img src="/public/profile.svg" alt="profile" />
-          <span class="max-[768px]:hidden">Профиль</span>
-        </li>
-      </router-link>
-      
+          <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+            <img src="/public/profile.svg" alt="profile" />
+            <span class="max-[768px]:hidden">Профиль</span>
+          </li>
+        </router-link>
       </ul>
     </div>
   </header>
