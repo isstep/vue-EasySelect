@@ -51,20 +51,20 @@ defineProps({
           @click="() => emit('openDrawer')"
           class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
         >
-          <img src="/public/cart.svg" alt="cart" />
+          <img src="/cart.svg" alt="cart" />
           <b class="max-[768px]:hidden">{{ totalPrice }} руб.</b>
         </li>
 
         <router-link to="/favorites">
           <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-            <img src="/public/heart.svg" alt="heart" />
+            <img src="/heart.svg" alt="heart" />
             <span class="max-[768px]:hidden">Избранное</span>
           </li>
         </router-link>
 
         <router-link to="/login">
           <li class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-            <img src="/public/profile.svg" alt="profile" />
+            <img src="/profile.svg" alt="profile" />
             <span class="max-[768px]:hidden">Профиль</span>
           </li>
         </router-link>

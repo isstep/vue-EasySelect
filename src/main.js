@@ -6,7 +6,7 @@ import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import App from './App.vue'
 import HomePage from './pages/HomePage.vue'
 import FavoritePage from './pages/FavoritePage.vue'
-import LoginComponent from './components/LoginComponent.vue'
+import LoginComponent from './pages/LoginPage.vue'
 
 const app = createApp(App)
 
