@@ -91,61 +91,64 @@
           </div>
         </div>
       </div>
-      <div>
-        <div class="flex justify-between items-center mt-8">
-          <button
-            class="mr-96 bg-gray-200 text-gray-800 font-semibold py-3 px-4 rounded-full hover:bg-gray-300 transition duration-300"
-          >
-            Связаться с нами
-          </button>
+      <div class="mt-8">
+  <div class="flex flex-wrap justify-between items-center">
+    <button
+      class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full hover:bg-gray-300 transition duration-300 mb-4 lg:mb-0 lg:mr-12"
+    >
+      Связаться с нами
+    </button>
 
-          <img
-            src="/payment/rWaaDdpvYwXfYzhvC8aAarYG72zA5MIV8MljqWVf.svg"
-            class="h-6 w-16"
-            title="Visa"
-          />
-          <img
-            src="/payment/CMMKFnrXbY1YjXh3mMJqVgMRLHlTFuH6ZSvYBCsL.svg"
-            class="h-6 w-16"
-            title="Mastercard"
-          />
-          <img
-            src="/payment/acQmwvOAlAawGVEWPIPamS1NOnupaa92JCDox28E.svg"
-            class="h-6 w-16"
-            title="UnionPay"
-          />
-          <img
-            src="/payment/fqlZm5vc9Rw974FKyXWWU3ZHpY1myPqweWgotfPV.webp"
-            class="h-6 w-16"
-            title="Asist"
-          />
-          <img
-            src="/payment/Gm8BshWn7TVXP5TRBP7lFyHMAxfG6DL3kUqjYOID.svg"
-            class="h-6 w-16"
-            title="Mastercard SecureCode"
-          />
-          <img
-            src="/payment/qMQ0XBZWYwyoifRknFzUVUq9er3pP27ITuLX9XDR.webp"
-            class="h-6 w-16"
-            title="Ассоциация предприятий онлайн-торговли"
-          />
-          <img
-            src="/payment/s9wfMOoaMvulhKflitoHujkmWZI77FfcRHZIMncF.svg"
-            class="h-6 w-16"
-            title="Белкарт"
-          />
-          <img
-            src="/payment/SXEIuiIEdZ2TB9Dwc479I8TyR3yMg6qpveXlSnQK.svg"
-            class="h-6 w-16"
-            title="Ассоциация предприятий онлайн-торговли"
-          />
-          <img
-            src="/payment/tkDULe6ysEdOnCMYtWUTBmiSw5swFlp2YbgHlxMm.svg"
-            class="h-6 w-16"
-            title="Verified by Visa"
-          />
-        </div>
-      </div>
+    <div class="flex flex-wrap justify-center lg:justify-end space-x-4">
+      <img
+        src="/payment/rWaaDdpvYwXfYzhvC8aAarYG72zA5MIV8MljqWVf.svg"
+        class="h-6 w-16"
+        title="Visa"
+      />
+      <img
+        src="/payment/CMMKFnrXbY1YjXh3mMJqVgMRLHlTFuH6ZSvYBCsL.svg"
+        class="h-6 w-16"
+        title="Mastercard"
+      />
+      <img
+        src="/payment/acQmwvOAlAawGVEWPIPamS1NOnupaa92JCDox28E.svg"
+        class="h-6 w-16"
+        title="UnionPay"
+      />
+      <img
+        src="/payment/fqlZm5vc9Rw974FKyXWWU3ZHpY1myPqweWgotfPV.webp"
+        class="h-6 w-16"
+        title="Asist"
+      />
+      <img
+        src="/payment/Gm8BshWn7TVXP5TRBP7lFyHMAxfG6DL3kUqjYOID.svg"
+        class="h-6 w-16"
+        title="Mastercard SecureCode"
+      />
+      <img
+        src="/payment/qMQ0XBZWYwyoifRknFzUVUq9er3pP27ITuLX9XDR.webp"
+        class="h-6 w-16"
+        title="Ассоциация предприятий онлайн-торговли"
+      />
+      <img
+        src="/payment/s9wfMOoaMvulhKflitoHujkmWZI77FfcRHZIMncF.svg"
+        class="h-6 w-16"
+        title="Белкарт"
+      />
+      <img
+        src="/payment/SXEIuiIEdZ2TB9Dwc479I8TyR3yMg6qpveXlSnQK.svg"
+        class="h-6 w-16"
+        title="Ассоциация предприятий онлайн-торговли"
+      />
+      <img
+        src="/payment/tkDULe6ysEdOnCMYtWUTBmiSw5swFlp2YbgHlxMm.svg"
+        class="h-6 w-16"
+        title="Verified by Visa"
+      />
+    </div>
+  </div>
+</div>
+
 
       <div class="mt-8 border-t border-gray-200 pt-8">
         <div class="flex flex-col md:flex-row justify-between items-center">

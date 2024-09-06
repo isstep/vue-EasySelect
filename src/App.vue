@@ -2,7 +2,7 @@
 import { ref, provide, watch, computed } from 'vue'
 import HeaderMain from './components/HeaderMain.vue'
 import DrawerComponent from './components/DrawerComponent.vue'
-import FooterComponent from './components/FooterComponent.vue';
+import FooterComponent from './components/FooterComponent.vue'
 const cartFood = ref([])
 
 const drawerOpen = ref(false)
@@ -46,14 +46,20 @@ provide('cartFoodActions', {
 </script>
 
 <template>
-  <DrawerComponent v-if="drawerOpen" :total-price="totalPrice" :vat-price="vatPrice" />
-  <div class="bg-white w-auto m-auto max-w-7xl p-1">
-    <HeaderMain v-if="!$route.meta.hideHeader" :total-price="totalPrice" @open-drawer="openDrawer"  />
-    <div class="p-10">
-      <router-view></router-view>
+  <div>
+    <DrawerComponent v-if="drawerOpen" :total-price="totalPrice" :vat-price="vatPrice" />
+    <div class="bg-white w-auto m-auto max-w-7xl p-1">
+      <HeaderMain
+        v-if="!$route.meta.hideHeader"
+        :total-price="totalPrice"
+        @open-drawer="openDrawer"
+      />
+      <div class="p-10">
+        <router-view></router-view>
+      </div>
+    </div>
+    <div class="w-full border-t border-gray-200">
+      <FooterComponent />
     </div>
   </div>
-  <div class="w-full border-t border-gray-200">
-  <FooterComponent />
-</div>
 </template>
