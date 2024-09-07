@@ -18,6 +18,6 @@ body::before {
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
-  opacity: 0.9; /* Настроить значение прозрачности */
-  z-index: -1; /* Отправить на задний план */
+  opacity: 0.9; 
+  z-index: -1; 
 }

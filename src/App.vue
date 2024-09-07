@@ -6,6 +6,7 @@ import FooterComponent from './components/FooterComponent.vue'
 const cartFood = ref([])
 
 const drawerOpen = ref(false)
+const catalogOpen = ref(false)
 
 const totalPrice = computed(() => cartFood.value.reduce((acc, food) => acc + food.price, 0))
 const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
@@ -17,6 +18,16 @@ const openDrawer = () => {
 const closeDrawer = () => {
   drawerOpen.value = false
 }
+
+
+const openCatalog = () => {
+  catalogOpen.value = true
+}
+
+const closeCatalog = () => {
+  catalogOpen.value = false
+}
+
 
 const addFoodToCart = (food) => {
   cartFood.value.push(food)
@@ -41,7 +52,9 @@ provide('cartFoodActions', {
   closeDrawer,
   openDrawer,
   addFoodToCart,
-  removeFoodFromCart
+  removeFoodFromCart,
+  openCatalog,
+  closeCatalog
 })
 </script>
 
@@ -53,6 +66,7 @@ provide('cartFoodActions', {
         v-if="!$route.meta.hideHeader"
         :total-price="totalPrice"
         @open-drawer="openDrawer"
+        @open-catalog="openCatalog"
       />
       <div class="p-10">
         <router-view></router-view>

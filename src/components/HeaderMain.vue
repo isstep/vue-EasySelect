@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const emit = defineEmits(['openDrawer'])
+const emit = defineEmits(['openDrawer','openCatalog'])
+
 const isSticky = ref(false)
 const isCollapsed = ref(false)
 
@@ -46,7 +47,7 @@ defineProps({
       <div class="flex items-center gap-4 flex-grow mx-4">
      
         <button
-          @click="openCatalog"
+          @click="() => emit('openCatalog')"
           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
         >
           Каталог
