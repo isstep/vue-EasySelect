@@ -13,6 +13,10 @@ const fetchOrders = async () => {
   }
 }
 
+const calculateTotal = (foods) => {
+  return foods.reduce((total, food) => total + food.price, 0)
+}
+
 onMounted(() => {
   fetchOrders()
 })
@@ -26,10 +30,12 @@ onMounted(() => {
       <div class="flex overflow-x-auto space-x-6 pb-4">
         <div v-for="food in order.foods" :key="food.id">
           <img :src="food.imgUrl" :alt="food.title" class="w-30 h-20 object-cover rounded-md mb-4">
-          <p class="text-gray-600 mt-2">Цена: <span class="text-blue-500 font-semibold">{{ food.price }} руб.</span></p>
         </div>
       </div>
+      <p class="text-lg font-bold">Общая сумма: {{ calculateTotal(order.foods) }} руб.</p>
+      <button @click="repeatOrder(order)" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+        Повторить заказ
+      </button>
     </div>
   </div>
 </template>
-
