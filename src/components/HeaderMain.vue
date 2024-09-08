@@ -1,16 +1,27 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const emit = defineEmits(['openDrawer','openCatalog'])
+const emit = defineEmits(['openDrawer','openCatalog','closeCatalog'])
 
 const isSticky = ref(false)
 const isCollapsed = ref(false)
+const isCatalogOpen = ref(false); 
 
 const handleScroll = () => {
   const scrollThreshold = 50
   isSticky.value = window.scrollY > scrollThreshold
   isCollapsed.value = window.scrollY > scrollThreshold + 50
 }
+
+
+const toggleCatalog = () => {
+  isCatalogOpen.value = !isCatalogOpen.value;
+  if (isCatalogOpen.value) {
+    emit('openCatalog');
+  } else {
+    emit('closeCatalog');
+  }
+};
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
@@ -29,8 +40,8 @@ defineProps({
 <template>
   <header
     :class="[
-      'fixed top-0 left-0 w-full bg-white border-b border-slate-300 z-40 transition-all duration-300 ease-in-out',
-      isSticky ? (isCollapsed ? 'py-2 h-[60px]' : 'py-4 h-[80px]') : 'py-4 h-[80px]'
+      'fixed top-0 left-0 w-full bg-white border-slate-300 z-40 transition-all duration-300 ease-in-out',
+      isSticky ? (isCollapsed ? 'py-2 h-[60px] border-b' : 'py-3 h-[60px] border-b') : 'py-4 h-[80px] '
     ]"
   >
     <div class="container mx-auto flex items-center justify-between h-full px-4 md:px-8 lg:px-44">
@@ -47,7 +58,7 @@ defineProps({
       <div class="flex items-center gap-4 flex-grow mx-4">
      
         <button
-          @click="() => emit('openCatalog')"
+          @click="toggleCatalog"
           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
         >
           Каталог

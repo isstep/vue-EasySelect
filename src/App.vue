@@ -3,8 +3,9 @@ import { ref, provide, watch, computed } from 'vue'
 import HeaderMain from './components/HeaderMain.vue'
 import DrawerComponent from './components/DrawerComponent.vue'
 import FooterComponent from './components/FooterComponent.vue'
-const cartFood = ref([])
+import CatalogFood from './components/CatalogFood.vue'
 
+const cartFood = ref([])
 const drawerOpen = ref(false)
 const catalogOpen = ref(false)
 
@@ -19,7 +20,6 @@ const closeDrawer = () => {
   drawerOpen.value = false
 }
 
-
 const openCatalog = () => {
   catalogOpen.value = true
 }
@@ -27,7 +27,6 @@ const openCatalog = () => {
 const closeCatalog = () => {
   catalogOpen.value = false
 }
-
 
 const addFoodToCart = (food) => {
   cartFood.value.push(food)
@@ -61,12 +60,14 @@ provide('cartFoodActions', {
 <template>
   <div>
     <DrawerComponent v-if="drawerOpen" :total-price="totalPrice" :vat-price="vatPrice" />
+    <CatalogFood v-if="catalogOpen" />
     <div class="bg-white w-auto m-auto max-w-7xl p-1">
       <HeaderMain
         v-if="!$route.meta.hideHeader"
         :total-price="totalPrice"
         @open-drawer="openDrawer"
         @open-catalog="openCatalog"
+        @close-catalog="closeCatalog"
       />
       <div class="p-10">
         <router-view></router-view>
