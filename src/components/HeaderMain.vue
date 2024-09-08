@@ -67,27 +67,34 @@ defineProps({
       </div>
 
     
-      <ul class="flex items-center gap-6 md:gap-10">
-      
+      <ul class="flex items-center gap-4 md:gap-4">
+        <li>
+          <router-link to="/order" class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+            <img class="w-5" src="/order.svg" alt="order" />
+            <span class="hidden md:block">Заказы</span>
+          </router-link>
+        </li>
+
         <li
           @click="() => emit('openDrawer')"
           class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
         >
-          <img src="/cart.svg" alt="cart" />
+          <img class="w-5" src="/cart1.svg" alt="cart" />
           <b class="hidden md:block">{{ totalPrice }} руб.</b>
         </li>
 
         <li>
           <router-link to="/favorites" class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-            <img src="/heart.svg" alt="heart" />
+            <img class="w-5" src="/heart1.svg" alt="heart" />
             <span class="hidden md:block">Избранное</span>
           </router-link>
         </li>
 
+
    
         <li>
           <router-link to="/login" class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
-            <img src="/profile.svg" alt="profile" />
+            <img class="w-5" src="/profile1.svg" alt="profile" />
             <span class="hidden md:block">Профиль</span>
           </router-link>
         </li>

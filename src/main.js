@@ -7,13 +7,15 @@ import App from './App.vue'
 import HomePage from './pages/HomePage.vue'
 import FavoritePage from './pages/FavoritePage.vue'
 import LoginComponent from './pages/LoginPage.vue'
+import OrderPage from './pages/OrderPage.vue'
 
 const app = createApp(App)
 
 const routes = [
   { path: '/', name: '', component: HomePage, meta: { hideHeader: false } },
   { path: '/favorites', name: 'favorites', component: FavoritePage, meta: { hideHeader: false } },
-  { path: '/login', name: 'login', component: LoginComponent, meta: { hideHeader: true } }
+  { path: '/login', name: 'login', component: LoginComponent, meta: { hideHeader: true } },
+  { path: '/order', name: 'order', component: OrderPage, meta: { hideHeader: false}}
 ]
 
 const router = createRouter({
