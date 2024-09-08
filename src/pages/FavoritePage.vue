@@ -29,7 +29,10 @@ const goToHome = () => {
 
     <div v-if="favorites.length === 0" class="text-center mt-20">
       <p class="text-lg mb-10">Здесь нету избранных товаров, добавьте их!</p>
-      <button @click="goToHome" class="bg-blue-500 text-white px-4 py-2 rounded mb-40">
+      <button
+        @click="goToHome"
+        class="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800"
+      >
         На главную
       </button>
     </div>

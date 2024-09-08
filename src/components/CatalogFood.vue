@@ -1,5 +1,7 @@
 <script setup>
 import { inject, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
 const { closeCatalog } = inject('cartFoodActions')
 
 const catalog = [
@@ -21,13 +23,27 @@ const handleCategoryMouseEnter = (category) => {
   activeCategory.value = category
 }
 
-const handleCategoryMouseLeave = (category) => {
+const handleCategoryMouseLeave = () => {
   setTimeout(() => {
-    if (hoveredCategory.value === category) {
+    if (hoveredCategory.value === null) {
       activeCategory.value = null
     }
   }, 100)
 }
+
+const handleMouseEnterOnCatalog = () => {
+  hoveredCategory.value = activeCategory.value
+}
+
+const handleMouseLeaveOnCatalog = () => {
+  hoveredCategory.value = null
+}
+
+const route = useRoute()
+
+watch(() => route.path, () => {
+  closeCatalog()
+})
 
 watch(hoveredCategory, (newVal) => {
   if (newVal === null) {
@@ -47,9 +63,13 @@ watch(hoveredCategory, (newVal) => {
       </button>
     </div>
 
-    <div class="relative flex">
+    <div 
+      class="relative flex"
+      @mouseenter="handleMouseEnterOnCatalog"
+      @mouseleave="handleMouseLeaveOnCatalog"
+    >
       <div
-        class="bg-white w-full h-[30em] fixed top-10 left-0 p-4 overflow-y-auto z-40 border-r border-gray-200"
+        class="bg-white w-full h-[40em] fixed top-10 left-0 p-4 overflow-y-auto z-40 border-r border-gray-200"
       >
         <ul class="absolute px-40 mt-10">
           <li
@@ -57,7 +77,7 @@ watch(hoveredCategory, (newVal) => {
             :key="category.title"
             class="relative mb-6"
             @mouseenter="handleCategoryMouseEnter(category.title)"
-            @mouseleave="handleCategoryMouseLeave(category.title)"
+            @mouseleave="handleCategoryMouseLeave"
           >
             <h3
               class="text-xl font-semibold cursor-pointer hover:text-blue-500 transition"
