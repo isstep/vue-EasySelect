@@ -1,11 +1,24 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 
-const emit = defineEmits(['openDrawer','openCatalog','closeCatalog'])
+const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
 
 const isSticky = ref(false)
 const isCollapsed = ref(false)
-const isCatalogOpen = ref(false); 
+const isCatalogOpen = ref(false)
+const NumberFoods = ref(0)
+
+const props = defineProps({
+  totalPrice: Number
+})
+
+watch(() => props.totalPrice, (newValue) => {
+  if (newValue > 0) {
+    NumberFoods.value += 1
+  } else {
+    NumberFoods.value = 0
+  }
+})
 
 const handleScroll = () => {
   const scrollThreshold = 50
@@ -13,15 +26,14 @@ const handleScroll = () => {
   isCollapsed.value = window.scrollY > scrollThreshold + 50
 }
 
-
 const toggleCatalog = () => {
-  isCatalogOpen.value = !isCatalogOpen.value;
+  isCatalogOpen.value = !isCatalogOpen.value
   if (isCatalogOpen.value) {
-    emit('openCatalog');
+    emit('openCatalog')
   } else {
-    emit('closeCatalog');
+    emit('closeCatalog')
   }
-};
+}
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
@@ -30,22 +42,20 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
-
-defineProps({
-  totalPrice: Number
-})
 </script>
-
 
 <template>
   <header
     :class="[
       'fixed top-0 left-0 w-full bg-white border-slate-300 z-40 transition-all duration-300 ease-in-out',
-      isSticky ? (isCollapsed ? 'py-2 h-[60px] border-b' : 'py-3 h-[60px] border-b') : 'py-4 h-[80px] '
+      isSticky
+        ? isCollapsed
+          ? 'py-2 h-[60px] border-b'
+          : 'py-3 h-[60px] border-b'
+        : 'py-4 h-[80px] '
     ]"
   >
     <div class="container mx-auto flex items-center justify-between h-full px-4 md:px-8 lg:px-44">
- 
       <router-link to="/" class="flex items-center gap-4">
         <img src="/logo.svg" alt="logo" class="w-12" />
         <div v-if="!isCollapsed" class="hidden md:block">
@@ -54,17 +64,14 @@ defineProps({
         </div>
       </router-link>
 
-
       <div class="flex items-center gap-4 flex-grow mx-4">
-     
         <button
           @click="toggleCatalog"
-          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
+          class="h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800"
         >
           Каталог
         </button>
 
- 
         <div class="relative flex-grow">
           <input
             type="text"
@@ -77,26 +84,32 @@ defineProps({
         </div>
       </div>
 
-    
       <ul class="flex items-center gap-4 md:gap-4">
-
         <li>
-          <router-link to="/login" class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+          <router-link
+            to="/login"
+            class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
+          >
             <img class="w-5" src="/profile1.svg" alt="profile" />
             <span class="hidden md:block">Профиль</span>
           </router-link>
         </li>
 
         <li>
-          <router-link to="/order" class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+          <router-link
+            to="/order"
+            class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
+          >
             <img class="w-5" src="/order.svg" alt="order" />
             <span class="hidden md:block">Заказы</span>
           </router-link>
         </li>
 
-
         <li>
-          <router-link to="/favorites" class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black">
+          <router-link
+            to="/favorites"
+            class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
+          >
             <img class="w-5" src="/heart1.svg" alt="heart" />
             <span class="hidden md:block">Избранное</span>
           </router-link>
@@ -106,6 +119,12 @@ defineProps({
           @click="() => emit('openDrawer')"
           class="flex items-center cursor-pointer gap-2 text-gray-500 hover:text-black"
         >
+          <span
+            class="absolute mb-4 ml-3 w-3 h-3 inline-flex items-center justify-center mr-2 text-[0.6em] leading-none text-red-100 bg-red-600 rounded-full"
+          >
+            {{ NumberFoods }}</span
+          >
+
           <img class="w-5" src="/cart1.svg" alt="cart" />
           <b class="hidden md:block">{{ totalPrice }} руб.</b>
         </li>

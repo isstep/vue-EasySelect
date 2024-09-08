@@ -43,7 +43,7 @@ onMounted(() => {
       </div>
 
       <div class="flex overflow-x-auto space-x-6 pb-4">
-        <div v-for="food in order.foods" :key="food.id">
+        <div v-for="food in order.foods.slice(0, 10)" :key="food.id">
           <img
             :src="food.imgUrl"
             :alt="food.title"
@@ -53,9 +53,9 @@ onMounted(() => {
       </div>
 
       <button
-        class="mt-4 bg-gray-400 text-white py-2 px-6 rounded-xl shadow-lg hover:bg-gray-200 hover:text-black hover:shadow   transition duration-300 ease-in-out flex items-center space-x-2 transform hover:scale-100"
+        class="mt-4 bg-gray-400 text-white py-2 px-6 rounded-xl shadow-lg hover:bg-gray-200 hover:text-black hover:shadow transition duration-300 ease-in-out flex items-center space-x-2 transform hover:scale-100"
       >
-        <img class="w-5 h-5" src="/public/repeat.svg" alt="Повторить" />
+        <img class="w-5 h-5" src="/repeat.svg" alt="Повторить" />
         <span>Повторить заказ</span>
       </button>
     </div>
