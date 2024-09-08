@@ -7,13 +7,54 @@ const { closeCatalog } = inject('cartFoodActions')
 const catalog = [
   {
     title: 'Овощи и фрукты',
-    subcategories: ['Овощи', 'Фрукты', 'Зелень', 'Грибы', 'Ягоды']
+    subcategories: ['Овощи', 'Фрукты', 'Зелень', 'Грибы', 'Ягоды', 'Квашения, соления, салаты']
   },
   {
-    title: 'Квашения, соления, салаты',
-    subcategories: ['Овощи']
+    title: 'Молоко и яйца',
+    subcategories: ['Мороженое', 'Яйца', 'Молоко, сливки', 'Кефир, кисломолочные изделия', 'Масло, маргарин', 'Сметана, творог', 'Сыры', 'Йогурты, десерты, каши']
+  },
+  {
+    title: 'Хлеб и выпечка',
+    subcategories: ['Хлеб', 'Булочки', 'Круассаны', 'Пироги', 'Печенье', 'Сухари']
+  },
+  {
+    title: 'Шеф-онлайн',
+    subcategories: ['Рецепты', 'Кулинарные советы', 'Видеоуроки', 'Кулинарные техники']
+  },
+  {
+    title: 'Мясо, птица и колбасы',
+    subcategories: ['Говядина', 'Свинина', 'Курица', 'Индейка', 'Колбасы', 'Копчености']
+  },
+  {
+    title: 'Рыба и морепродукты',
+    subcategories: ['Рыба', 'Креветки', 'Мидии', 'Кальмары', 'Осьминоги', 'Рыбные консервы']
+  },
+  {
+    title: 'Напитки',
+    subcategories: ['Соки', 'Газированные напитки', 'Минеральная вода', 'Чай', 'Кофе', 'Энергетики']
+  },
+  {
+    title: 'Сладости',
+    subcategories: ['Шоколад', 'Конфеты', 'Торты', 'Пирожные', 'Сладкие закуски']
+  },
+  {
+    title: 'Замороженные продукты',
+    subcategories: ['Замороженные овощи', 'Замороженные фрукты', 'Замороженные полуфабрикаты', 'Мороженое']
+  },
+  {
+    title: 'Косметика и гигиена',
+    subcategories: ['Уход за лицом', 'Уход за телом', 'Шампуни и кондиционеры', 'Гигиенические средства', 'Парфюмерия']
+  },
+  {
+    title: 'Бытовая химия',
+    subcategories: ['Моющее средство', 'Стиральные порошки', 'Чистящие средства', 'Освежители воздуха']
+  },
+  {
+    title: 'Продукты для животных',
+    subcategories: ['Корм для собак', 'Корм для кошек', 'Игрушки для животных', 'Средства ухода']
   }
-]
+];
+
 
 const activeCategory = ref(null)
 const hoveredCategory = ref(null)
@@ -75,12 +116,12 @@ watch(hoveredCategory, (newVal) => {
           <li
             v-for="category in catalog"
             :key="category.title"
-            class="relative mb-6"
+            class="relative"
             @mouseenter="handleCategoryMouseEnter(category.title)"
             @mouseleave="handleCategoryMouseLeave"
           >
             <h3
-              class="text-xl font-semibold cursor-pointer hover:text-blue-500 transition"
+              class="text-xl cursor-pointer rounded-xl px-2 py-2 hover:bg-gray-100 transition "
             >
               {{ category.title }}
             </h3>
@@ -88,11 +129,11 @@ watch(hoveredCategory, (newVal) => {
               v-if="activeCategory === category.title"
               class="absolute left-80 top-0 w-80 bg-white border-l border-gray-200"
             >
-              <ul class="grid grid-cols-3 gap-4 p-4">
+              <ul class="grid grid-cols-3 gap-6 p-5">
                 <li
                   v-for="subcategory in category.subcategories"
                   :key="subcategory"
-                  class="cursor-pointer hover:bg-gray-100 transition"
+                  class="cursor-pointer font-semibold"
                 >
                   {{ subcategory }}
                 </li>
