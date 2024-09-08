@@ -12,13 +12,15 @@ const props = defineProps({
   totalPrice: Number
 })
 
+let previousPrice = 0;
 watch(() => props.totalPrice, (newValue) => {
-  if (newValue > 0) {
-    NumberFoods.value += 1
-  } else {
-    NumberFoods.value = 0
+  if (newValue > previousPrice) {
+    NumberFoods.value += 1;
+  } else if (newValue < previousPrice) {
+    NumberFoods.value -= 1;
   }
-})
+  previousPrice = newValue;
+});
 
 const handleScroll = () => {
   const scrollThreshold = 50
