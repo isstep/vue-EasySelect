@@ -42,6 +42,8 @@
 - **Диаграмма №1**: Пользовательский путь: От выбора товара до оформления заказа
 &nbsp;
  [![Рассмотреть диаграмму](https://img.shields.io/badge/Рассмотреть_диаграмму-4CAF50?style=for-the-badge&logo=git)](https://isstep.github.io/diagrams/Diagrams.html)
+
+ 
  &nbsp;
 <a href="https://isstep.github.io/diagrams/Diagrams.html" style="text-decoration: none;">
     <img src="./public/diagram/Untitled Diagram.drawio.png" width="600">    
