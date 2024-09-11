@@ -40,9 +40,7 @@
 ## 📜 Диаграмы
 
 - **Диаграмма №1**: Пользовательский путь: От выбора товара до оформления заказа
-  <button href="https://isstep.github.io/diagrams/Diagrams.html" style="cursor: pointer">
-        Рассмотреть диаграмму
-    </button>
+ [![Рассмотреть диаграмму](https://img.shields.io/badge/Рассмотреть_диаграмму-4CAF50?style=for-the-badge&logo=github)](https://isstep.github.io/diagrams/Diagrams.html)
 <a href="https://isstep.github.io/diagrams/Diagrams.html" style="text-decoration: none;">
     <img src="./public/diagram/Untitled Diagram.drawio.png" width="600">    
 </a>
