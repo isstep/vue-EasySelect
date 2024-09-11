@@ -23,7 +23,7 @@ const priceDiscount = (price) => {
 
 <template>
   <div
-    class="relative bg-white border border-slate-100 rounded-[20px] p-3 top-1 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition max-[615px]:p-10"
+    class="relative bg-white  shadow-custom rounded-[16px] p-3 top-1 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition max-[615px]:p-10"
   >
     <img
       v-if="props.onClickFavorite"
@@ -42,10 +42,11 @@ const priceDiscount = (price) => {
 
     <img :src="props.imgUrl" alt="food" class="w-200 h-200 object-cover min-[600px]:w-200" />
 
-    
     <div class="flex items-center space-x-2">
-      <b class="text-[#ea0b18]"> {{ props.price }} р.</b>
-      <span  v-if="discountIds.includes(props.id)" class="text-gray-400 text-sm line-through">
+
+      <b class="text-black"> {{ props.price }} р.</b>
+
+      <span v-if="discountIds.includes(props.id)" class="text-gray-400 text-sm line-through">
         {{ priceDiscount(props.price).toFixed(2) }} р.</span
       >
     </div>
