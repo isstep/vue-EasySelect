@@ -71,7 +71,7 @@ const createOrder = async () => {
           <div class="flex gap-2">
             <span>Итого:</span>
             <div class="flex-1 border-b border-dashed"></div>
-            <b>{{ totalPrice - vatPrice }} р.</b>
+            <b>{{ totalPrice.toFixed(2) - vatPrice }} р.</b>
           </div>
 
           <button

@@ -23,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mt-20 max-w-7xl mx-auto px-4">
+  <div class="mt-20 max-w-7xl mx-auto">
     <h2 class="text-3xl font-bold mb-8">Список заказов</h2>
 
     <div

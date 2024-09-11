@@ -6,24 +6,26 @@ const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
 const isSticky = ref(false)
 const isCollapsed = ref(false)
 const isCatalogOpen = ref(false)
-const NumberFoods = ref(0)
 
 const props = defineProps({
   totalPrice: Number
 })
 
-let previousPrice = 0
+const previousPrice = ref(0);
+const NumberFoods = ref(0);
+
 watch(
   () => props.totalPrice,
   (newValue) => {
-    if (newValue > previousPrice) {
-      NumberFoods.value += 1
-    } else if (newValue < previousPrice) {
-      NumberFoods.value -= 1
+    if (newValue === 0) {
+      NumberFoods.value = 0;
+    } else {
+      const priceDifference = newValue - previousPrice.value;
+      NumberFoods.value += Math.sign(priceDifference);
+      previousPrice.value = newValue;
     }
-    previousPrice = newValue
   }
-)
+);
 
 const handleScroll = () => {
   const scrollThreshold = 50
@@ -130,7 +132,7 @@ onUnmounted(() => {
             {{ NumberFoods }}
           </span>
           <img class="w-5 h-5" src="/cart1.svg" alt="cart" />
-          <b class="hidden md:block">{{ totalPrice }} руб.</b>
+          <b class="hidden md:block">{{ props.totalPrice === 0 ? '0' : props.totalPrice.toFixed(2) }} руб.</b>
         </li>
       </ul>
     </div>

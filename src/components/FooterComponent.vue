@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-white text-gray-700 py-12 w-auto m-auto max-w-7xl p-1">
+  <footer class="bg-white text-gray-700 py-12 w-auto px-2 m-auto max-w-7xl p-1">
     <div class="container mx-auto px-6">
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-16">
         <div>
