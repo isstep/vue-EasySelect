@@ -40,11 +40,10 @@
 ## 📜 Диаграмы
 
 - **Диаграмма №1**: Пользовательский путь: От выбора товара до оформления заказа
-
-<a href="https://isstep.github.io/diagrams/Diagrams.html" style="text-decoration: none;">
-    <button style="cursor: pointer; padding: 10px 20px; background-color: #4CAF50; color: white; border: 1px; border-radius: 5px; font-size: 16px;">
+  <button href="https://isstep.github.io/diagrams/Diagrams.html" style="cursor: pointer">
         Рассмотреть диаграмму
     </button>
+<a href="https://isstep.github.io/diagrams/Diagrams.html" style="text-decoration: none;">
     <img src="./public/diagram/Untitled Diagram.drawio.png" width="600">    
 </a>
 
