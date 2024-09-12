@@ -51,15 +51,12 @@ export default defineComponent({
 <style scoped>
 .carousel__image {
   width: 100%;
-  height: 100%; 
+  height: 100%;
   border-radius: 10px;
 }
 @media (max-width: 1024px) {
-  .carousel__image {  
+  .carousel__image {
     border-radius: 5px;
-
   }
 }
-
-
 </style>

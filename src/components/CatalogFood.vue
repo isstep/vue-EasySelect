@@ -11,7 +11,16 @@ const catalog = [
   },
   {
     title: 'Молоко и яйца',
-    subcategories: ['Мороженое', 'Яйца', 'Молоко, сливки', 'Кефир, кисломолочные изделия', 'Масло, маргарин', 'Сметана, творог', 'Сыры', 'Йогурты, десерты, каши']
+    subcategories: [
+      'Мороженое',
+      'Яйца',
+      'Молоко, сливки',
+      'Кефир, кисломолочные изделия',
+      'Масло, маргарин',
+      'Сметана, творог',
+      'Сыры',
+      'Йогурты, десерты, каши'
+    ]
   },
   {
     title: 'Хлеб и выпечка',
@@ -39,22 +48,37 @@ const catalog = [
   },
   {
     title: 'Замороженные продукты',
-    subcategories: ['Замороженные овощи', 'Замороженные фрукты', 'Замороженные полуфабрикаты', 'Мороженое']
+    subcategories: [
+      'Замороженные овощи',
+      'Замороженные фрукты',
+      'Замороженные полуфабрикаты',
+      'Мороженое'
+    ]
   },
   {
     title: 'Косметика и гигиена',
-    subcategories: ['Уход за лицом', 'Уход за телом', 'Шампуни и кондиционеры', 'Гигиенические средства', 'Парфюмерия']
+    subcategories: [
+      'Уход за лицом',
+      'Уход за телом',
+      'Шампуни и кондиционеры',
+      'Гигиенические средства',
+      'Парфюмерия'
+    ]
   },
   {
     title: 'Бытовая химия',
-    subcategories: ['Моющее средство', 'Стиральные порошки', 'Чистящие средства', 'Освежители воздуха']
+    subcategories: [
+      'Моющее средство',
+      'Стиральные порошки',
+      'Чистящие средства',
+      'Освежители воздуха'
+    ]
   },
   {
     title: 'Продукты для животных',
     subcategories: ['Корм для собак', 'Корм для кошек', 'Игрушки для животных', 'Средства ухода']
   }
-];
-
+]
 
 const activeCategory = ref(null)
 const hoveredCategory = ref(null)
@@ -82,9 +106,12 @@ const handleMouseLeaveOnCatalog = () => {
 
 const route = useRoute()
 
-watch(() => route.path, () => {
-  closeCatalog()
-})
+watch(
+  () => route.path,
+  () => {
+    closeCatalog()
+  }
+)
 
 watch(hoveredCategory, (newVal) => {
   if (newVal === null) {
@@ -99,12 +126,15 @@ watch(hoveredCategory, (newVal) => {
       @click="closeCatalog"
       class="fixed top-0 left-0 h-full w-full bg-black opacity-70 cursor-pointer z-30"
     >
-      <button @click="closeCatalog" class="absolute left-1/2 mt-[44em] transform -translate-x-1/2 text-gray-500">
+      <button
+        @click="closeCatalog"
+        class="absolute left-1/2 mt-[44em] transform -translate-x-1/2 text-gray-500"
+      >
         Закрыть каталог
       </button>
     </div>
 
-    <div 
+    <div
       class="relative flex"
       @mouseenter="handleMouseEnterOnCatalog"
       @mouseleave="handleMouseLeaveOnCatalog"
@@ -120,9 +150,7 @@ watch(hoveredCategory, (newVal) => {
             @mouseenter="handleCategoryMouseEnter(category.title)"
             @mouseleave="handleCategoryMouseLeave"
           >
-            <h3
-              class="text-xl cursor-pointer rounded-xl px-2 py-2 hover:bg-gray-100 transition "
-            >
+            <h3 class="text-xl cursor-pointer rounded-xl px-2 py-2 hover:bg-gray-100 transition">
               {{ category.title }}
             </h3>
             <div

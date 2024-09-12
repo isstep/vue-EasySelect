@@ -9,8 +9,10 @@ const { closeDrawer } = inject('cartFoodActions')
 </script>
 
 <template>
-<div :class="`fixed top-0 right-0 w-96 h-[5em] bg-white p-3 z-50 ${totalPrice && 'border-b border-gray-300'}`">
-  <div class="flex bg-b p-3 items-center gap-5 mb-8 z-10">
+  <div
+    :class="`fixed top-0 right-0 w-96 h-[5em] bg-white p-3 z-50 ${totalPrice && 'border-b border-gray-300'}`"
+  >
+    <div class="flex bg-b p-3 items-center gap-5 mb-8 z-10">
       <div
         @click="closeDrawer"
         class="cursor-pointer w-10 h-10 flex items-center justify-center transition opacity-60 hover:opacity-100 hover:-translate-x-2"
