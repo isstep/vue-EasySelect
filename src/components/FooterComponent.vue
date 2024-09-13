@@ -3,11 +3,15 @@
     <div class="container mx-auto px-6">
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-16">
         <div>
-          <h3 class="text-lg font-bold mb-4 text-gray-900"> </h3>
+          <h3 class="text-lg font-bold mb-4 text-gray-900">О компании</h3>
           <ul class="space-y-2">
             <li><a href="#" class="hover:text-blue-600 transition-colors">Карьера</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Новости</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Контакты</a></li>
+            <li>
+              <router-link to="/news">
+              <a class="hover:text-blue-600 transition-colors">Новости</a>
+              </router-link>
+            </li>
+            <li><a href="/contacts" class="hover:text-blue-600 transition-colors">Контакты</a></li>
             <li><a href="#" class="hover:text-blue-600 transition-colors">О сервисе</a></li>
             <li><a href="#" class="hover:text-blue-600 transition-colors">Партнерство</a></li>
           </ul>
