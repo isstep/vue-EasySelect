@@ -73,8 +73,9 @@ provide('cartFoodActions', {
         <router-view></router-view>
       </div>
     </div>
-    <div class="w-full border-t border-gray-200">
-      <FooterComponent />
+    <div v-if="!$route.meta.hideFooter" class="w-full border-t border-gray-200">
+      <FooterComponent
+      v-if="!$route.meta.hideFooter" />
     </div>
   </div>
 </template>

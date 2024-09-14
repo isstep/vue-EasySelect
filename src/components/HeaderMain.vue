@@ -92,10 +92,22 @@ onUnmounted(() => {
       </div>
 
       <ul class="flex items-center gap-4">
+
+        
+        <li>
+          <router-link
+            to="/chat"
+            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600 ml-4"
+          >
+            <img class="w-5 h-5" src="/artificial_intelligence_5zl3wd4uywz1.svg" alt="" />
+            <span class="hidden md:block">Chat</span>
+          </router-link>
+        </li>
+
         <li>
           <router-link
             to="/login"
-            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600 ml-4"
+            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600 "
           >
             <img class="w-5 h-5" src="/profile1.svg" alt="profile" />
             <span class="hidden md:block">Профиль</span>
@@ -122,6 +134,7 @@ onUnmounted(() => {
           </router-link>
         </li>
 
+        
         <li
           @click="() => emit('openDrawer')"
           class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600"

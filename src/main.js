@@ -14,7 +14,7 @@ import FAQPage from './components/FooterPages/FAQPage.vue'
 import ContactsPage from './components/FooterPages/ContactsPage.vue'
 import PaymentDeliveryPage from './components/FooterPages/PaymentDeliveryPage.vue'
 import PickupPointsPage from './components/FooterPages/PickupPointsPage.vue'
-
+import ChatProducts from './components/Сhat/СhatProducts.vue'
 const app = createApp(App)
 
 const routes = [
@@ -29,6 +29,9 @@ const routes = [
   { path: '/contacts', name: 'contacts', component: ContactsPage, meta: false},
   { path: '/paymentDelivery', name: 'paymentDelivery', component: PaymentDeliveryPage, meta: false},
   { path: '/pickupPointsPage', name: 'pickupPointsPage', component: PickupPointsPage, meta: false},
+  
+  { path: '/Chat', name: 'ChatProducts', component: ChatProducts ,meta: { hideFooter: true } },
+
 ]
 
 const router = createRouter({
