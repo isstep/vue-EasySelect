@@ -1,8 +1,8 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { defineEmits } from 'vue';
+import { ref, computed, watch } from 'vue'
+import { defineEmits } from 'vue'
 
-const emit = defineEmits(['updateQuantity']);
+const emit = defineEmits(['updateQuantity'])
 
 const props = defineProps({
   id: Number,
@@ -12,94 +12,120 @@ const props = defineProps({
   price: Number,
   isFavorite: Boolean,
   isAdded: Boolean,
-  quantity: Number, 
+  quantity: Number,
   onClickFavorite: Function,
-  onClickIncrement: Function,  
-  onClickDecrement: Function  
-});
+  onClickIncrement: Function,
+  onClickDecrement: Function
+})
 
-const randomPercent = ref(Math.floor(Math.random() * 31));  
-const discountIds = [18, 5, 8, 1, 3];
+const randomPercent = ref(Math.floor(Math.random() * 31))
+const discountIds = [18, 5, 8, 1, 3]
 
 const priceDiscount = (price) => {
-  return price / (1 - randomPercent.value / 100);
+  return price / (1 - randomPercent.value / 100)
 }
 
-const localQuantity = ref(props.quantity || 0);
+const localQuantity = ref(props.quantity || 0)
 
-const syncedQuantity = computed(() => props.quantity);
+const syncedQuantity = computed(() => props.quantity)
 
-watch(() => syncedQuantity.value, (newVal) => {
-  localQuantity.value = newVal;
-}, { immediate: true });
+watch(
+  () => syncedQuantity.value,
+  (newVal) => {
+    localQuantity.value = newVal
+  },
+  { immediate: true }
+)
 
 watch(localQuantity, (newVal) => {
-  emit('updateQuantity', newVal);
-});
+  emit('updateQuantity', newVal)
+})
 
 const handleIncrement = () => {
-  localQuantity.value += 1;
+  localQuantity.value += 1
   if (props.onClickIncrement) {
-    props.onClickIncrement(props.id, localQuantity.value);
+    props.onClickIncrement(props.id, localQuantity.value)
   }
 }
 
 const handleDecrement = () => {
   if (localQuantity.value > 1) {
-    localQuantity.value -= 1;
+    localQuantity.value -= 1
     if (props.onClickDecrement) {
-      props.onClickDecrement(props.id, localQuantity.value);
+      props.onClickDecrement(props.id, localQuantity.value)
     }
   } else {
     if (props.onClickDecrement) {
-      props.onClickDecrement(props.id, 0);
+      props.onClickDecrement(props.id, 0)
     }
-    localQuantity.value = 0;
+    localQuantity.value = 0
   }
 }
 </script>
 
 <template>
-  <div class="relative bg-white shadow-custom rounded-[16px] p-3 top-1 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition max-[615px]:p-10">
+  <div
+    class="product-card relative bg-white shadow-lg rounded-[0.5em] p-4 cursor-pointer hover:shadow-xl transition-all duration-300 ease-in-out border border-slate-100 p-4 rounded-xl gap-4 transform hover:-translate-y-1 max-[615px]:p-6"
+  >
     <img
       v-if="props.onClickFavorite"
       @click="props.onClickFavorite"
       :src="!props.isFavorite ? '/like-1.svg' : '/like-2.svg'"
       alt="Like"
-      class="absolute top-3 right-3"
+      class="favorite-icon absolute top-4 right-4 w-6 h-6 cursor-pointer transition-transform duration-200 hover:scale-110"
     />
 
     <span
       v-if="discountIds.includes(props.id)"
-      class="absolute mt-[15em] w-[36px] h-[18px] flex items-center font-arial justify-center text-[12px] leading-none text-red-100 bg-red-600 rounded"
+      class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold py-1 px-2 rounded-full"
     >
       -{{ randomPercent }}%
     </span>
 
-    <img :src="props.imgUrl" alt="food" class="w-200 h-200 object-cover min-[600px]:w-200" />
+    <img :src="props.imgUrl" alt="food" class="w-full h-48 object-cover rounded-md" />
 
-    <div class="flex items-center space-x-2">
-      <b class="text-black">{{ props.price }} р.</b>
-      <span v-if="discountIds.includes(props.id)" class="text-gray-400 text-sm line-through">
+    <div class="flex justify-between items-center mt-4">
+      <b class="text-lg font-semibold text-gray-800">{{ props.price }} р.</b>
+      <span v-if="discountIds.includes(props.id)" class="text-gray-500 text-sm line-through">
         {{ priceDiscount(props.price).toFixed(2) }} р.
       </span>
     </div>
 
-    <p class="mt-1">{{ props.title }}</p>
+    <p class="text-sm text-gray-600 mb-12">{{ props.title }}</p>
+    <div
+  v-if="props.isAdded"
+  class="flex items-center rounded-full justify-between mt-4 shadow-sm absolute bottom-4 right-4 w-[12em] shadow-sm border border-slate-50 rounded-full duration-300"
+>
+  <button
+    @click="handleDecrement"
+    class="bg-transparent text-black px-4 py-2 rounded-full  flex items-center justify-center transition-transform transform hover:scale-105 hover:shadow-sm"
+  >
+    -
+  </button>
+  <span class="text-gray-800 font-semibold">{{ localQuantity }}</span>
+  <button
+    @click="handleIncrement"
+    class="bg-transparent text-black px-4 py-2 rounded-full flex items-center justify-center transition-transform transform hover:scale-105 hover:shadow-sm"
+  >
+    +
+  </button>
+</div>
 
-    <div v-if="props.isAdded" class="flex items-center mt-2">
-      <button @click="handleDecrement" class="bg-red-500 text-white px-2 py-1 rounded">-</button>
-      <span class="mx-2">{{ localQuantity }}</span>
-      <button @click="handleIncrement" class="bg-green-500 text-white px-2 py-1 rounded">+</button>
-    </div>
 
-    <div v-else>
-      <img
-        class="bot-0 left-4 cursor-pointer"
+    <div v-else class="absolute bottom-4 right-0 w-full flex justify-center">
+      <button
+        class=" add-button w-48 h-10 text-black rounded-[4em] shadow-sm border border-gray border-slate-200 cursor-pointer transition-transform duration-500 flex items-center justify-center"
         @click="handleIncrement"
-        :src="!props.isAdded ? '/plus.svg' : '/checked.svg'"
-        alt="plus"
-      />
+      >
+        <span class="text-sm">В корзину</span>
+        <img v-if="!props.isAdded" :src="'/plus.svg'" alt="Add" class="w-0 h-0" />
+      </button>
     </div>
   </div>
 </template>
+
+<style scoped>
+.relative {
+  transition: all 0.3s ease;
+}
+</style>
