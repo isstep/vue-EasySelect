@@ -1,3 +1,4 @@
+
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { defineEmits } from 'vue'
@@ -19,7 +20,7 @@ const props = defineProps({
 })
 
 const randomPercent = ref(Math.floor(Math.random() * 31))
-const discountIds = [18, 5, 8, 1, 3]
+const discountIds = [18, 6, 8, 13, 3 , 24]
 
 const priceDiscount = (price) => {
   return price / (1 - randomPercent.value / 100)
@@ -85,36 +86,38 @@ const handleDecrement = () => {
     <img :src="props.imgUrl" alt="food" class="w-full h-48 object-cover rounded-md" />
 
     <div class="flex justify-between items-center mt-4">
-      <b class="text-lg font-semibold text-gray-800">{{ props.price }} р.</b>
+      <b :class="{'text-red-500': discountIds.includes(props.id), 'text-gray-800': !discountIds.includes(props.id)}" class="text-lg font-semibold">
+        {{ props.price }} р.
+      </b>
       <span v-if="discountIds.includes(props.id)" class="text-gray-500 text-sm line-through">
         {{ priceDiscount(props.price).toFixed(2) }} р.
       </span>
     </div>
 
     <p class="text-sm text-gray-600 mb-12">{{ props.title }}</p>
-    <div
-  v-if="props.isAdded"
-  class="flex items-center rounded-full justify-between mt-4 shadow-sm absolute bottom-4 right-4 w-[12em] shadow-sm border border-slate-50 rounded-full duration-300"
->
-  <button
-    @click="handleDecrement"
-    class="bg-transparent text-black px-4 py-2 rounded-full  flex items-center justify-center transition-transform transform hover:scale-105 hover:shadow-sm"
-  >
-    -
-  </button>
-  <span class="text-gray-800 font-semibold">{{ localQuantity }}</span>
-  <button
-    @click="handleIncrement"
-    class="bg-transparent text-black px-4 py-2 rounded-full flex items-center justify-center transition-transform transform hover:scale-105 hover:shadow-sm"
-  >
-    +
-  </button>
-</div>
 
+    <div
+      v-if="props.isAdded"
+      class="flex items-center rounded-full justify-between mt-4 shadow-sm absolute bottom-4 right-4 w-[12em] shadow-sm border border-slate-50 rounded-full duration-300"
+    >
+      <button
+        @click="handleDecrement"
+        class="bg-transparent text-black px-4 py-2 rounded-full flex items-center justify-center transition-transform transform hover:scale-105 hover:shadow-sm"
+      >
+        -
+      </button>
+      <span class="text-gray-800 font-semibold">{{ localQuantity }}</span>
+      <button
+        @click="handleIncrement"
+        class="bg-transparent text-black px-4 py-2 rounded-full flex items-center justify-center transition-transform transform hover:scale-105 hover:shadow-sm"
+      >
+        +
+      </button>
+    </div>
 
     <div v-else class="absolute bottom-4 right-0 w-full flex justify-center">
       <button
-        class=" add-button w-48 h-10 text-black rounded-[4em] shadow-sm border border-gray border-slate-200 cursor-pointer transition-transform duration-500 flex items-center justify-center"
+        class="add-button w-48 h-10 text-black rounded-[4em] shadow-sm border border-gray border-slate-200 cursor-pointer transition-transform duration-500 flex items-center justify-center"
         @click="handleIncrement"
       >
         <span class="text-sm">В корзину</span>
