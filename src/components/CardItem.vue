@@ -1,11 +1,15 @@
 <script setup>
-const emit = defineEmits('removeFoodFromCart')
+
+
 defineProps({
   id: Number,
   title: String,
   imgUrl: String,
-  price: Number
-})
+  price: Number,
+  quantity: Number 
+});
+
+const emit = defineEmits(['removeFoodFromCart']);
 </script>
 
 <template>
@@ -16,6 +20,7 @@ defineProps({
       <p>{{ title }}</p>
       <div class="flex justify-between mt-2">
         <b class="flex-1">{{ price }} р.</b>
+        <p class="flex-1 mr-5 text-[10px] mt-1">Количество: {{ quantity }}</p> 
         <img
           @click="() => emit('removeFoodFromCart')"
           class="opacity-100 cursor-pointer transition"

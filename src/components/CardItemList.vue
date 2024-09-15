@@ -12,6 +12,7 @@ const { cartFood, removeFoodFromCart } = inject('cartFoodActions')
       :key="food.id"
       :title="food.title"
       :price="food.price"
+      :quantity="food.quantity"
       :imgUrl="food.imgUrl"
       @remove-food-from-cart="() => removeFoodFromCart(food)"
     />

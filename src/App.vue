@@ -9,7 +9,11 @@ const cartFood = ref([])
 const drawerOpen = ref(false)
 const catalogOpen = ref(false)
 
-const totalPrice = computed(() => cartFood.value.reduce((acc, food) => acc + food.price, 0))
+
+const totalPrice = computed(() =>
+  cartFood.value.reduce((acc, food) => acc + food.price * food.quantity, 0)
+)
+
 const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
 
 const openDrawer = () => {
@@ -28,15 +32,28 @@ const closeCatalog = () => {
   catalogOpen.value = false
 }
 
+
 const addFoodToCart = (food) => {
-  cartFood.value.push(food)
-  food.isAdded = true
+  const cartItem = cartFood.value.find(item => item.id === food.id);
+  if (cartItem) {
+    cartItem.quantity += 1;
+  } else {
+    cartFood.value.push({ ...food, quantity: 1 });
+    food.isAdded = true;
+  }
 }
 
+
 const removeFoodFromCart = (food) => {
-  cartFood.value.splice(cartFood.value.indexOf(food), 1)
-  food.isAdded = false
+  const cartItem = cartFood.value.find(item => item.id === food.id);
+  if (cartItem && cartItem.quantity > 1) {
+    cartItem.quantity -= 1;
+  } else {
+    cartFood.value = cartFood.value.filter(item => item.id !== food.id);
+    food.isAdded = false;
+  }
 }
+
 
 watch(
   cartFood,
@@ -45,6 +62,7 @@ watch(
   },
   { deep: true }
 )
+
 
 provide('cartFoodActions', {
   cartFood,

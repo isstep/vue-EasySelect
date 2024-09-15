@@ -13,10 +13,6 @@ const fetchOrders = async () => {
   }
 }
 
-const calculateTotal = (foods) => {
-  return foods.reduce((total, food) => total + food.price, 0)
-}
-
 onMounted(() => {
   fetchOrders()
 })
@@ -36,9 +32,11 @@ onMounted(() => {
           Доставка 06 сентября, 17:00 - 19:00
         </h2>
         <div class="flex items-center gap-3">
-          <span class="text-sm"> Ожидается</span>
-          <span class="text-sm text-gray-500"> Народная, 45</span>
-          <span class="ml-2 text-sm text-gray-500">{{ calculateTotal(order.foods) }},40 р.</span>
+          <span class="text-sm">Ожидается</span>
+          <span class="text-sm text-gray-500">Народная, 45</span>
+          <span class="ml-2 text-sm text-gray-500">
+            {{ order.totalPrice.toFixed(2) }} р.
+          </span>
         </div>
       </div>
 

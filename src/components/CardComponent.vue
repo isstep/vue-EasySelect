@@ -1,5 +1,8 @@
 <script setup>
-import { defineProps } from 'vue'
+import { ref, computed, watch } from 'vue';
+import { defineEmits } from 'vue';
+
+const emit = defineEmits(['updateQuantity']);
 
 const props = defineProps({
   id: Number,
@@ -9,22 +12,55 @@ const props = defineProps({
   price: Number,
   isFavorite: Boolean,
   isAdded: Boolean,
+  quantity: Number, 
   onClickFavorite: Function,
-  onClickAdd: Function
-})
+  onClickIncrement: Function,  
+  onClickDecrement: Function  
+});
 
-const randomPercent = Math.floor(Math.random() * 31)
-const discountIds = [18, 5, 8, 1, 3]
+const randomPercent = ref(Math.floor(Math.random() * 31));  
+const discountIds = [18, 5, 8, 1, 3];
 
 const priceDiscount = (price) => {
-  return price / (1 - randomPercent / 100)
+  return price / (1 - randomPercent.value / 100);
+}
+
+const localQuantity = ref(props.quantity || 0);
+
+const syncedQuantity = computed(() => props.quantity);
+
+watch(() => syncedQuantity.value, (newVal) => {
+  localQuantity.value = newVal;
+}, { immediate: true });
+
+watch(localQuantity, (newVal) => {
+  emit('updateQuantity', newVal);
+});
+
+const handleIncrement = () => {
+  localQuantity.value += 1;
+  if (props.onClickIncrement) {
+    props.onClickIncrement(props.id, localQuantity.value);
+  }
+}
+
+const handleDecrement = () => {
+  if (localQuantity.value > 1) {
+    localQuantity.value -= 1;
+    if (props.onClickDecrement) {
+      props.onClickDecrement(props.id, localQuantity.value);
+    }
+  } else {
+    if (props.onClickDecrement) {
+      props.onClickDecrement(props.id, 0);
+    }
+    localQuantity.value = 0;
+  }
 }
 </script>
 
 <template>
-  <div
-    class="relative bg-white  shadow-custom rounded-[16px] p-3 top-1 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition max-[615px]:p-10"
-  >
+  <div class="relative bg-white shadow-custom rounded-[16px] p-3 top-1 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition max-[615px]:p-10">
     <img
       v-if="props.onClickFavorite"
       @click="props.onClickFavorite"
@@ -43,21 +79,24 @@ const priceDiscount = (price) => {
     <img :src="props.imgUrl" alt="food" class="w-200 h-200 object-cover min-[600px]:w-200" />
 
     <div class="flex items-center space-x-2">
-
-      <b class="text-black"> {{ props.price }} р.</b>
-
+      <b class="text-black">{{ props.price }} р.</b>
       <span v-if="discountIds.includes(props.id)" class="text-gray-400 text-sm line-through">
-        {{ priceDiscount(props.price).toFixed(2) }} р.</span
-      >
+        {{ priceDiscount(props.price).toFixed(2) }} р.
+      </span>
     </div>
 
     <p class="mt-1">{{ props.title }}</p>
 
-    <div>
+    <div v-if="props.isAdded" class="flex items-center mt-2">
+      <button @click="handleDecrement" class="bg-red-500 text-white px-2 py-1 rounded">-</button>
+      <span class="mx-2">{{ localQuantity }}</span>
+      <button @click="handleIncrement" class="bg-green-500 text-white px-2 py-1 rounded">+</button>
+    </div>
+
+    <div v-else>
       <img
-        class="bot-0 left-4"
-        v-if="props.onClickFavorite"
-        @click="props.onClickAdd"
+        class="bot-0 left-4 cursor-pointer"
+        @click="handleIncrement"
         :src="!props.isAdded ? '/plus.svg' : '/checked.svg'"
         alt="plus"
       />

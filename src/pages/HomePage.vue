@@ -15,10 +15,12 @@ const filters = reactive({
   searchQuery: ''
 })
 
-const addPlusToCartFood = (food) => {
-  if (!food.isAdded) {
-    addFoodToCart(food)
-  } else {
+const incrementFoodQuantity = (food) => {
+  addFoodToCart(food)
+}
+
+const decrementFoodQuantity = (food) => {
+  if (food.isAdded) {
     removeFoodFromCart(food)
   }
 }
@@ -75,21 +77,17 @@ const fetchFavorites = async () => {
 
 const fetchFoods = async () => {
   try {
-    const params = {
-      sortBy: filters.sortBy
-    }
+    const params = { sortBy: filters.sortBy }
     if (filters.searchQuery) {
       params.title = `*${filters.searchQuery}*`
     }
-    const { data } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/foods', {
-      params
-    })
-
+    const { data } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/foods', { params })
     foods.value = data.map((obg) => ({
       ...obg,
       isFavorite: false,
       isAdded: false,
-      favoriteId: null
+      favoriteId: null,
+      quantity: 0
     }))
   } catch (err) {
     console.log(err)
@@ -99,20 +97,21 @@ const fetchFoods = async () => {
 onMounted(async () => {
   const localCartFood = localStorage.getItem('cartFood')
   cartFood.value = localCartFood ? JSON.parse(localCartFood) : []
-
   await fetchFoods()
   await fetchFavorites()
 
   foods.value = foods.value.map((food) => ({
     ...food,
-    isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id)
+    isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id),
+    quantity: cartFood.value.find((cartItemFood) => cartItemFood.id === food.id)?.quantity || 0
   }))
 })
 
 watch(cartFood, () => {
   foods.value = foods.value.map((food) => ({
     ...food,
-    isAdded: false
+    isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id),
+    quantity: cartFood.value.find((cartItemFood) => cartItemFood.id === food.id)?.quantity || 0
   }))
 })
 
@@ -157,7 +156,8 @@ watch(filters, fetchFoods)
       <CardList
         :foods="foods"
         @add-to-favorite="addToFavorite"
-        @add-plus-to-cart-food="addPlusToCartFood"
+        @increment="incrementFoodQuantity"
+        @decrement="decrementFoodQuantity"
       />
     </div>
   </div>
