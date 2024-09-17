@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto p-6 mt-8">
       <h1 class="text-2xl font-bold mb-4">Вопросы и ответы</h1>
       <div class="space-y-6">
         <div>

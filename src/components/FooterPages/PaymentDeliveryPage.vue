@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto p-6 mt-8">
       <h1 class="text-2xl font-bold mb-4">Оплата и доставка</h1>
       <h2 class="text-xl font-semibold mt-6">Оплата</h2>
       <p>Вы можете оплатить заказ с помощью банковской карты или электронных кошельков.</p>

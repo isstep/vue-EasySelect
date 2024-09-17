@@ -12,7 +12,7 @@
               </router-link>
             </li>
             <li><a href="/contacts" class="hover:text-blue-600 transition-colors">Контакты</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">О сервисе</a></li>
+            <li><a href="/about" class="hover:text-blue-600 transition-colors">О сервисе</a></li>
             <li><a href="#" class="hover:text-blue-600 transition-colors">Партнерство</a></li>
           </ul>
         </div>
