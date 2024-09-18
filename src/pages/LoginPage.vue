@@ -33,10 +33,10 @@ const register = () => {
         </router-link>
       </div>
       <form @submit.prevent="login">
-        <h2 class="text-2xl font-semibold mb-4 text-center">Войти в систему</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-center">Авторизация</h2>
 
         <div class="mb-4">
-          <label for="email" class="block text-gray-700">Email/Телефон</label>
+          <label for="email" class="block text-gray-700">Телефон</label>
           <input
             type="text"
             id="email"

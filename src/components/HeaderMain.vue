@@ -83,7 +83,7 @@ onUnmounted(() => {
           <input
             type="text"
             placeholder="Поиск по товарам"
-            class="w-full py-1 sm:py-2 pl-3 sm:pl-4 pr-8 sm:pr-12 text-gray-700 border border-gray-300 rounded-full shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="w-full py-1 sm:py-2 pl-3 sm:pl-4 pr-8 sm:pr-12 text-gray-700 border border-gray-200 rounded-full shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             />
           <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             <img src="/search.svg" alt="search" class="w-5 h-5" />
@@ -92,17 +92,6 @@ onUnmounted(() => {
       </div>
 
       <ul class="flex items-center gap-4">
-
-        
-        <li>
-          <router-link
-            to="/chat"
-            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600 ml-4"
-          >
-            <img class="w-5 h-5" src="/artificial_intelligence_5zl3wd4uywz1.svg" alt="" />
-            <span class="hidden md:block">Chat</span>
-          </router-link>
-        </li>
 
         <li>
           <router-link
