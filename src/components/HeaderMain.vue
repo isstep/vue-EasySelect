@@ -98,7 +98,7 @@ onUnmounted(() => {
             to="/login"
             class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600 "
           >
-            <img class="w-5 h-5" src="/profile1.svg" alt="profile" />
+            <img class="w-5 h-5 ml-4" src="/profile1.svg" alt="profile" />
             <span class="hidden md:block">Профиль</span>
           </router-link>
         </li> 
