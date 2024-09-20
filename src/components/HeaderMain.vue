@@ -59,18 +59,35 @@ onUnmounted(() => {
       ? isCollapsed
           ? 'py-2 h-[60px] border-b'
           : 'py-3 h-[70px] border-b'
-        : 'py-4 h-[80px]'
+        : 'py-1 h-[80px]'
     ]"
   >
+
+
+  <div v-if="!isCollapsed" class="flex items-center justify-between max-w-7xl mx-auto px-11 mb-3">
+  <span class="text-gray-500 flex items-center justify-between">
+    <img class="h-[20px]"  src="/123d.svg"/>
+    <span class="text-blue-500 px-1">ул. Народная, 41</span>
+  Сегодня, 10:50 - 12:50
+  </span>
+  <div class="flex space-x-5 text-[16px]">
+    <button class="text-gray-500">Доставка и оплата</button>
+    <button class="text-gray-500">Контакты</button>
+    <button class="text-gray-500">Eдоставка для юр. лиц</button>
+    <button class="text-gray-500">Вакансии</button>
+    <button class="text-gray-500">Emall.by</button>
+  </div>
+</div>
+
     <div class="flex items-center justify-between max-w-7xl mx-auto px-11">
       <router-link to="/" class="flex items-center gap-4">
         <img src="/logo.svg" alt="logo" class="w-10 h-10" />
         <div v-if="!isCollapsed" class="hidden md:block">
           <h2 class="text-2xl font-semibold text-gray-800">CosmoExpress</h2>
-          <p class="text-sm text-slate-500">Еда, которая прилетает к вам!</p>
         </div>
       </router-link>
 
+      
       <div class="flex items-center gap-4 flex-grow">
         <button
           @click="toggleCatalog"
@@ -138,5 +155,23 @@ onUnmounted(() => {
         </li>
       </ul>
     </div>
+
+<div v-if="!isCollapsed" class="flex items-center justify-between max-w-7xl mx-auto px-11 p-[0.6em]">
+  <div class="flex space-x-6 text-[15px]">
+    <button class="text-black">Акции</button>
+    <button class="text-black">Товары-везунчики</button>
+    <button class="text-black">Товары удачи</button>
+    <button class="text-black">Рецепты</button>
+    <button class="text-black">Veg</button>
+    <button class="text-black">Фрукты</button>
+    <button class="text-black">Сыр</button>
+    <button class="text-black">Говядина</button>
+    <button class="text-black">Индейка</button>
+    <button class="text-black">Подгузники</button>
+    <button class="text-black">Уход за лицом</button>
+    <button class="text-black">БАДы</button>
+  </div>
+</div>
+
   </header>
 </template>

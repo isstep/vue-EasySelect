@@ -119,7 +119,7 @@ watch(filters, fetchFoods)
 </script>
 
 <template>
-  <div class="mt-20">
+  <div class="mt-[85px]">
     <div class="max-[768px]:hidden">
       <Carouse />
     </div>
