@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 
 const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
 
@@ -42,6 +42,12 @@ const toggleCatalog = () => {
   }
 }
 
+const headerClasses = computed(() => ({
+  'fixed top-0 left-0 w-full bg-white z-40 transition-all duration-100 ease-in-out': true,
+  'py-2 h-[55px] border-b': isSticky.value && isCollapsed.value,
+  'py-1 h-[130px] border-none': !isSticky.value
+}));
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
@@ -53,14 +59,7 @@ onUnmounted(() => {
 
 <template>
   <header
-    :class="[
-      'fixed top-0 left-0 w-full bg-white z-40 transition-all duration-300 ease-in-out',
-      isSticky
-      ? isCollapsed
-          ? 'py-2 h-[60px] border-b'
-          : 'py-3 h-[70px] border-b'
-        : 'py-1 h-[80px]'
-    ]"
+:class="headerClasses"
   >
 
 
@@ -73,9 +72,9 @@ onUnmounted(() => {
   <div class="flex space-x-5 text-[16px]">
     <button class="text-gray-500">Доставка и оплата</button>
     <button class="text-gray-500">Контакты</button>
-    <button class="text-gray-500">Eдоставка для юр. лиц</button>
+    <button class="text-gray-500">Доставка для юр. лиц</button>
     <button class="text-gray-500">Вакансии</button>
-    <button class="text-gray-500">Emall.by</button>
+    <button class="text-gray-500">Cosmo.by</button>
   </div>
 </div>
 
