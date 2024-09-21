@@ -9,7 +9,6 @@ const cartFood = ref([])
 const drawerOpen = ref(false)
 const catalogOpen = ref(false)
 
-
 const totalPrice = computed(() =>
   cartFood.value.reduce((acc, food) => acc + food.price * food.quantity, 0)
 )
@@ -32,28 +31,25 @@ const closeCatalog = () => {
   catalogOpen.value = false
 }
 
-
 const addFoodToCart = (food) => {
-  const cartItem = cartFood.value.find(item => item.id === food.id);
+  const cartItem = cartFood.value.find((item) => item.id === food.id)
   if (cartItem) {
-    cartItem.quantity += 1;
+    cartItem.quantity += 1
   } else {
-    cartFood.value.push({ ...food, quantity: 1 });
-    food.isAdded = true;
+    cartFood.value.push({ ...food, quantity: 1 })
+    food.isAdded = true
   }
 }
-
 
 const removeFoodFromCart = (food) => {
-  const cartItem = cartFood.value.find(item => item.id === food.id);
+  const cartItem = cartFood.value.find((item) => item.id === food.id)
   if (cartItem && cartItem.quantity > 1) {
-    cartItem.quantity -= 1;
+    cartItem.quantity -= 1
   } else {
-    cartFood.value = cartFood.value.filter(item => item.id !== food.id);
-    food.isAdded = false;
+    cartFood.value = cartFood.value.filter((item) => item.id !== food.id)
+    food.isAdded = false
   }
 }
-
 
 watch(
   cartFood,
@@ -62,7 +58,6 @@ watch(
   },
   { deep: true }
 )
-
 
 provide('cartFoodActions', {
   cartFood,
@@ -92,8 +87,7 @@ provide('cartFoodActions', {
       </div>
     </div>
     <div v-if="!$route.meta.hideFooter" class="w-full border-t border-gray-200">
-      <FooterComponent
-      v-if="!$route.meta.hideFooter" />
+      <FooterComponent v-if="!$route.meta.hideFooter" />
     </div>
   </div>
 </template>

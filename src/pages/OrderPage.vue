@@ -1,8 +1,7 @@
 <script setup>
-import OrderComponent from '@/components/OrderComponent.vue';
+import OrderComponent from '@/components/OrderComponent.vue'
 </script>
 
-
 <template>
-    <OrderComponent/>
+  <OrderComponent />
 </template>

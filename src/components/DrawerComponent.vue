@@ -19,7 +19,6 @@ const cartIsEmpty = computed(() => cartFood.value.length === 0)
 
 const buttonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value)
 
-
 const totalPriceWithDiscount = computed(() => {
   return (props.totalPrice - props.vatPrice).toFixed(2)
 })
@@ -29,7 +28,7 @@ const createOrder = async () => {
     isCreatingOrder.value = true
     const { data } = await axios.post(`https://f4f1d0c1ac4cb845.mokky.dev/orders`, {
       foods: cartFood.value,
-      totalPrice: (props.totalPrice).toFixed(2) - props.vatPrice
+      totalPrice: props.totalPrice.toFixed(2) - props.vatPrice
     })
     cartFood.value = []
 

@@ -1,4 +1,3 @@
-
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { defineEmits } from 'vue'
@@ -20,7 +19,7 @@ const props = defineProps({
 })
 
 const randomPercent = ref(Math.floor(Math.random() * 31))
-const discountIds = [18, 6, 8, 13, 3 , 24]
+const discountIds = [18, 6, 8, 13, 3, 24]
 
 const priceDiscount = (price) => {
   return price / (1 - randomPercent.value / 100)
@@ -86,7 +85,13 @@ const handleDecrement = () => {
     <img :src="props.imgUrl" alt="food" class="w-full h-48 object-cover rounded-md" />
 
     <div class="flex justify-between items-center mt-4">
-      <b :class="{'text-red-500': discountIds.includes(props.id), 'text-gray-800': !discountIds.includes(props.id)}" class="text-lg font-semibold">
+      <b
+        :class="{
+          'text-red-500': discountIds.includes(props.id),
+          'text-gray-800': !discountIds.includes(props.id)
+        }"
+        class="text-lg font-semibold"
+      >
         {{ props.price }} р.
       </b>
       <span v-if="discountIds.includes(props.id)" class="text-gray-500 text-sm line-through">
