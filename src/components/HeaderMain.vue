@@ -60,12 +60,12 @@ onUnmounted(() => {
 <template>
   <header :class="headerClasses">
     <div v-if="!isCollapsed" class="flex items-center justify-between max-w-7xl mx-auto px-11 max-lg:hidden">
-      <span class="text-gray-500 flex items-center justify-between">
-        <img class="h-[20px]" src="/123d.svg" />
+      <span class="text-gray-500 flex items-center justify-between mb-1">
+        <img class="h-[20px]" src="/123.svg" />
         <span class="text-blue-500 px-1">ул. Народная, 41</span>
         Сегодня, 10:50 - 12:50
       </span>
-      <div class="flex space-x-5 text-[16px] ">
+      <div class="flex space-x-5 text-[16px]">
         <button class="text-gray-500 ">Доставка и оплата</button>
         <button class="text-gray-500">Контакты</button>
         <button class="text-gray-500">Доставка для юр. лиц</button>
@@ -76,7 +76,7 @@ onUnmounted(() => {
 
     <div class="flex items-center justify-between max-w-7xl mx-auto px-11">
       <router-link to="/" class="flex items-center gap-4">
-        <img src="/logo.svg" alt="logo" class="w-10 h-10" />
+        <img src="/logo.svg" alt="logo" class="w-8 h-8" />
         <div v-if="!isCollapsed" class="hidden md:block">
           <h2 class="text-2xl font-semibold text-gray-800 max-lg:hidden">Tyfodeli</h2>
         </div>
