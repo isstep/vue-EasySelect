@@ -170,7 +170,7 @@
 
       <div class="mt-8 border-t border-gray-200 pt-8">
         <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-sm text-gray-600">© 2024 CosmoExpress. Все права защищены.</p>
+          <p class="text-sm text-gray-600">© 2024 Tyfodeli. Все права защищены.</p>
           <div class="flex space-x-4 mt-4 md:mt-0"></div>
         </div>
         <p class="text-xs text-gray-500 mt-4">

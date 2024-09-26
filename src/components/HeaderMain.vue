@@ -70,7 +70,7 @@ onUnmounted(() => {
         <button class="text-gray-500">Контакты</button>
         <button class="text-gray-500">Доставка для юр. лиц</button>
         <button class="text-gray-500">Вакансии</button>
-        <button class="text-gray-500">Cosmo.by</button>
+        <button class="text-gray-500">Tyfodeli.by</button>
       </div>
     </div>
 
@@ -78,7 +78,7 @@ onUnmounted(() => {
       <router-link to="/" class="flex items-center gap-4">
         <img src="/logo.svg" alt="logo" class="w-10 h-10" />
         <div v-if="!isCollapsed" class="hidden md:block">
-          <h2 class="text-2xl font-semibold text-gray-800 max-lg:hidden">CosmoExpress</h2>
+          <h2 class="text-2xl font-semibold text-gray-800 max-lg:hidden">Tyfodeli</h2>
         </div>
       </router-link>
 
