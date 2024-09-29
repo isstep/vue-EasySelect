@@ -1,18 +1,41 @@
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router' 
 
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
+const router = useRouter()
 
-const login = () => {
-  console.log('Email/Телефон:', email.value)
-  console.log('Пароль:', password.value)
-  console.log('Запомнить:', rememberMe.value)
+const login = async () => {
+  try {
+    const response = await axios.post('http://localhost:8080/login', {
+      email: email.value,
+      password: password.value
+    });
+    
+    localStorage.setItem('token', response.data.token);
+    console.log('Вход выполнен успешно:', response.data);
+    
+   
+    router.push({ name: 'SuccessPage' }); 
+  } catch (error) {
+    console.error('Ошибка при входе:', error.response.data);
+  }
 }
 
-const register = () => {
-  console.log('Переход на страницу регистрации')
+const register = async () => {
+  try {
+    const response = await axios.post('http://localhost:8080/signup', {
+      email: email.value,
+      password: password.value
+    });
+    
+    console.log('Регистрация выполнена успешно:', response.data);
+  } catch (error) {
+    console.error('Ошибка при регистрации:', error.response.data);
+  }
 }
 </script>
 
