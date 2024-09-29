@@ -5,28 +5,28 @@
         <div>
           <h3 class="text-lg font-bold mb-4 text-gray-900">О компании</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Карьера</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">Карьера</a></li>
             <li>
               <router-link to="/news">
-                <a class="hover:text-blue-600 transition-colors">Новости</a>
+                <a class="hover:text-customGreen transition-colors">Новости</a>
               </router-link>
             </li>
 
             <li>
               <router-link to="/contacts">
-                <a class="hover:text-blue-600 transition-colors">Контакты</a>
+                <a class="hover:text-customGreen transition-colors">Контакты</a>
               </router-link>
             </li>
 
             <li>
               <router-link to="/about">
-                <a class="hover:text-blue-600 transition-colors">О сервисе</a>
+                <a class="hover:text-customGreen transition-colors">О сервисе</a>
               </router-link>
             </li>
 
             <li>
               <router-link to="/partnership">
-                <a href="#" class="hover:text-blue-600 transition-colors">Партнерство</a>
+                <a href="#" class="hover:text-customGreen transition-colors">Партнерство</a>
               </router-link>
             </li>
           </ul>
@@ -34,24 +34,24 @@
         <div>
           <h3 class="text-lg font-bold mb-4 text-gray-900">Сотрудничество</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Для поставщиков</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">Для поставщиков</a></li>
             <li>
-              <a href="#" class="hover:text-blue-600 transition-colors">Для рекламодателей</a>
+              <a href="#" class="hover:text-customGreen transition-colors">Для рекламодателей</a>
             </li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Стать продавцом</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">Стать продавцом</a></li>
             <li>
-              <a href="#" class="hover:text-blue-600 transition-colors">Корпоративная доставка</a>
+              <a href="#" class="hover:text-customGreen transition-colors">Корпоративная доставка</a>
             </li>
           </ul>
         </div>
         <div>
           <h3 class="text-lg font-bold mb-4 text-gray-900">Покупателям</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Оплата и доставка</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Пункты выдачи</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">Вопросы и ответы</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">Оплата и доставка</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">Пункты выдачи</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">Вопросы и ответы</a></li>
             <li>
-              <a href="#" class="hover:text-blue-600 transition-colors"
+              <a href="#" class="hover:text-customGreen transition-colors"
                 >Пользовательское соглашение</a
               >
             </li>
@@ -60,18 +60,18 @@
         <div>
           <h3 class="text-lg font-bold mb-4 text-gray-900">Партнеры</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-blue-600 transition-colors">ExpressPost</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">DeliveryPro</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">FoodChain</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">MegaStore</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">ShopEasy</a></li>
-            <li><a href="#" class="hover:text-blue-600 transition-colors">QuickCart</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">ExpressPost</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">DeliveryPro</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">FoodChain</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">MegaStore</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">ShopEasy</a></li>
+            <li><a href="#" class="hover:text-customGreen transition-colors">QuickCart</a></li>
           </ul>
         </div>
         <div>
           <h3 class="text-lg font-bold mb-4 text-gray-900">Мы в соцсетях</h3>
           <div class="flex space-x-4">
-            <a href="#" class="hover:text-blue-600 transition-colors">
+            <a href="#" class="hover:text-customGreen transition-colors">
               <svg
                 class="w-6 h-6"
                 fill="currentColor"
@@ -83,7 +83,7 @@
                 />
               </svg>
             </a>
-            <a href="#" class="hover:text-blue-600 transition-colors">
+            <a href="#" class="hover:text-customGreen transition-colors">
               <svg
                 class="w-6 h-6"
                 fill="currentColor"
@@ -95,7 +95,7 @@
                 />
               </svg>
             </a>
-            <a href="#" class="hover:text-blue-600 transition-colors">
+            <a href="#" class="hover:text-customGreen transition-colors">
               <svg
                 class="w-6 h-6"
                 fill="currentColor"
@@ -113,7 +113,7 @@
       <div class="mt-8">
         <div class="flex flex-wrap justify-between items-center">
           <button
-            class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full hover:bg-gray-300 transition duration-300 mb-4 lg:mb-0 lg:mr-12"
+            class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full hover:bg-customGreen transition duration-300 mb-4 lg:mb-0 lg:mr-12"
           >
             Связаться с нами
           </button>
@@ -170,7 +170,7 @@
 
       <div class="mt-8 border-t border-gray-200 pt-8">
         <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-sm text-gray-600">© 2024 Tyfodeli. Все права защищены.</p>
+          <p class="text-sm text-gray-600">© 2024 EasySelect. Все права защищены.</p>
           <div class="flex space-x-4 mt-4 md:mt-0"></div>
         </div>
         <p class="text-xs text-gray-500 mt-4">

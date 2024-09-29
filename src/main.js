@@ -3,6 +3,8 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
+import { createPinia } from 'pinia'
+
 import App from './App.vue'
 import HomePage from './pages/HomePage.vue'
 import FavoritePage from './pages/FavoritePage.vue'
@@ -16,7 +18,7 @@ import PaymentDeliveryPage from './components/FooterPages/PaymentDeliveryPage.vu
 import PickupPointsPage from './components/FooterPages/PickupPointsPage.vue'
 import ChatProducts from './components/Сhat/СhatProducts.vue'
 const app = createApp(App)
-
+const pinia = createPinia()
 const routes = [
   { path: '/', name: '', component: HomePage, meta: { hideHeader: false } },
   { path: '/favorites', name: 'favorites', component: FavoritePage, meta: { hideHeader: false } },
@@ -39,6 +41,7 @@ const router = createRouter({
   routes
 })
 
+app.use(pinia)
 app.use(router)
 app.use(autoAnimatePlugin)
 app.mount('#app')

@@ -15,19 +15,19 @@ export default defineComponent({
     return {
       images: [
         {
-          src: 'https://api-static.edostavka.by/media/669e04b7053ef_2832h600-kras.webp?id=20852',
+          src:  './public/template.png',
           alt: 'Product 1'
         },
         {
-          src: 'https://api-static.edostavka.by/media/668d4c19dd1b5_2832h600-dostavka-arbuzy.webp?id=20752',
+          src: './public/template4.png',
           alt: 'Product 2'
         },
         {
-          src: 'https://api-static.edostavka.by/media/669e04b7053ef_2832h600-kras.webp?id=20852',
+          src: './public/template3.png',
           alt: 'Product 3'
         },
         {
-          src: 'https://api-static.edostavka.by/media/66ac7bac1d701_2832h600-socnoe-sezonnoe.webp?id=21001',
+          src: './public/template.png',
           alt: 'Product 4'
         }
       ]

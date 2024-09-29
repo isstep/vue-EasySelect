@@ -81,7 +81,7 @@ const createOrder = async () => {
           <button
             :disabled="buttonDisabled"
             @click="createOrder"
-            class="mt-3 transition bg-lime-500 w-full rounded-xl py-[0.7em] text-white disabled:bg-slate-400 hover:bg-lime-600 active:bg-lime-700 cursor-pointer"
+            class="mt-3 transition bg-customGreen w-full rounded-xl py-[0.7em] text-white disabled:bg-slate-400 hover:bg-green-800 active:bg-customGray cursor-pointer"
           >
             Оформить заказ
           </button>

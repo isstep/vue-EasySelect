@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed, inject } from 'vue'
 
 const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
 
@@ -11,21 +11,14 @@ const props = defineProps({
   totalPrice: Number
 })
 
-const previousPrice = ref(0)
+const { cartFood } = inject('cartFoodActions')
+
 const NumberFoods = ref(0)
 
-watch(
-  () => props.totalPrice,
-  (newValue) => {
-    if (newValue === 0) {
-      NumberFoods.value = 0
-    } else {
-      const priceDifference = newValue - previousPrice.value
-      NumberFoods.value += Math.sign(priceDifference)
-      previousPrice.value = newValue
-    }
-  }
-)
+watch(cartFood, (newCartFood) => {
+  NumberFoods.value = newCartFood.length
+}, { immediate: true }) 
+
 
 const handleScroll = () => {
   const scrollThreshold = 50
@@ -43,9 +36,9 @@ const toggleCatalog = () => {
 }
 
 const headerClasses = computed(() => ({
-  'fixed top-0 left-0 w-full bg-white z-40 transition-all duration-100 ease-in-out': true,
-  'py-2 h-[55px] border-b': isSticky.value && isCollapsed.value,
-  'py-1 h-[130px] border-none max-lg: h=[20px]': !isSticky.value
+  'fixed top-0 left-0 w-full bg-white-800 backdrop-blur-md bg-opacity-70 z-40 transition-all duration-100 ease-in-out': true,
+  'py-2 border-b': isSticky.value && isCollapsed.value,
+  'py-1 border-none max-lg: h=[20px]': !isSticky.value
 }))
 
 onMounted(() => {
@@ -59,33 +52,33 @@ onUnmounted(() => {
 
 <template>
   <header :class="headerClasses">
-    <div v-if="!isCollapsed" class="flex items-center justify-between max-w-7xl mx-auto px-11 max-lg:hidden">
+    <div
+      v-if="!isCollapsed"
+      class="flex items-center justify-between max-w-7xl mx-auto px-11 max-lg:hidden"
+    >
       <span class="text-gray-500 flex items-center justify-between mb-1">
         <img class="h-[20px]" src="/123.svg" />
         <span class="text-blue-500 px-1">ул. Народная, 41</span>
         Сегодня, 10:50 - 12:50
       </span>
-      <div class="flex space-x-5 text-[16px]">
-        <button class="text-gray-500 ">Доставка и оплата</button>
-        <button class="text-gray-500">Контакты</button>
-        <button class="text-gray-500">Доставка для юр. лиц</button>
-        <button class="text-gray-500">Вакансии</button>
-        <button class="text-gray-500">Tyfodeli.by</button>
+      <div class="flex mb-3 space-x-5 text-[16px]">
+        <button class="text-gray-500 hover:text-customGreen">Доставка и оплата</button>
+        <button class="text-gray-500 hover:text-customGreen">Контакты</button>
+        <button class="text-gray-500 hover:text-customGreen">Доставка для юр. лиц</button>
+        <button class="text-gray-500 hover:text-customGreen">Вакансии</button>
+        <button class="text-gray-500 hover:text-customGreen">EasySelect.by</button>
       </div>
     </div>
 
     <div class="flex items-center justify-between max-w-7xl mx-auto px-11">
       <router-link to="/" class="flex items-center gap-4">
-        <img src="/logo.svg" alt="logo" class="w-8 h-8" />
-        <div v-if="!isCollapsed" class="hidden md:block">
-          <h2 class="text-2xl font-semibold text-gray-800 max-lg:hidden">Tyfodeli</h2>
-        </div>
+        <img src="/123123.png" alt="logo" class="w-[177px]" />
       </router-link>
 
       <div class="flex items-center gap-4 flex-grow">
         <button
           @click="toggleCatalog"
-          class="ml-3 h-10 px-5 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-600 transition-colors"
+          class="ml-3 h-10 px-5 text-white bg-customGreen hover:bg-customGray rounded-full focus:outline-none transition-colors"
         >
           Каталог
         </button>
@@ -94,7 +87,7 @@ onUnmounted(() => {
           <input
             type="text"
             placeholder="Поиск по товарам"
-            class="w-full py-1 sm:py-2 pl-3 sm:pl-4 pr-8 sm:pr-12 text-gray-700 border border-gray-200 rounded-full shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            class="w-full py-1 sm:py-2 pl-3 sm:pl-4 pr-8 sm:pr-12 text-gray-700 border border-green-500 rounded-full shadow-sm"
           />
           <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             <img src="/search.svg" alt="search" class="w-5 h-5" />
@@ -106,17 +99,17 @@ onUnmounted(() => {
         <li>
           <router-link
             to="/login"
-            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600"
+            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-customGreen"
           >
             <img class="w-5 h-5 ml-4" src="/profile1.svg" alt="profile" />
-            <span class="hidden md:block ">Профиль</span>
+            <span class="hidden md:block">Профиль</span>
           </router-link>
         </li>
 
         <li>
           <router-link
             to="/order"
-            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600"
+            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-customGreen"
           >
             <img class="w-5 h-5" src="/order.svg" alt="order" />
             <span class="hidden md:block">Заказы</span>
@@ -126,7 +119,7 @@ onUnmounted(() => {
         <li>
           <router-link
             to="/favorites"
-            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600"
+            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-customGreen"
           >
             <img class="w-5 h-5" src="/heart1.svg" alt="heart" />
             <span class="hidden md:block">Избранное</span>
@@ -135,7 +128,7 @@ onUnmounted(() => {
 
         <li
           @click="() => emit('openDrawer')"
-          class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-indigo-600"
+          class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-customGreen"
         >
           <span
             class="absolute mb-4 ml-3 w-3 h-3 flex items-center justify-center text-[0.6em] leading-none text-red-100 bg-red-600 rounded-full"
@@ -155,18 +148,18 @@ onUnmounted(() => {
       class="flex items-center justify-between max-w-7xl mx-auto px-11 p-[0.6em]"
     >
       <div class="flex space-x-6 text-[15px] max-lg:hidden">
-        <button class="text-black">Акции</button>
-        <button class="text-black">Товары-везунчики</button>
-        <button class="text-black">Товары удачи</button>
-        <button class="text-black">Рецепты</button>
-        <button class="text-black">Veg</button>
-        <button class="text-black">Фрукты</button>
-        <button class="text-black">Сыр</button>
-        <button class="text-black">Говядина</button>
-        <button class="text-black">Индейка</button>
-        <button class="text-black">Подгузники</button>
-        <button class="text-black">Уход за лицом</button>
-        <button class="text-black">БАДы</button>
+        <button class="text-black hover:text-customGreen">Акции</button>
+        <button class="text-black hover:text-customGreen">Товары-везунчики</button>
+        <button class="text-black hover:text-customGreen">Товары удачи</button>
+        <button class="text-black hover:text-customGreen">Рецепты</button>
+        <button class="text-black hover:text-customGreen">Veg</button>
+        <button class="text-black hover:text-customGreen">Фрукты</button>
+        <button class="text-black hover:text-customGreen">Сыр</button>
+        <button class="text-black hover:text-customGreen">Говядина</button>
+        <button class="text-black hover:text-customGreen">Индейка</button>
+        <button class="text-black hover:text-customGreen">Подгузники</button>
+        <button class="text-black hover:text-customGreen">Уход за лицом</button>
+        <button class="text-black hover:text-customGreen">БАДы</button>
       </div>
     </div>
   </header>
