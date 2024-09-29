@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { defineEmits } from 'vue'
 
 const emit = defineEmits(['updateQuantity'])
 

@@ -36,8 +36,8 @@ const toggleCatalog = () => {
 }
 
 const headerClasses = computed(() => ({
-  'fixed top-0 left-0 w-full bg-white-800 backdrop-blur-md bg-opacity-70 z-40 transition-all duration-100 ease-in-out': true,
-  'py-2 border-b': isSticky.value && isCollapsed.value,
+  'fixed top-0 left-0 w-full bg-white backdrop-blur-md bg-opacity-60 z-40 transition-all duration-100 ease-in-out': true,
+  'py-2 border-b border-green-500': isSticky.value && isCollapsed.value,
   'py-1 border-none max-lg: h=[20px]': !isSticky.value
 }))
 
