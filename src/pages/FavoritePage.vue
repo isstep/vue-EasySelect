@@ -31,7 +31,7 @@ const goToHome = () => {
       <p class="text-lg mb-10">Здесь нету избранных товаров, добавьте их!</p>
       <button
         @click="goToHome"
-        class="h-10 px-5 text-customGreen transition-colors duration-150 bg-CustomGreen rounded-full focus:shadow-outline hover:customGreen"
+        class="h-10 px-5 text-white transition-colors duration-150 bg-customGreen rounded-full focus:shadow-outline hover:customGreen"
       >
         На главную
       </button>
