@@ -27,7 +27,7 @@ export default defineComponent({
           alt: 'Product 3'
         },
         {
-          src: '. /template.png',
+          src: './template.png',
         }
       ]
     }
