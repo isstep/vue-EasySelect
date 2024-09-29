@@ -7,8 +7,8 @@ export default {
         custom: '0 2px 6px rgba(28, 28, 30, 0.08)',
       },
       colors: {
-        customGray: '#343C3E', // Серый
-        customGreen: '#0BBF64', // Зелёный
+        customGray: '#343C3E',
+        customGreen: '#0BBF64'
       },
     },
   },
