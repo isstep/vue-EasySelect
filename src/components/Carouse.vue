@@ -28,7 +28,6 @@ export default defineComponent({
         },
         {
           src: '. /template.png',
-          alt: 'Product 4'
         }
       ]
     }
