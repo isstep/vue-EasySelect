@@ -1,14 +1,19 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import { useRouter } from 'vue-router' 
+import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
+const errorMessage = ref('') 
+const isError = ref(false) 
 const router = useRouter()
 
 const login = async () => {
+  isError.value = false 
+  errorMessage.value = '' 
+
   try {
     const response = await axios.post('http://localhost:8080/login', {
       email: email.value,
@@ -18,23 +23,11 @@ const login = async () => {
     localStorage.setItem('token', response.data.token);
     console.log('Вход выполнен успешно:', response.data);
     
-   
-    router.push({ name: 'SuccessPage' }); 
+    router.push({ name: 'SuccessPage' });
   } catch (error) {
-    console.error('Ошибка при входе:', error.response.data);
-  }
-}
-
-const register = async () => {
-  try {
-    const response = await axios.post('http://localhost:8080/signup', {
-      email: email.value,
-      password: password.value
-    });
-    
-    console.log('Регистрация выполнена успешно:', response.data);
-  } catch (error) {
-    console.error('Ошибка при регистрации:', error.response.data);
+    isError.value = true 
+    errorMessage.value = error.response.data.message || 'Ошибка при входе';
+    console.error('Ошибка при входе:', errorMessage.value);
   }
 }
 </script>
@@ -62,6 +55,7 @@ const register = async () => {
             id="email"
             v-model="email"
             placeholder="Email/Телефон"
+            :class="{'border-red-500': isError}" 
             class="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
@@ -73,9 +67,12 @@ const register = async () => {
             id="password"
             v-model="password"
             placeholder="Пароль"
+            :class="{'border-red-500': isError}" 
             class="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
+
+        <div v-if="isError" class="mb-4 text-red-500">{{ errorMessage }}</div>
 
         <div class="flex items-center mb-4">
           <input type="checkbox" id="remember" v-model="rememberMe" class="mr-2" />
@@ -94,7 +91,7 @@ const register = async () => {
         </button>
         <button
           type="button"
-          @click="register"
+          @click="() => router.push({ name: 'RegisterPage' })"
           class="w-full mt-4 bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300 transition-colors"
         >
           Зарегистрироваться

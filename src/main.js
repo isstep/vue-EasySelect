@@ -18,11 +18,30 @@ import PaymentDeliveryPage from './components/FooterPages/PaymentDeliveryPage.vu
 import PickupPointsPage from './components/FooterPages/PickupPointsPage.vue'
 import ChatProducts from './components/Сhat/СhatProducts.vue'
 import SuccessPage from './pages/SuccessPage.vue'
-
+import RegisterPage from './pages/RegisterPage.vue'
+import ConfirmationPage from './pages/ConfirmationPage.vue'
 const app = createApp(App)
 const pinia = createPinia()
 const routes = [
-  { path: '/success', name: 'SuccessPage', component: SuccessPage, meta: { hideHeader: false } },
+  {
+    path: '/Confirmation',
+    name: 'ConfirmationPage',
+    component: ConfirmationPage,
+    meta: {
+      hideHeader: true,
+      hideFooter: true
+    }
+  },
+  { path: '/register', name: 'RegisterPage', component: RegisterPage, meta: { hideHeader: true } },
+  {
+    path: '/success',
+    name: 'SuccessPage',
+    component: SuccessPage,
+    meta: {
+      hideHeader: true,
+      hideFooter: true
+    }
+  },
   { path: '/', name: '', component: HomePage, meta: { hideHeader: false } },
   { path: '/favorites', name: 'favorites', component: FavoritePage, meta: { hideHeader: false } },
   { path: '/login', name: 'login', component: LoginComponent, meta: { hideHeader: true } },
