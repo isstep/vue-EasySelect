@@ -37,7 +37,7 @@ const toggleCatalog = () => {
 
 const headerClasses = computed(() => ({
   'fixed top-0 left-0 w-full bg-white backdrop-blur-md bg-opacity-60 z-40 transition-all duration-100 ease-in-out': true,
-  'py-2 border-b border-green-500': isSticky.value && isCollapsed.value,
+  'py-5 border-b border-green-500': isSticky.value && isCollapsed.value,
   'py-1 border-none max-lg: h=[20px]': !isSticky.value
 }))
 
@@ -144,7 +144,7 @@ onUnmounted(() => {
     </div>
 
     <div
-      v-if="!isCollapsed"
+      v-if="!isCollapsed && !isCatalogOpen"
       class="flex items-center justify-between max-w-7xl mx-auto px-11 p-[0.6em]"
     >
       <div class="flex space-x-6 text-[15px] max-lg:hidden">

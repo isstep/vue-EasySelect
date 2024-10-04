@@ -1,127 +1,84 @@
 <script setup>
-import { inject, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { inject, ref, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
-const { closeCatalog } = inject('cartFoodActions')
+const { closeCatalog } = inject('cartFoodActions');
 
 const catalog = [
   {
     title: 'Овощи и фрукты',
-    subcategories: ['Овощи', 'Фрукты', 'Зелень', 'Грибы', 'Ягоды', 'Квашения, соления, салаты']
-  },
-  {
-    title: 'Молоко и яйца',
     subcategories: [
-      'Мороженое',
-      'Яйца',
-      'Молоко, сливки',
-      'Кефир, кисломолочные изделия',
-      'Масло, маргарин',
-      'Сметана, творог',
-      'Сыры',
-      'Йогурты, десерты, каши'
-    ]
+      { category: 'Овощи', subcategories: ['Помидоры', 'Морковь', 'Огурцы'] },
+      { category: 'Фрукты', subcategories: ['Яблоки', 'Бананы', 'Виноград'] },
+      { category: 'Зелень', subcategories: ['Петрушка', 'Кинза'] },
+      { category: 'Грибы', subcategories: ['Шампиньоны', 'Шиитаке'] },
+      { category: 'Ягоды', subcategories: ['Клубника', 'Черника'] },
+    ],
   },
   {
-    title: 'Хлеб и выпечка',
-    subcategories: ['Хлеб', 'Булочки', 'Круассаны', 'Пироги', 'Печенье', 'Сухари']
+    title: 'Молочные продукты',
+    subcategories: [
+      { category: 'Молоко', subcategories: ['Коровье', 'Козье', 'Соевое'] },
+      { category: 'Сыры', subcategories: ['Творожный', 'Чеддер', 'Фета'] },
+      { category: 'Йогурты', subcategories: ['Натуральный', 'Фруктовый', 'Греческий'] },
+      { category: 'Сметана', subcategories: ['Жирная', 'Обезжиренная'] },
+    ],
   },
   {
-    title: 'Шеф-онлайн',
-    subcategories: ['Рецепты', 'Кулинарные советы', 'Видеоуроки', 'Кулинарные техники']
+    title: 'Мясные продукты',
+    subcategories: [
+      { category: 'Говядина', subcategories: ['Филе', 'Стейк', 'Ребра'] },
+      { category: 'Свинина', subcategories: ['Котлеты', 'Шейка', 'Бекон'] },
+      { category: 'Птица', subcategories: ['Курица', 'Индейка', 'Утка'] },
+      { category: 'Колбасы', subcategories: ['Вареная', 'Копченая', 'Сухая'] },
+    ],
   },
   {
-    title: 'Мясо, птица и колбасы',
-    subcategories: ['Говядина', 'Свинина', 'Курица', 'Индейка', 'Колбасы', 'Копчености']
-  },
-  {
-    title: 'Рыба и морепродукты',
-    subcategories: ['Рыба', 'Креветки', 'Мидии', 'Кальмары', 'Осьминоги', 'Рыбные консервы']
+    title: 'Зерновые и крупы',
+    subcategories: [
+      { category: 'Рис', subcategories: ['Белый', 'Коричневый', 'Дикий'] },
+      { category: 'Киноа', subcategories: ['Белая', 'Красная'] },
+      { category: 'Гречка', subcategories: ['Зеленая', 'Обжаренная'] },
+      { category: 'Овсянка', subcategories: ['Пластинчатая', 'Мелкая'] },
+    ],
   },
   {
     title: 'Напитки',
-    subcategories: ['Соки', 'Газированные напитки', 'Минеральная вода', 'Чай', 'Кофе', 'Энергетики']
-  },
-  {
-    title: 'Сладости',
-    subcategories: ['Шоколад', 'Конфеты', 'Торты', 'Пирожные', 'Сладкие закуски']
-  },
-  {
-    title: 'Замороженные продукты',
     subcategories: [
-      'Замороженные овощи',
-      'Замороженные фрукты',
-      'Замороженные полуфабрикаты',
-      'Мороженое'
-    ]
+      { category: 'Соки', subcategories: ['Апельсиновый', 'Яблочный', 'Грушевый'] },
+      { category: 'Чай', subcategories: ['Чёрный', 'Зелёный', 'Травяной'] },
+      { category: 'Кофе', subcategories: ['Эспрессо', 'Американо', 'Латте'] },
+      { category: 'Газированные напитки', subcategories: ['Кола', 'Лимонад', 'Спрайт'] },
+    ],
   },
-  {
-    title: 'Косметика и гигиена',
-    subcategories: [
-      'Уход за лицом',
-      'Уход за телом',
-      'Шампуни и кондиционеры',
-      'Гигиенические средства',
-      'Парфюмерия'
-    ]
-  },
-  {
-    title: 'Бытовая химия',
-    subcategories: [
-      'Моющее средство',
-      'Стиральные порошки',
-      'Чистящие средства',
-      'Освежители воздуха'
-    ]
-  },
-  {
-    title: 'Продукты для животных',
-    subcategories: ['Корм для собак', 'Корм для кошек', 'Игрушки для животных', 'Средства ухода']
-  }
-]
+];
 
-const activeCategory = ref(null)
-const hoveredCategory = ref(null)
+const activeCategory = ref(null); 
 
 const handleCategoryMouseEnter = (category) => {
-  hoveredCategory.value = category
-  activeCategory.value = category
-}
+  activeCategory.value = category; 
+};
 
-const handleCategoryMouseLeave = () => {
-  setTimeout(() => {
-    if (hoveredCategory.value === null) {
-      activeCategory.value = null
-    }
-  }, 100)
-}
+const handleMouseLeave = () => {
+  activeCategory.value = null; 
+};
 
-const handleMouseEnterOnCatalog = () => {
-  hoveredCategory.value = activeCategory.value
-}
-
-const handleMouseLeaveOnCatalog = () => {
-  hoveredCategory.value = null
-}
-
-const route = useRoute()
+const route = useRoute();
 
 watch(
   () => route.path,
   () => {
-    closeCatalog()
+    closeCatalog();
   }
-)
+);
 
-watch(hoveredCategory, (newVal) => {
-  if (newVal === null) {
-    activeCategory.value = null
-  }
-})
+onMounted(() => {
+  activeCategory.value = catalog[0].title; 
+});
 </script>
 
 <template>
-  <div class="fixed top-0 left-0 h-full w-full z-40 flex">
+  <div class="fixed top-0 left-0 h-full w-full z-40 flex" @mouseleave="handleMouseLeave">
     <div
       @click="closeCatalog"
       class="fixed top-0 left-0 h-full w-full bg-black opacity-70 cursor-pointer z-30"
@@ -134,36 +91,46 @@ watch(hoveredCategory, (newVal) => {
       </button>
     </div>
 
-    <div
-      class="relative flex"
-      @mouseenter="handleMouseEnterOnCatalog"
-      @mouseleave="handleMouseLeaveOnCatalog"
-    >
-      <div
-        class="bg-white w-full h-[40em] fixed top-10 left-0 p-4 overflow-y-auto z-40 border-r border-gray-200"
-      >
-        <ul class="absolute px-40 mt-10">
-          <li
+    <div class="relative flex">
+      <div class="bg-white w-full h-[43em] fixed p-4 overflow-y-auto z-40">
+        <ul class="px-10 mt-[4.4em] max-w-7xl mx-auto">
+          <li 
             v-for="category in catalog"
             :key="category.title"
-            class="relative"
+            class="relative w-[15em] border-b border-gray-200"
             @mouseenter="handleCategoryMouseEnter(category.title)"
-            @mouseleave="handleCategoryMouseLeave"
           >
             <h3 class="text-xl cursor-pointer rounded-xl px-2 py-2 hover:bg-gray-100 transition">
               {{ category.title }}
             </h3>
             <div
               v-if="activeCategory === category.title"
-              class="absolute left-80 top-0 w-80 bg-white border-l border-gray-200"
+              class="absolute left-[15em] top-0 w-80 bg-white shadow-lg z-50"
             >
-              <ul class="grid grid-cols-3 gap-6 p-5">
+              <ul class="grid grid-cols-1">
                 <li
                   v-for="subcategory in category.subcategories"
-                  :key="subcategory"
-                  class="cursor-pointer font-semibold"
+                  :key="subcategory.category"
+                  class="mt-2"
                 >
-                  {{ subcategory }}
+                  <h4
+                    class="text-[17px] font-semibold cursor-pointer"
+                  >
+                    {{ subcategory.category }}
+                  </h4>
+                  <ul class="text-gray-800 text-[15px] py-1 font-normal">
+                    <li 
+                      v-for="item in subcategory.subcategories" 
+                      :key="item"
+                    >
+                      <a 
+                        href="#"
+                        class="hover:text-blue-600"
+                      >
+                        {{ item }}
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>
