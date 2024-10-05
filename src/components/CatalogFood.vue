@@ -1,8 +1,8 @@
 <script setup>
-import { inject, ref, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { inject, ref, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const { closeCatalog } = inject('cartFoodActions');
+const { closeCatalog } = inject('cartFoodActions')
 
 const catalog = [
   {
@@ -12,8 +12,8 @@ const catalog = [
       { category: 'Фрукты', subcategories: ['Яблоки', 'Бананы', 'Виноград'] },
       { category: 'Зелень', subcategories: ['Петрушка', 'Кинза'] },
       { category: 'Грибы', subcategories: ['Шампиньоны', 'Шиитаке'] },
-      { category: 'Ягоды', subcategories: ['Клубника', 'Черника'] },
-    ],
+      { category: 'Ягоды', subcategories: ['Клубника', 'Черника'] }
+    ]
   },
   {
     title: 'Молочные продукты',
@@ -21,8 +21,8 @@ const catalog = [
       { category: 'Молоко', subcategories: ['Коровье', 'Козье', 'Соевое'] },
       { category: 'Сыры', subcategories: ['Творожный', 'Чеддер', 'Фета'] },
       { category: 'Йогурты', subcategories: ['Натуральный', 'Фруктовый', 'Греческий'] },
-      { category: 'Сметана', subcategories: ['Жирная', 'Обезжиренная'] },
-    ],
+      { category: 'Сметана', subcategories: ['Жирная', 'Обезжиренная'] }
+    ]
   },
   {
     title: 'Мясные продукты',
@@ -30,8 +30,8 @@ const catalog = [
       { category: 'Говядина', subcategories: ['Филе', 'Стейк', 'Ребра'] },
       { category: 'Свинина', subcategories: ['Котлеты', 'Шейка', 'Бекон'] },
       { category: 'Птица', subcategories: ['Курица', 'Индейка', 'Утка'] },
-      { category: 'Колбасы', subcategories: ['Вареная', 'Копченая', 'Сухая'] },
-    ],
+      { category: 'Колбасы', subcategories: ['Вареная', 'Копченая', 'Сухая'] }
+    ]
   },
   {
     title: 'Зерновые и крупы',
@@ -39,8 +39,8 @@ const catalog = [
       { category: 'Рис', subcategories: ['Белый', 'Коричневый', 'Дикий'] },
       { category: 'Киноа', subcategories: ['Белая', 'Красная'] },
       { category: 'Гречка', subcategories: ['Зеленая', 'Обжаренная'] },
-      { category: 'Овсянка', subcategories: ['Пластинчатая', 'Мелкая'] },
-    ],
+      { category: 'Овсянка', subcategories: ['Пластинчатая', 'Мелкая'] }
+    ]
   },
   {
     title: 'Напитки',
@@ -48,37 +48,40 @@ const catalog = [
       { category: 'Соки', subcategories: ['Апельсиновый', 'Яблочный', 'Грушевый'] },
       { category: 'Чай', subcategories: ['Чёрный', 'Зелёный', 'Травяной'] },
       { category: 'Кофе', subcategories: ['Эспрессо', 'Американо', 'Латте'] },
-      { category: 'Газированные напитки', subcategories: ['Кола', 'Лимонад', 'Спрайт'] },
-    ],
-  },
-];
+      { category: 'Газированные напитки', subcategories: ['Кола', 'Лимонад', 'Спрайт'] }
+    ]
+  }
+]
 
-const activeCategory = ref(null); 
+const activeCategory = ref(null)
+const router = useRouter()
 
 const handleCategoryMouseEnter = (category) => {
-  activeCategory.value = category; 
-};
+  activeCategory.value = category
+}
 
-const handleMouseLeave = () => {
-  activeCategory.value = null; 
-};
+const navigateToCategory = (category) => {
+  // Define the path based on the category
+  const categoryPath = category.title.toLowerCase().replace(/\s+/g, '') // Converts "Овощи и фрукты" to "овощиифрукты"
+  router.push(`/catalog/${categoryPath}`)
+}
 
-const route = useRoute();
+const route = useRoute()
 
 watch(
   () => route.path,
   () => {
-    closeCatalog();
+    closeCatalog()
   }
-);
+)
 
 onMounted(() => {
-  activeCategory.value = catalog[0].title; 
-});
+  activeCategory.value = catalog[0].title
+})
 </script>
 
 <template>
-  <div class="fixed top-0 left-0 h-full w-full z-40 flex" @mouseleave="handleMouseLeave">
+  <div class="fixed top-0 left-0 h-full w-full z-40 flex">
     <div
       @click="closeCatalog"
       class="fixed top-0 left-0 h-full w-full bg-black opacity-70 cursor-pointer z-30"
@@ -93,40 +96,38 @@ onMounted(() => {
 
     <div class="relative flex">
       <div class="bg-white w-full h-[43em] fixed p-4 overflow-y-auto z-40">
-        <ul class="px-10 mt-[4.4em] max-w-7xl mx-auto">
-          <li 
+        <ul class="px-10 mt-[5.3em] max-w-7xl mx-auto">
+          <li
             v-for="category in catalog"
             :key="category.title"
-            class="relative w-[15em] border-b border-gray-200"
+            class="relative w-[15em] border-r border-gray-200"
             @mouseenter="handleCategoryMouseEnter(category.title)"
           >
-            <h3 class="text-xl cursor-pointer rounded-xl px-2 py-2 hover:bg-gray-100 transition">
+            <h3
+              class="text-xl cursor-pointer rounded-xl px-2 py-2 hover:bg-gray-100 transition"
+              @click="navigateToCategory(category)"
+            >
               {{ category.title }}
             </h3>
             <div
               v-if="activeCategory === category.title"
-              class="absolute left-[15em] top-0 w-80 bg-white shadow-lg z-50"
+              class="max-w-7xl mx-auto fixed ml-[16em] top-[6.3em] bg-white"
             >
-              <ul class="grid grid-cols-1">
+              <ul class="flex space-x-20">
                 <li
                   v-for="subcategory in category.subcategories"
                   :key="subcategory.category"
                   class="mt-2"
                 >
-                  <h4
+                  <a
+                    @click.prevent="navigateToCategory({ title: subcategory.category })"
                     class="text-[17px] font-semibold cursor-pointer"
                   >
                     {{ subcategory.category }}
-                  </h4>
+                  </a>
                   <ul class="text-gray-800 text-[15px] py-1 font-normal">
-                    <li 
-                      v-for="item in subcategory.subcategories" 
-                      :key="item"
-                    >
-                      <a 
-                        href="#"
-                        class="hover:text-blue-600"
-                      >
+                    <li v-for="item in subcategory.subcategories" :key="item">
+                      <a href="#" class="hover:text-blue-600">
                         {{ item }}
                       </a>
                     </li>

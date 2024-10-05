@@ -64,7 +64,7 @@ const handleDecrement = () => {
 
 <template>
   <div
-    class="product-card relative bg-white shadow-lg rounded-[0.5em] p-4 cursor-pointer hover:shadow-xl transition-all duration-300 ease-in-out border border-slate-100 p-4 rounded-xl gap-4 transform hover:-translate-y-1 max-[615px]:p-6"
+    class="product-card bg-white shadow-lg rounded-md p-4 cursor-pointer hover:shadow-xl transition-all duration-300 ease-in-out border border-slate-100 gap-4 transform hover:-translate-y-1"
   >
     <img
       v-if="props.onClickFavorite"
@@ -83,7 +83,7 @@ const handleDecrement = () => {
 
     <img :src="props.imgUrl" alt="food" class="w-full h-48 object-cover rounded-md" />
 
-    <div class="flex justify-between items-center mt-4">
+    <div class="flex justify-between items-center mt-2">
       <b
         :class="{
           'text-red-500': discountIds.includes(props.id),
@@ -98,11 +98,13 @@ const handleDecrement = () => {
       </span>
     </div>
 
-    <p class="text-sm text-gray-600 mb-12">{{ props.title }}</p>
 
+    <div class="h-8 mb-[2em]">
+      <p class="text-sm w-full text-gray-600">{{ props.title }}</p>
+    </div>
     <div
       v-if="props.isAdded"
-      class="flex items-center rounded-full justify-between mt-4 shadow-sm absolute bottom-4 right-4 w-[12em] shadow-sm border border-slate-50 rounded-full duration-300"
+      class="flex items-center rounded-full justify-between mt-4 border border-slate-50 bg-white shadow-sm duration-300 w-full"
     >
       <button
         @click="handleDecrement"
@@ -119,20 +121,39 @@ const handleDecrement = () => {
       </button>
     </div>
 
-    <div v-else class="absolute bottom-4 right-0 w-full flex justify-center">
+    <div v-else class="flex items-center rounded-full justify-between mt-4 border border-slate-50 bg-white shadow-sm duration-300 w-full">
       <button
-        class="add-button w-48 h-10 text-black rounded-[4em] shadow-sm border border-gray border-slate-200 cursor-pointer transition-transform duration-500 flex items-center justify-center"
+        class="add-button w-full h-10 text-black rounded-full shadow-sm border border-gray border-slate-200 cursor-pointer transition-transform duration-500 flex items-center justify-center"
         @click="handleIncrement"
       >
         <span class="text-sm">В корзину</span>
-        <img v-if="!props.isAdded" :src="'/plus.svg'" alt="Add" class="w-0 h-0" />
+        <img v-if="!props.isAdded"/>
       </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.relative {
-  transition: all 0.3s ease;
+.product-card {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.favorite-icon {
+  z-index: 10;
+}
+
+.add-button {
+  flex: 1;
+}
+
+@media (max-width: 615px) {
+  .product-card {
+    padding: 1.5rem; /* Adjust padding for mobile */
+  }
+
+  .w-48 {
+    width: 100%; /* Make the button full-width on mobile */
+  }
 }
 </style>

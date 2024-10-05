@@ -124,7 +124,7 @@ watch(filters, fetchFoods)
       <Carouse />
     </div>
     <div class="mt-5 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
-      <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 sm:mb-0">Вся еда</h2>
+      <h2 class="text-xl sm:text-1xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-0">Популярное</h2>
 
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
         <select
