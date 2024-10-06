@@ -11,7 +11,7 @@ const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
-const router = useRouter() // Получаем доступ к роутеру
+const router = useRouter()
 
 const register = async () => {
   if (password.value !== confirmPassword.value) {
@@ -20,7 +20,7 @@ const register = async () => {
   }
 
   try {
-    const response = await axios.post('http://localhost:8080/signup', {
+    const response = await axios.post('https://nodejs-server-sfel.onrender.com/signup', {
       firstName: firstName.value,
       lastName: lastName.value,
       address: address.value,

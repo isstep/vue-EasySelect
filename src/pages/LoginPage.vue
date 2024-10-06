@@ -15,7 +15,7 @@ const login = async () => {
   errorMessage.value = '' 
 
   try {
-    const response = await axios.post('http://localhost:8080/login', {
+    const response = await axios.post('https://nodejs-server-sfel.onrender.com/login', {
       email: email.value,
       password: password.value
     });
