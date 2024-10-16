@@ -149,11 +149,11 @@ const handleDecrement = () => {
 
 @media (max-width: 615px) {
   .product-card {
-    padding: 1.5rem; /* Adjust padding for mobile */
+    padding: 1.5rem; 
   }
 
   .w-48 {
-    width: 100%; /* Make the button full-width on mobile */
+    width: 100%; 
   }
 }
 </style>
