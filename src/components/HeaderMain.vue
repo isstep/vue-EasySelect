@@ -159,15 +159,6 @@ onUnmounted(() => {
 
     <div v-if="!isCollapsed && !isCatalogOpen" class="flex items-center justify-between max-w-7xl mx-auto px-11 p-[0.6em]">
       <div class="flex space-x-6 text-[15px] max-lg:hidden">
-        <button class="text-black hover:text-customGreen">Акции</button>
-        <button class="text-black hover:text-customGreen">Товары-везунчики</button>
-        <button class="text-black hover:text-customGreen">Товары удачи</button>
-        <button class="text-black hover:text-customGreen">Рецепты</button>
-        <button class="text-black hover:text-customGreen">Veg</button>
-        <button class="text-black hover:text-customGreen">Фрукты</button>
-        <button class="text-black hover:text-customGreen">Сыр</button>
-        <button class="text-black hover:text-customGreen">Говядина</button>
-        <button class="text-black hover:text-customGreen">Курица</button>
       </div>
     </div>
   </header>
