@@ -33,7 +33,7 @@ onMounted(() => {
         </h2>
         <div class="flex items-center gap-3">
           <span class="text-sm">Ожидается</span>
-          <span class="text-sm text-gray-500">Народная, 45</span>
+          <span class="text-sm text-gray-500">Пушкина, 41</span>
           <span class="ml-2 text-sm text-gray-500"> {{ order.totalPrice.toFixed(2) }} р. </span>
         </div>
       </div>
