@@ -1,50 +1,73 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed, inject } from 'vue'
+import { ref, onMounted, onUnmounted, computed, inject } from 'vue';
+import { useAuthStore } from '@/stores/auth';
 
-const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
-
-const isSticky = ref(false)
-const isCollapsed = ref(false)
-const isCatalogOpen = ref(false)
+const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog']);
+const authStore = useAuthStore();
+const isSticky = ref(false);
+const isCollapsed = ref(false);
+const isCatalogOpen = ref(false);
+const isDropdownOpen = ref(false);
 
 const props = defineProps({
   totalPrice: Number
-})
+});
 
-const { cartFood } = inject('cartFoodActions')
+const { cartFood } = inject('cartFoodActions');
 
-const NumberFoods = computed(() => cartFood.value.length)
+const NumberFoods = computed(() => cartFood.value.length);
 
-const filters = inject('filters') 
+const filters = inject('filters');
 
 const handleScroll = () => {
-  const scrollThreshold = 50
-  isSticky.value = window.scrollY > scrollThreshold
-  isCollapsed.value = window.scrollY > scrollThreshold + 10
-}
+  const scrollThreshold = 50;
+  isSticky.value = window.scrollY > scrollThreshold;
+  isCollapsed.value = window.scrollY > scrollThreshold + 10;
+};
 
 const toggleCatalog = () => {
-  isCatalogOpen.value = !isCatalogOpen.value
-  emit(isCatalogOpen.value ? 'openCatalog' : 'closeCatalog')
-}
+  if (!authStore.isAuthenticated) {
+    alert('Вам нужно авторизоваться, чтобы открыть каталог');
+    return;
+  }
+  isCatalogOpen.value = !isCatalogOpen.value;
+  emit(isCatalogOpen.value ? 'openCatalog' : 'closeCatalog');
+};
+
+const handleAddToCart = () => {
+  if (!authStore.isAuthenticated) {
+    alert('Вам нужно авторизоваться, чтобы добавить товар в корзину');
+    return;
+  }
+  emit('openDrawer');
+};
+
+const handleLogout = () => {
+  authStore.logout(); 
+  isDropdownOpen.value = false; 
+};
+
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
 
 const headerClasses = computed(() => ({
   'fixed top-0 left-0 w-full bg-white backdrop-blur-md bg-opacity-80 z-40 transition-all duration-300 ease-in-out': true,
   'py-4 border-b border-gray-200': isSticky.value && isCollapsed.value,
   'py-1 border-none': !isSticky.value
-}))
+}));
 
 const onChangeSearchInput = (event) => {
-  filters.searchQuery = event.target.value 
-}
+  filters.searchQuery = event.target.value;
+};
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
+  window.addEventListener('scroll', handleScroll);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
@@ -91,7 +114,19 @@ onUnmounted(() => {
       </div>
 
       <ul class="flex items-center gap-4 max-lg:hidden">
-        <li>
+        <li v-if="authStore.isAuthenticated" class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105" @click="toggleDropdown">
+          <img class="w-5 h-5 ml-4" src="/profile1.svg" alt="profile" />
+          <span class="hidden md:block">{{ authStore.user ? authStore.user.name : 'Имя пользователя' }}</span>
+          <div v-if="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+            <div class="p-4">
+              <p class="font-semibold">{{ authStore.user ? authStore.user.name : 'Имя пользователя' }}</p>
+              <p class="text-sm text-gray-500">{{ authStore.user ? authStore.user.email : 'email@example.com' }}</p>
+            </div>
+            <button @click="handleLogout" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 transition duration-300">Выйти</button>
+          </div>
+        </li>
+
+        <li v-else>
           <router-link to="/login" class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105">
             <img class="w-5 h-5 ml-4" src="/profile1.svg" alt="profile" />
             <span class="hidden md:block">Профиль</span>
@@ -112,12 +147,12 @@ onUnmounted(() => {
           </router-link>
         </li>
 
-        <li @click="() => emit('openDrawer')" class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105">
+        <li @click="handleAddToCart" class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105">
           <span class="absolute mb-4 ml-3 w-3 h-3 flex items-center justify-center text-[0.6em] leading-none text-red-100 bg-red-600 rounded-full animate-bounce">
             {{ NumberFoods }}
           </span>
           <img class="w-5 h-5" src="/cart1.svg" alt="cart" />
-          <b class="hidden md:block">{{ props.totalPrice === 0 ? '0' : props.totalPrice.toFixed(2) }} руб.</b>
+          <b class="hidden md:block">{{ props.totalPrice !== null ? props.totalPrice.toFixed(2) : '0.00' }} руб.</b>
         </li>
       </ul>
     </div>
@@ -132,33 +167,8 @@ onUnmounted(() => {
         <button class="text-black hover:text-customGreen">Фрукты</button>
         <button class="text-black hover:text-customGreen">Сыр</button>
         <button class="text-black hover:text-customGreen">Говядина</button>
-        <button class="text-black hover:text-customGreen">Индейка</button>
-        <button class="text-black hover:text-customGreen">Подгузники</button>
-        <button class="text-black hover:text-customGreen">Уход за лицом</button>
-        <button class="text-black hover:text-customGreen">БАДы</button>
+        <button class="text-black hover:text-customGreen">Курица</button>
       </div>
     </div>
   </header>
 </template>
-
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
-button {
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-input:focus {
-  outline: none;
-  border-color: #38a169; 
-  box-shadow: 0 0 5px rgba(56, 167, 105, 0.5); 
-}
-</style>

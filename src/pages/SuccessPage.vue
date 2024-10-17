@@ -1,11 +1,14 @@
 <template>
-  <div class="flex justify-center items-center h-screen bg-green-100">
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold mb-4 text-center text-green-600">Вход выполнен успешно!</h2>
-      <p class="text-center">Вы успешно вошли в систему.</p>
-      <router-link to="/" class="mt-4 block text-center text-blue-500 hover:underline"
-        >Перейти на главную страницу</router-link
+  <div class="flex justify-center items-center h-screen bg-gradient-to-br from-gray-100 to-gray-300">
+    <div class="bg-white p-8 rounded-2xl shadow-xl">
+      <h2 class="text-3xl font-bold mb-6 text-center text-gray-700">Вход выполнен успешно!</h2>
+      <p class="text-center text-gray-600">Вы успешно вошли в систему.</p>
+      <router-link 
+        to="/" 
+        class="mt-6 block text-center text-indigo-500 hover:text-indigo-600 font-medium transition duration-300"
       >
+        Перейти на главную страницу
+      </router-link>
     </div>
   </div>
 </template>

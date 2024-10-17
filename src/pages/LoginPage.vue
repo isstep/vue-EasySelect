@@ -2,32 +2,37 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
-const errorMessage = ref('') 
-const isError = ref(false) 
+const errorMessage = ref('')
+const isError = ref(false)
+const isLoading = ref(false) 
 const router = useRouter()
+const authStore = useAuthStore()
 
 const login = async () => {
-  isError.value = false 
-  errorMessage.value = '' 
+  isError.value = false
+  errorMessage.value = ''
+  isLoading.value = true
 
   try {
     const response = await axios.post('https://nodejs-server-sfel.onrender.com/login', {
       email: email.value,
       password: password.value
-    });
-    
-    localStorage.setItem('token', response.data.token);
-    console.log('Вход выполнен успешно:', response.data);
-    
-    router.push({ name: 'SuccessPage' });
+    })
+
+    authStore.login(response.data.token, response.data.user)
+    console.log('Вход выполнен успешно:', response.data)
+    router.push({ name: 'SuccessPage' })
   } catch (error) {
-    isError.value = true 
-    errorMessage.value = error.response.data.message || 'Ошибка при входе';
-    console.error('Ошибка при входе:', errorMessage.value);
+    isError.value = true
+    errorMessage.value = error.response.data.message || 'Ошибка при входе'
+    console.error('Ошибка при входе:', errorMessage.value)
+  } finally {
+    isLoading.value = false 
   }
 }
 </script>
@@ -86,9 +91,11 @@ const login = async () => {
         <button
           type="submit"
           class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
+          :disabled="isLoading"  
         >
-          Войти
+          {{ isLoading ? 'Загрузка...' : 'Войти' }} 
         </button>
+
         <button
           type="button"
           @click="() => router.push({ name: 'RegisterPage' })"
