@@ -61,7 +61,7 @@ const login = async () => {
             v-model="email"
             placeholder="Email/Телефон"
             :class="{'border-red-500': isError}" 
-            class="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+            class="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-green-300"
           />
         </div>
 
@@ -73,7 +73,7 @@ const login = async () => {
             v-model="password"
             placeholder="Пароль"
             :class="{'border-red-500': isError}" 
-            class="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-blue-300"
+            class="w-full p-2 mt-1 border rounded focus:outline-none focus:ring focus:border-green-300"
           />
         </div>
 
@@ -85,12 +85,12 @@ const login = async () => {
         </div>
 
         <div class="flex justify-between items-center mb-4">
-          <a href="#" class="text-blue-500 hover:underline text-sm">Восстановить</a>
+          <a href="#" class="text-green-500 hover:underline text-sm">Восстановить</a>
         </div>
 
         <button
           type="submit"
-          class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
+          class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors"
           :disabled="isLoading"  
         >
           {{ isLoading ? 'Загрузка...' : 'Войти' }} 

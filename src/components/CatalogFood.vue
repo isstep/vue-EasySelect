@@ -61,8 +61,7 @@ const handleCategoryMouseEnter = (category) => {
 }
 
 const navigateToCategory = (category) => {
-  // Define the path based on the category
-  const categoryPath = category.title.toLowerCase().replace(/\s+/g, '') // Converts "Овощи и фрукты" to "овощиифрукты"
+  const categoryPath = category.title.toLowerCase().replace(/\s+/g, '') 
   router.push(`/catalog/${categoryPath}`)
 }
 
