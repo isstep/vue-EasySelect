@@ -17,8 +17,6 @@ const searchResults = ref([]);
 const searchQuery = ref('');
 
 const { cartFood } = inject('cartFoodActions');
-
-
 const NumberFoods = computed(() => cartFood.value.length);
 
 const handleScroll = () => {
@@ -105,10 +103,12 @@ const headerClasses = computed(() => ({
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  document.addEventListener('click', closeDropdown);
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
+  document.removeEventListener('click', closeDropdown);
 });
 </script>
 
@@ -211,3 +211,26 @@ onUnmounted(() => {
     <AuthModal v-if="showAuthModal" @close="showAuthModal = false" />
   </header>
 </template>
+
+<style scoped>
+.headerClasses {
+  transition: all 0.3s ease-in-out;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid #eaeaea;
+  transition: padding 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
+}
+
+.non-sticky {
+  position: static;
+  padding: 1rem 0;
+}
+</style>
