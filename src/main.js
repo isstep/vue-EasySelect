@@ -20,9 +20,16 @@ import ChatProducts from './components/Сhat/СhatProducts.vue'
 import SuccessPage from './pages/SuccessPage.vue'
 import RegisterPage from './pages/RegisterPage.vue'
 import ConfirmationPage from './pages/ConfirmationPage.vue'
+import ProductPage from './pages/ProductPage.vue'
 const app = createApp(App)
 const pinia = createPinia()
 const routes = [
+  {
+    path: '/product/:id',
+    name: 'ProductPage',
+    component: ProductPage,
+    props: true,
+  },
   {
     path: '/Confirmation',
     name: 'ConfirmationPage',

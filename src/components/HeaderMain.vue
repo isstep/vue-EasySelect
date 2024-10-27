@@ -90,10 +90,11 @@ const handleKeyDown = (event) => {
   if (event.key === 'Enter') {
     const firstResult = searchResults.value[0];
     if (firstResult) {
-      router.push({ path: '/product', query: { id: firstResult.id } });
+      router.push({ name: 'ProductPage', params: { id: firstResult.id } });
     }
   }
 };
+
 
 const headerClasses = computed(() => ({
   'fixed top-0 left-0 w-full bg-white backdrop-blur-md bg-opacity-80 z-40 transition-all duration-300 ease-in-out': true,
@@ -160,7 +161,7 @@ onUnmounted(() => {
               v-for="result in searchResults"
               :key="result.id"
               class="p-2 hover:bg-gray-100 cursor-pointer"
-              @click="router.push({ path: '/product', query: { id: result.id } })"
+              @click="() => router.push({ name: 'ProductPage', params: { id: result.id } })"
             >
               {{ result.title }}
             </li>
