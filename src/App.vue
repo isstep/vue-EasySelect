@@ -106,8 +106,6 @@ provide('cartFoodActions', {
     <div v-if="!$route.meta.hideFooter" class="w-full border-t border-gray-200">
       <FooterComponent v-if="!$route.meta.hideFooter" />
     </div>
-
-    <!-- Компонент для аутентификации -->
     <AuthModal v-if="showAuthModal" @close="showAuthModal = false" />
   </div>
 </template>

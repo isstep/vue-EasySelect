@@ -15,15 +15,15 @@ export default defineComponent({
     return {
       images: [
         {
-          src:  './foodbaner1.png',
+          src:  './template.png',
           alt: 'Product 1'
         },
         {
-          src: './foodbaner2.png',
+          src: './template.png',
           alt: 'Product 2'
         },
         {
-          src: './foodbaner3.png',
+          src: './template.png',
           alt: 'Product 3'
         },
         {

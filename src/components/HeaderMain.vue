@@ -99,7 +99,7 @@ const handleKeyDown = (event) => {
 const headerClasses = computed(() => ({
   'fixed top-0 left-0 w-full bg-white backdrop-blur-md bg-opacity-80 z-40 transition-all duration-300 ease-in-out': true,
   'py-4 border-b border-gray-200': isSticky.value && isCollapsed.value,
-  'py-1 border-none': !isSticky.value
+  'py-2 border-b border-gray-100 ': !isSticky.value
 }));
 
 onMounted(() => {
