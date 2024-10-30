@@ -29,7 +29,7 @@ const login = async () => {
     router.push({ name: 'SuccessPage' })
   } catch (error) {
     isError.value = true
-    errorMessage.value = error.response.data.message || 'Ошибка при входе'
+    errorMessage.value = error.response.data.message || 'Ошибка при входе' 
     console.error('Ошибка при входе:', errorMessage.value)
   } finally {
     isLoading.value = false 

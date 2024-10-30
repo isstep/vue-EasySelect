@@ -97,9 +97,9 @@ const handleKeyDown = (event) => {
 
 
 const headerClasses = computed(() => ({
-  'fixed top-0 left-0 w-full bg-white backdrop-blur-md bg-opacity-80 z-40 transition-all duration-300 ease-in-out': true,
-  'py-4 border-b border-gray-200': isSticky.value && isCollapsed.value,
-  'py-2 border-b border-gray-100 ': !isSticky.value
+  'fixed top-0 left-0 w-full bg-white backdrop-blur-lg transition-all duration-300 z-40': true,
+  'py-4 shadow-md': isSticky.value,
+  'py-2': !isSticky.value,
 }));
 
 onMounted(() => {
@@ -156,14 +156,15 @@ onUnmounted(() => {
             <img src="/search.svg" alt="search" class="w-5 h-5" />
           </span>
 
-          <ul v-if="isDropdownOpen && searchResults.length" class="absolute left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 z-10 max-h-60 overflow-y-auto">
+          <ul v-if="isDropdownOpen && searchResults.length" class="absolute left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 z-10 max-h-60 overflow-y-auto shadow-lg">
             <li
               v-for="result in searchResults"
               :key="result.id"
-              class="p-2 hover:bg-gray-100 cursor-pointer"
+              class="flex items-center p-2 hover:border-gray-50 cursor-pointer transition duration-300"
               @click="() => router.push({ name: 'ProductPage', params: { id: result.id } })"
             >
-              {{ result.title }}
+              <img :src="result.imgUrl" alt="product image" class="w-10 h-10 rounded mr-2" />
+              <span>{{ result.title }}</span>
             </li>
           </ul>
         </div>

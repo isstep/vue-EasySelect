@@ -8,14 +8,18 @@ const reviews = ref([])
 const newReview = ref('')
 const rating = ref(0) 
 const userName = ref('') 
+const loading = ref(true) 
 
 const loadProduct = async (id) => {
+  loading.value = true
   try {
     const response = await fetch(`https://f4f1d0c1ac4cb845.mokky.dev/foods/${id}`)
     product.value = await response.json()
     await loadReviews(id)
   } catch (error) {
     console.error('Error loading product:', error)
+  } finally {
+    loading.value = false 
   }
 }
 
@@ -41,14 +45,14 @@ const submitReview = async () => {
         productId: route.params.id,
         text: newReview.value,
         rating: rating.value,
-        userName: userName.value // Отправляем имя пользователя
+        userName: userName.value
       })
     })
 
     if (response.ok) {
       newReview.value = ''
-      rating.value = 0 // Сброс рейтинга
-      userName.value = '' // Сброс имени пользователя
+      rating.value = 0 
+      userName.value = '' 
       await loadReviews(route.params.id)
     } else {
       console.error('Failed to submit review')
@@ -71,8 +75,16 @@ watch(
 </script>
 
 <template>
-  <div class="container mx-auto">
-    <div v-if="product" class="bg-white rounded-lg">
+  <div class="container p-2">
+    <div v-if="loading" class="animate-pulse">
+      <div class="bg-gray-200 h-8 w-1/2 rounded mb-4"></div>
+      <div class="bg-gray-200 h-48 rounded mb-4"></div>
+      <div class="bg-gray-200 h-6 w-1/3 rounded mb-4"></div>
+      <div class="bg-gray-200 h-6 w-1/4 rounded mb-4"></div>
+      <div class="bg-gray-200 h-8 w-1/2 rounded mb-4"></div>
+      <div class="bg-gray-200 h-6 w-1/3 rounded mb-4"></div>
+    </div>
+    <div v-else-if="product" class="p-1 border-t">
       <h1 class="text-3xl font-bold">{{ product.title }}</h1>
       <img :src="product.imgUrl" alt="product image" class="mt-4 rounded-lg max-w-full h-auto" />
       <p class="mt-4 text-lg text-gray-700">{{ product.description }}</p>
@@ -89,7 +101,7 @@ watch(
           <li
             v-for="review in reviews"
             :key="review.id"
-            class=" border border-green-200 rounded-lg p-4"
+            class="border border-green-200 rounded-lg p-4"
           >
             <p class="font-semibold">Имя: <span class="text-gray-700">{{ review.userName }}</span></p> 
             <p class="font-semibold">Рейтинг: 
@@ -137,7 +149,7 @@ watch(
 
 <style scoped>
 .container {
-  padding-top: 5em; 
+  padding-top: 4em; 
 }
 
 .star {
@@ -147,5 +159,14 @@ watch(
 
 .star:hover {
   transform: scale(1.2); 
+}
+
+.lazyload {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.lazyload.loaded {
+  opacity: 1;
 }
 </style>
