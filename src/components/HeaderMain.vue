@@ -1,138 +1,155 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed, inject } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
-import AuthModal from './AuthModal.vue';
+import { ref, onMounted, onUnmounted, computed, inject } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import AuthModal from './AuthModal.vue'
 
-const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog']);
-const authStore = useAuthStore();
-const router = useRouter();
+const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
+const authStore = useAuthStore()
+const router = useRouter()
 
-const showAuthModal = ref(false);
-const isSticky = ref(false);
-const isCollapsed = ref(false);
-const isCatalogOpen = ref(false);
-const isDropdownOpen = ref(false);
-const searchResults = ref([]);
-const searchQuery = ref('');
+const showAuthModal = ref(false)
+const isSticky = ref(false)
+const isCollapsed = ref(false)
+const isCatalogOpen = ref(false)
+const isDropdownOpen = ref(false)
+const isDropdownOpenProfile = ref(false)
+const searchResults = ref([])
+const searchQuery = ref('')
 
-const { cartFood } = inject('cartFoodActions');
-const NumberFoods = computed(() => cartFood.value.length);
+const { cartFood } = inject('cartFoodActions')
+const NumberFoods = computed(() => cartFood.value.length)
 
 const handleScroll = () => {
-  const scrollThreshold = 50;
-  isSticky.value = window.scrollY > scrollThreshold;
-  isCollapsed.value = window.scrollY > scrollThreshold + 10;
-};
+  const scrollThreshold = 50
+  isSticky.value = window.scrollY > scrollThreshold
+  isCollapsed.value = window.scrollY > scrollThreshold + 10
+}
 
 const toggleCatalog = () => {
-  isCatalogOpen.value = !isCatalogOpen.value;
-  emit(isCatalogOpen.value ? 'openCatalog' : 'closeCatalog');
-};
+  isCatalogOpen.value = !isCatalogOpen.value
+  emit(isCatalogOpen.value ? 'openCatalog' : 'closeCatalog')
+}
 
 const handleAddToCart = () => {
   if (!authStore.isAuthenticated) {
-    showAuthModal.value = true;
-    return;
+    showAuthModal.value = true
+    return
   }
-  emit('openDrawer');
-};
+  emit('openDrawer')
+}
 
 const handleShowAuthModalOrder = () => {
   if (!authStore.isAuthenticated) {
-    showAuthModal.value = true;
+    showAuthModal.value = true
   } else {
-    router.push({ path: '/order' });
+    router.push({ path: '/order' })
   }
-};
+}
 
 const handleShowAuthModalFavorite = () => {
   if (!authStore.isAuthenticated) {
-    showAuthModal.value = true;
+    showAuthModal.value = true
   } else {
-    router.push({ path: '/favorites' });
+    router.push({ path: '/favorites' })
   }
-};
+}
 
 const handleLogout = () => {
-  authStore.logout();
-  isDropdownOpen.value = false;
-};
+  authStore.logout()
+  isDropdownOpen.value = false
+}
 
 const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
+  isDropdownOpenProfile.value = !isDropdownOpenProfile.value
+}
 
 const closeDropdown = (event) => {
   if (!event.target.closest('.relative')) {
-    isDropdownOpen.value = false;
+    isDropdownOpen.value = false
   }
-};
+}
 
 const onChangeSearchInput = async (event) => {
-  searchQuery.value = event.target.value;
+  searchQuery.value = event.target.value
 
   if (searchQuery.value) {
-    const response = await fetch('https://f4f1d0c1ac4cb845.mokky.dev/foods');
-    const products = await response.json();
-    const lowerCaseQuery = searchQuery.value.toLowerCase();
+    const response = await fetch('https://f4f1d0c1ac4cb845.mokky.dev/foods')
+    const products = await response.json()
+    const lowerCaseQuery = searchQuery.value.toLowerCase()
 
-    searchResults.value = products.filter(product => {
-      const productTitle = product.title.toLowerCase();
-      return productTitle.includes(lowerCaseQuery);
-    });
+    searchResults.value = products.filter((product) => {
+      const productTitle = product.title.toLowerCase()
+      return productTitle.includes(lowerCaseQuery)
+    })
   } else {
-    searchResults.value = [];
+    searchResults.value = []
   }
-};
+}
 
 const handleKeyDown = (event) => {
   if (event.key === 'Enter') {
-    const firstResult = searchResults.value[0];
+    const firstResult = searchResults.value[0]
     if (firstResult) {
-      router.push({ name: 'ProductPage', params: { id: firstResult.id } });
+      router.push({ name: 'ProductPage', params: { id: firstResult.id } })
     }
   }
-};
-
+}
 
 const headerClasses = computed(() => ({
   'fixed top-0 left-0 w-full bg-white backdrop-blur-lg transition-all duration-300 z-40': true,
   'py-4 shadow-md': isSticky.value,
-  'py-2': !isSticky.value,
-}));
+  'py-2': !isSticky.value
+}))
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-  document.addEventListener('click', closeDropdown);
-});
+  window.addEventListener('scroll', handleScroll)
+  document.addEventListener('click', closeDropdown)
+})
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-  document.removeEventListener('click', closeDropdown);
-});
+  window.removeEventListener('scroll', handleScroll)
+  document.removeEventListener('click', closeDropdown)
+})
 </script>
 
 <template>
   <header :class="headerClasses">
-    <div v-if="!isCollapsed" class="flex items-center justify-between max-w-7xl mx-auto px-11 max-lg:hidden">
+    <div
+      v-if="!isCollapsed"
+      class="flex items-center justify-between max-w-7xl mx-auto px-11 max-lg:hidden"
+    >
       <span class="text-gray-500 flex items-center justify-between mb-1">
-        <img class="h-5 transition-transform duration-300 hover:scale-105" src="/123.svg" alt="Location Icon" />
+        <img
+          class="h-5 transition-transform duration-300 hover:scale-105"
+          src="/123.svg"
+          alt="Location Icon"
+        />
         <span class="text-blue-500 px-1">Укажите адрес</span>
         Сегодня, 10:00 - 21:00
       </span>
       <nav class="flex mb-3 space-x-5 text-[16px]">
-        <button class="text-gray-500 hover:text-green-600 transition duration-300">Доставка и оплата</button>
+        <button class="text-gray-500 hover:text-green-600 transition duration-300">
+          Доставка и оплата
+        </button>
         <button class="text-gray-500 hover:text-green-600 transition duration-300">Контакты</button>
-        <button class="text-gray-500 hover:text-green-600 transition duration-300">Доставка для юр. лиц</button>
+        <button class="text-gray-500 hover:text-green-600 transition duration-300">
+          Доставка для юр. лиц
+        </button>
         <button class="text-gray-500 hover:text-green-600 transition duration-300">Вакансии</button>
-        <button class="text-gray-500 hover:text-green-600 transition duration-300">EasySelect.by</button>
+        <button class="text-gray-500 hover:text-green-600 transition duration-300">
+          EasySelect.by
+        </button>
       </nav>
     </div>
 
     <div class="flex items-center justify-between max-w-7xl mx-auto px-11">
       <router-link to="/" class="flex items-center gap-4">
-        <img src="/123123.png" alt="logo" class="w-[177px] transition-transform duration-300 ease-in-out hover:scale-105" />
+        <img
+          src="/123123.png"
+          alt="logo"
+          class="w-[177px] transition-transform duration-300 ease-in-out hover:scale-105"
+        />
       </router-link>
 
       <div class="flex items-center gap-4 flex-grow" @click="closeDropdown">
@@ -156,7 +173,10 @@ onUnmounted(() => {
             <img src="/search.svg" alt="search" class="w-5 h-5" />
           </span>
 
-          <ul v-if="isDropdownOpen && searchResults.length" class="absolute left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 z-10 max-h-60 overflow-y-auto shadow-lg">
+          <ul
+            v-if="isDropdownOpen && searchResults.length"
+            class="absolute left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 z-10 max-h-60 overflow-y-auto shadow-lg"
+          >
             <li
               v-for="result in searchResults"
               :key="result.id"
@@ -171,37 +191,77 @@ onUnmounted(() => {
       </div>
 
       <ul class="flex items-center gap-4 max-lg:hidden">
-        <li v-if="authStore.isAuthenticated" class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105" @click="toggleDropdown">
+        <li
+          v-if="authStore.isAuthenticated"
+          class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105"
+          @click="toggleDropdown"
+        >
           <img class="w-5 h-5 ml-4" src="/profile1.svg" alt="profile" />
-          <span class="hidden md:block">{{ authStore.user ? authStore.user.name : 'Ошибка' }}</span>
-          <div v-if="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+          <span class="hidden md:block">
+            {{
+              authStore.user
+                ? `${authStore.user.firstName || 'Ошибка'} ${authStore.user.lastName || ''}`
+                : 'Ошибка'
+            }}
+          </span>
+          <div
+            v-if="isDropdownOpenProfile"
+            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg"
+          >
             <div class="p-4">
-              <p class="font-semibold">{{ authStore.user ? authStore.user.name : 'Ошибка' }}</p>
-              <p class="text-sm text-gray-500">{{ authStore.user ? authStore.user.email : 'Ошибка' }}</p>
+              <p class="font-semibold">
+                {{
+                  authStore.user
+                    ? `${authStore.user.firstName || 'Ошибка'} ${authStore.user.lastName || ''}`
+                    : 'Ошибка'
+                }}
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ authStore.user ? authStore.user.email : 'Ошибка' }}
+              </p>
             </div>
-            <button @click="handleLogout" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 transition duration-300">Выйти</button>
+            <button
+              @click="handleLogout"
+              class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 transition duration-300"
+            >
+              Выйти
+            </button>
           </div>
         </li>
 
         <li v-else>
-          <router-link to="/login" class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105">
+          <router-link
+            to="/login"
+            class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105"
+          >
             <img class="w-5 h-5 ml-4" src="/profile1.svg" alt="profile" />
             <span class="hidden md:block">Профиль</span>
           </router-link>
         </li>
 
-        <li @click="handleShowAuthModalOrder" class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105">
+        <li
+          @click="handleShowAuthModalOrder"
+          class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105"
+        >
           <img class="w-5 h-5" src="/order.svg" alt="order" />
           <span class="hidden md:block">Заказы</span>
         </li>
 
-        <li @click="handleShowAuthModalFavorite" class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105">
+        <li
+          @click="handleShowAuthModalFavorite"
+          class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105"
+        >
           <img class="w-5 h-5" src="/heart1.svg" alt="heart" />
           <span class="hidden md:block">Избранное</span>
         </li>
 
-        <li @click="handleAddToCart" class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105">
-          <span class="absolute mb-4 ml-3 w-3 h-3 flex items-center justify-center text-[0.6em] leading-none text-red-100 bg-red-600 rounded-full animate-bounce">
+        <li
+          @click="handleAddToCart"
+          class="relative flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105"
+        >
+          <span
+            class="absolute mb-4 ml-3 w-3 h-3 flex items-center justify-center text-[0.6em] leading-none text-red-100 bg-red-600 rounded-full animate-bounce"
+          >
             {{ NumberFoods }}
           </span>
           <img class="w-5 h-5" src="/cart.svg" alt="cart" />
@@ -228,7 +288,9 @@ onUnmounted(() => {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.8);
   border-bottom: 1px solid #eaeaea;
-  transition: padding 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
+  transition:
+    padding 0.3s ease-in-out,
+    border-bottom 0.3s ease-in-out;
 }
 
 .non-sticky {

@@ -59,7 +59,7 @@ const breakpoints = {
             <div
               class="h-[18em] bg-white border rounded-lg shadow-md p-4 mb-1 transition-shadow hover:shadow-lg"
             >
-              <a :href="`/food/${food.id}`">
+              <a :href="`/product/${food.id}`">
                 <img
                   v-if="food.imgUrl"
                   :src="food.imgUrl"
