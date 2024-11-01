@@ -56,9 +56,13 @@ const addToFavorite = async (food) => {
 const fetchFavorites = async () => {
   try {
     const { data: favorites } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/favorites')
+    const favoritesMap = favorites.reduce((acc, favorite) => {
+      acc[favorite.parentId] = favorite
+      return acc
+    }, {})
 
     foods.value = foods.value.map((food) => {
-      const favorite = favorites.find((favorite) => favorite.parentId === food.id)
+      const favorite = favoritesMap[food.id]
 
       if (!favorite) {
         return food
