@@ -15,19 +15,19 @@ export default defineComponent({
     return {
       images: [
         {
-          src:  './template.png',
+          src:  './12333.webp',
           alt: 'Product 1'
         },
         {
-          src: './template.png',
+          src: './123334.webp',
           alt: 'Product 2'
         },
         {
-          src: './template.png',
+          src: './12333.webp',
           alt: 'Product 3'
         },
         {
-          src: './template.png',
+          src: './123334.webp',
         }
       ]
     }
