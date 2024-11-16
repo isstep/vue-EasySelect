@@ -5,6 +5,7 @@ import DrawerComponent from './components/DrawerComponent.vue';
 import FooterComponent from './components/FooterComponent.vue';
 import CatalogFood from './components/CatalogFood.vue';
 import AuthModal from './components/AuthModal.vue';
+import FloatingButtonMenu from './components/FloatingButtonMenu.vue';
 
 const cartFood = ref([]);
 const drawerOpen = ref(false);
@@ -101,8 +102,9 @@ provide('cartFoodActions', {
       <div class="p-10">
         <router-view></router-view>
       </div>
+      
     </div>
-
+    <FloatingButtonMenu />
     <div v-if="!$route.meta.hideFooter" class="w-full border-t border-gray-200">
       <FooterComponent v-if="!$route.meta.hideFooter" />
     </div>
