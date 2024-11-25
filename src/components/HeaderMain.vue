@@ -235,7 +235,7 @@ onUnmounted(() => {
             class="flex items-center cursor-pointer gap-2 text-gray-600 hover:text-green-600 transition duration-300 transform hover:scale-105"
           >
             <img class="w-5 h-5 ml-4" src="/profile1.svg" alt="profile" />
-            <span class="hidden md:block">Профиль</span>
+            <span class="hidden md:block">Войти</span>
           </router-link>
         </li>
 
