@@ -7,6 +7,7 @@ const chatMessages = ref([{ id: 1, from: 'support', text: 'Здравствуй�
 const showForm = ref(false)
 const formData = ref({ userName: '', reason: '', userMessage: '' })
 const step = ref(0)
+const isLoading = ref(false)
 
 const toggleChat = () => {
   chatOpen.value = !chatOpen.value
@@ -21,67 +22,71 @@ const startChat = () => {
 }
 
 const sendMessage = async () => {
-  if (userMessage.value.trim() !== '') {
-    chatMessages.value.push({
-      id: chatMessages.value.length + 1,
-      from: 'user',
-      text: userMessage.value
-    })
-
-    if (step.value === 1) {
-      formData.value.userName = userMessage.value
-      step.value = 2
-      chatMessages.value.push({
-        id: chatMessages.value.length + 1,
-        from: 'support',
-        text: 'Какая причина обращения?'
-      })
-    } else if (step.value === 2) {
-      formData.value.reason = userMessage.value
-      step.value = 3
-      chatMessages.value.push({
-        id: chatMessages.value.length + 1,
-        from: 'support',
-        text: 'Введите ваше сообщение.'
-      })
-    } else if (step.value === 3) {
-      formData.value.userMessage = userMessage.value
-      step.value = 4
-      chatMessages.value.push({
-        id: chatMessages.value.length + 1,
-        from: 'support',
-        text: 'Подготовка к отправке запроса...'
-      })
-      await submitForm()
-    }
-
-    userMessage.value = ''
-  } else {
+  if (userMessage.value.trim() === '') {
     alert('Сообщение не может быть пустым!')
+    return
   }
-}
 
-const submitForm = async () => {
-  if (formData.value.userName && formData.value.reason && formData.value.userMessage) {
-    const formattedMessage = `
-          Заявка от пользователя: ${formData.value.userName}
-          Причина: ${formData.value.reason}
-          Сообщение: ${formData.value.userMessage}
-        `
+  chatMessages.value.push({
+    id: chatMessages.value.length + 1,
+    from: 'user',
+    text: userMessage.value
+  })
 
-    await sendToTelegram(formattedMessage)
+  isLoading.value = true
 
+  if (step.value === 1) {
+    formData.value.userName = userMessage.value
+    step.value = 2
     chatMessages.value.push({
       id: chatMessages.value.length + 1,
       from: 'support',
-      text: 'Заявка успешно отправлена!'
+      text: 'Какая причина обращения?'
     })
-    formData.value = { userName: '', reason: '', userMessage: '' }
-    step.value = 0
-    showForm.value = false
-  } else {
-    alert('Пожалуйста, заполните все поля!')
+  } else if (step.value === 2) {
+    formData.value.reason = userMessage.value
+    step.value = 3
+    chatMessages.value.push({
+      id: chatMessages.value.length + 1,
+      from: 'support',
+      text: 'Введите ваше сообщение.'
+    })
+  } else if (step.value === 3) {
+    formData.value.userMessage = userMessage.value
+    step.value = 4
+    chatMessages.value.push({
+      id: chatMessages.value.length + 1,
+      from: 'support',
+      text: 'Подготовка к отправке запроса...'
+    })
+    await submitForm()
   }
+
+  userMessage.value = ''
+  isLoading.value = false
+}
+
+const submitForm = async () => {
+  if (!formData.value.userName || !formData.value.reason || !formData.value.userMessage) {
+    alert('Пожалуйста, заполните все поля!')
+    return
+  }
+
+  const formattedMessage = `
+    Заявка от пользователя: ${formData.value.userName}
+    Причина: ${formData.value.reason}
+    Сообщение: ${formData.value.userMessage}
+  `
+  await sendToTelegram(formattedMessage)
+
+  chatMessages.value.push({
+    id: chatMessages.value.length + 1,
+    from: 'support',
+    text: 'Заявка успешно отправлена!'
+  })
+  formData.value = { userName: '', reason: '', userMessage: '' }
+  step.value = 0
+  showForm.value = false
 }
 
 const sendToTelegram = async (message) => {
@@ -102,9 +107,7 @@ const sendToTelegram = async (message) => {
     })
     const data = await response.json()
     if (!response.ok) {
-      throw new Error(
-        `Ошибка при отправке сообщения. Код ошибки: ${response.status}. Ответ: ${JSON.stringify(data)}`
-      )
+      throw new Error(`Ошибка при отправке сообщения. Код ошибки: ${response.status}. Ответ: ${JSON.stringify(data)}`)
     }
     console.log('Сообщение отправлено в Telegram:', data)
   } catch (error) {
@@ -117,7 +120,7 @@ const sendToTelegram = async (message) => {
 <template>
   <div class="fixed bottom-4 right-4">
     <button
-      class="w-12 h-12 rounded-full bg-green-500 text-white shadow-lg flex items-center justify-center hover:bg-green-600"
+      class="w-12 h-12 rounded-full bg-green-500 text-white shadow-lg flex items-center justify-center hover:bg-green-600 transition"
       @click="toggleChat"
     >
       💬
@@ -125,7 +128,7 @@ const sendToTelegram = async (message) => {
 
     <div
       v-if="chatOpen"
-      class="fixed bottom-16 right-4 w-80 bg-white shadow-xl rounded-lg p-4 border border-gray-200"
+      class="fixed bottom-16 right-4 w-80 bg-white shadow-xl rounded-lg p-4 border border-gray-200 transition-all ease-in-out transform"
     >
       <div class="flex justify-between items-center mb-2">
         <h3 class="text-lg font-semibold text-gray-700">Чат с поддержкой</h3>
@@ -169,7 +172,7 @@ const sendToTelegram = async (message) => {
         />
         <button
           @click="submitForm"
-          class="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600"
+          class="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600 transition"
         >
           Отправить
         </button>
@@ -184,9 +187,10 @@ const sendToTelegram = async (message) => {
         />
         <button
           @click="sendMessage"
-          class="bg-green-500 text-white p-2 rounded-r-lg hover:bg-green-600"
+          class="bg-green-500 text-white p-2 rounded-r-lg hover:bg-green-600 transition"
+          :disabled="isLoading"
         >
-          Отправить
+          {{ isLoading ? 'Отправка...' : 'Отправить' }}
         </button>
       </div>
     </div>
