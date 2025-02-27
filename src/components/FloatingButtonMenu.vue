@@ -142,7 +142,7 @@ const sendToTelegram = async (message) => {
         >
           <p
             :class="
-              message.from === 'user' ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-700'
+              message.from === 'user' ? ' mt-[2px] bg-green-100 text-black-400' : 'bg-gray-200 mb-[2px] text-gray-700'
             "
             class="inline-block rounded-lg p-2 max-w-xs"
           >
@@ -151,7 +151,7 @@ const sendToTelegram = async (message) => {
         </div>
       </div>
 
-      <div v-if="step === 3" class="flex flex-col gap-4">
+      <div v-if="step === 1" class="flex flex-col gap-4">
         <input
           v-model="formData.userName"
           type="text"
@@ -200,10 +200,6 @@ const sendToTelegram = async (message) => {
 <style scoped>
 button {
   transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #2b6cb0;
 }
 
 .bg-green-500 {
