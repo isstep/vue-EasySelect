@@ -78,6 +78,8 @@ const createOrder = async () => {
             <b>{{ totalPriceWithDiscount }} р.</b>
           </div>
 
+            <router-link
+            to="/login"> 
           <button
             :disabled="buttonDisabled"
             @click="createOrder"
@@ -85,6 +87,7 @@ const createOrder = async () => {
           >
             Оформить заказ
           </button>
+        </router-link>
         </div>
       </div>
     </div>

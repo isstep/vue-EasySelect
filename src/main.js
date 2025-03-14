@@ -16,7 +16,6 @@ import PickupPointsPage from './components/FooterPages/PickupPointsPage.vue'
 import AboutPage from './components/FooterPages/AboutPage.vue'
 import FAQPage from './components/FooterPages/FAQPage.vue'
 import LoginComponent from './pages/LoginPage.vue'
-import ChatProducts from './components/Сhat/СhatProducts.vue'
 import SuccessPage from './pages/SuccessPage.vue'
 import RegisterPage from './pages/RegisterPage.vue'
 import ConfirmationPage from './pages/ConfirmationPage.vue'
@@ -41,8 +40,7 @@ const routes = [
   { path: '/contacts', name:'contacts', component: ContactsPage, meta: false },
   { path: '/paymentDelivery', name: 'paymentDelivery',component: PaymentDeliveryPage, meta: false },
   { path: '/pickupPointsPage', name: 'pickupPointsPage', component: PickupPointsPage, meta: false },
-  { path: '/partnership', name: 'partnership', component: PartnerShip, meta: { hideFooter: true } },
-  { path: '/Chat', name: 'ChatProducts', component: ChatProducts, meta: { hideFooter: true } }
+  { path: '/partnership', name: 'partnership', component: PartnerShip, meta: { hideFooter: true } }
 ]
 
 const router = createRouter({

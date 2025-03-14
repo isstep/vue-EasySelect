@@ -118,7 +118,7 @@ const sendToTelegram = async (message) => {
 </script>
 
 <template>
-  <div class="fixed bottom-4 right-4">
+  <div class="fixed bottom-4 right-4 ">
     <button
       class="w-12 h-12 rounded-full bg-green-500 text-white shadow-lg flex items-center justify-center hover:bg-green-600 transition"
       @click="toggleChat"
