@@ -21,13 +21,19 @@ import RegisterPage from './pages/RegisterPage.vue'
 import ConfirmationPage from './pages/ConfirmationPage.vue'
 import ProductPage from './pages/ProductPage.vue'
 import PartnerShip from './components/FooterPages/PartnerShip.vue'
-
+import CatalogProductListPage from './pages/CatalogProductListPage.vue'
 const app = createApp(App)
 const pinia = createPinia()
 
 const routes = [
+
+  {
+    path: '/catalog/:categoryId',
+    name: 'Catalog',
+    component: CatalogProductListPage,
+  },
   { path: '/product/:id', name: 'ProductPage', component: ProductPage, props: true },
-  { path: '/Confirmation', name: 'ConfirmationPage', component: ConfirmationPage, meta: { hideHeader: true, hideFooter: true }},
+  { path: '/confirmation', name: 'ConfirmationPage', component: ConfirmationPage, meta: { hideHeader: true, hideFooter: true }},
   { path: '/register', name: 'RegisterPage', component: RegisterPage, meta: { hideHeader: true } },
   { path: '/success', name: 'SuccessPage', component: SuccessPage, meta: { hideHeader: true, hideFooter: true } },
   { path: '/', name: '', component: HomePage, meta: { hideHeader: false } },
