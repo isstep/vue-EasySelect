@@ -107,7 +107,9 @@ const sendToTelegram = async (message) => {
     })
     const data = await response.json()
     if (!response.ok) {
-      throw new Error(`Ошибка при отправке сообщения. Код ошибки: ${response.status}. Ответ: ${JSON.stringify(data)}`)
+      throw new Error(
+        `Ошибка при отправке сообщения. Код ошибки: ${response.status}. Ответ: ${JSON.stringify(data)}`
+      )
     }
     console.log('Сообщение отправлено в Telegram:', data)
   } catch (error) {
@@ -118,12 +120,14 @@ const sendToTelegram = async (message) => {
 </script>
 
 <template>
-  <div class="fixed bottom-4 right-4 ">
+  <div class="fixed bottom-4 right-4">
     <button
-      class="w-12 h-12 rounded-full bg-green-500 text-white shadow-lg flex items-center justify-center hover:bg-green-600 transition"
+      class="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center hover:bg-gray-100 transition"
       @click="toggleChat"
     >
+    <div class="opacity-70 hover:opacity-90">
       💬
+    </div>
     </button>
 
     <div
@@ -142,7 +146,9 @@ const sendToTelegram = async (message) => {
         >
           <p
             :class="
-              message.from === 'user' ? ' mt-[2px] bg-green-100 text-black-400' : 'bg-gray-200 mb-[2px] text-gray-700'
+              message.from === 'user'
+                ? ' mt-[2px] bg-green-100 text-black-400'
+                : 'bg-gray-200 mb-[2px] text-gray-700'
             "
             class="inline-block rounded-lg p-2 max-w-xs"
           >

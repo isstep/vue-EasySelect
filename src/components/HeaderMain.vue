@@ -98,7 +98,7 @@ const handleKeyDown = (event) => {
 
 const headerClasses = computed(() => ({
   'fixed top-0 left-0 w-full bg-white backdrop-blur-lg transition-all duration-300 z-40': true,
-  'py-4 shadow-md': isSticky.value,
+  'py-4 border': isSticky.value,
   'py-2': !isSticky.value
 }))
 
@@ -155,7 +155,7 @@ onUnmounted(() => {
       <div class="flex items-center gap-4 flex-grow" @click="closeDropdown">
         <button
           @click="toggleCatalog"
-          class="ml-3 h-10 px-5 text-white bg-green-600 hover:bg-gray-500 rounded-full focus:outline-none transition-colors duration-300 transform hover:scale-105"
+          class="ml-3 h-10 px-5 text-white bg-green-500 hover:bg-green-600 rounded-full focus:outline-none transition-colors duration-300 transform hover:scale-105"
         >
           Каталог
         </button>

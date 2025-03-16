@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const emit = defineEmits(['updateQuantity'])
 
 const props = defineProps({
@@ -16,6 +18,10 @@ const props = defineProps({
   onClickIncrement: Function,
   onClickDecrement: Function
 })
+
+const handleCardClick = () => {
+  router.push(`/product/${props.id}`)
+}
 
 const randomPercent = ref(Math.floor(Math.random() * 31))
 const discountIds = [18, 6, 8, 13, 3, 24]
@@ -81,9 +87,14 @@ const handleDecrement = () => {
       -{{ randomPercent }}%
     </span>
 
-    <img :src="props.imgUrl" alt="food" class="w-full h-48 object-cover rounded-md" />
+    <img
+      :src="props.imgUrl"
+      @click="handleCardClick"
+      alt="food"
+      class="w-full h-48 object-cover rounded-md"
+    />
 
-    <div class="flex justify-between items-center mt-2">
+    <div @click="handleCardClick" class="flex justify-between items-center mt-2">
       <b
         :class="{
           'text-red-500': discountIds.includes(props.id),
@@ -98,9 +109,8 @@ const handleDecrement = () => {
       </span>
     </div>
 
-
-    <div class="h-8 mb-[2em]">
-      <p class="text-sm w-full text-gray-600">{{ props.title }}</p>
+    <div @click="handleCardClick" class="h-8 mb-[2em]">
+      <p class="text-sm fixed text-gray-600">{{ props.title }}</p>
     </div>
     <div
       v-if="props.isAdded"
@@ -121,13 +131,16 @@ const handleDecrement = () => {
       </button>
     </div>
 
-    <div v-else class="flex items-center rounded-full justify-between mt-4 border border-slate-50 bg-white shadow-sm duration-300 w-full">
+    <div
+      v-else
+      class="flex items-center rounded-full justify-between mt-4 border border-slate-50 bg-white shadow-sm duration-300 w-full"
+    >
       <button
         class="add-button w-full h-10 text-black rounded-full shadow-sm border border-gray border-slate-200 cursor-pointer transition-transform duration-500 flex items-center justify-center"
         @click="handleIncrement"
       >
         <span class="text-sm">В корзину</span>
-        <img v-if="!props.isAdded"/>
+        <img v-if="!props.isAdded" />
       </button>
     </div>
   </div>
@@ -149,11 +162,11 @@ const handleDecrement = () => {
 
 @media (max-width: 615px) {
   .product-card {
-    padding: 1.5rem; 
+    padding: 1.5rem;
   }
 
   .w-48 {
-    width: 100%; 
+    width: 100%;
   }
 }
 </style>

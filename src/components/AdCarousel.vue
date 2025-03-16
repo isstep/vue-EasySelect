@@ -1,39 +1,29 @@
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import { Carousel, Pagination, Slide } from 'vue3-carousel'
 
 import 'vue3-carousel/dist/carousel.css'
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    Carousel,
-    Slide,
-    Pagination
+const images = ref([
+  {
+    src: './12333.webp',
+    alt: 'Product 1'
   },
-  data() {
-    return {
-      images: [
-        {
-          src:  './12333.webp',
-          alt: 'Product 1'
-        },
-        {
-          src: './123334.webp',
-          alt: 'Product 2'
-        },
-        {
-          src: './12333.webp',
-          alt: 'Product 3'
-        },
-        {
-          src: './123334.webp',
-        }
-      ]
-    }
+  {
+    src: './123334.webp',
+    alt: 'Product 2'
+  },
+  {
+    src: './12333.webp',
+    alt: 'Product 3'
+  },
+  {
+    src: './123334.webp',
+    alt: 'Product 4'
   }
-})
+])
 </script>
+  
 
 <template>
   <Carousel :autoplay="4000" :wrap-around="true">

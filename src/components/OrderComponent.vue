@@ -56,10 +56,10 @@ const breakpoints = {
 
         <Carousel v-bind="settings" :breakpoints="breakpoints">
           <Slide v-for="food in order.foods.slice(0, 10)" :key="food.id">
+            <a :href="`/product/${food.id}`">
             <div
-              class="h-[18em] bg-white border rounded-lg shadow-md p-4 mb-1 transition-shadow hover:shadow-lg"
+              class="h-[18em] bg-white border border-gray-100 rounded-lg shadow mr-1  p-4 mb-1 hover:border-gray-300 transition-shadow "
             >
-              <a :href="`/product/${food.id}`">
                 <img
                   v-if="food.imgUrl"
                   :src="food.imgUrl"
@@ -68,8 +68,9 @@ const breakpoints = {
                 />
                 <p class="text-center text-[10px] font-semibold">{{ food.title }}</p>
                 <p class="text-center text-sm text-gray-500">{{ food.price?.toFixed(2) }} р.</p>
-              </a>
+              
             </div>
+          </a>
           </Slide>
 
           <template #addons>

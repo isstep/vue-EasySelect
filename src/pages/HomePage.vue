@@ -4,7 +4,7 @@ import { inject } from 'vue'
 import axios from 'axios'
 // import debounce from 'lodash.debounce'
 import CardList from '../components/CardList.vue'
-import Carouse from '../components/Carouse.vue'
+import AdCarouse from '../components/AdCarousel.vue'
 
 const { cartFood, addFoodToCart, removeFoodFromCart } = inject('cartFoodActions')
 
@@ -125,7 +125,7 @@ watch(filters, fetchFoods)
 <template>
   <div class="mt-[65px]">
     <div class="max-[768px]:hidden">
-      <Carouse />
+      <AdCarouse />
     </div>
     <div class="mt-5 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
       <h2 class="text-xl sm:text-1xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-0">Популярное</h2>
