@@ -14,81 +14,77 @@ const close = () => {
   <teleport to="body">
     <div
       v-if="visible"
-      class="fixed inset-0 flex z-50 items-center justify-center bg-black bg-opacity-60 animate-fadeIn"
+      class="fixed inset-0 flex z-50 items-center justify-center bg-black/70 backdrop-blur-sm animate-fadeIn"
+      @click.self="close"
     >
-      <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full animate-slideIn">
-        <h2 class="text-2xl font-bold text-green-600 mb-4">Авторизация</h2>
-        <p class="text-gray-700 mb-6">
-          Вам нужно авторизоваться, чтобы продолжить действия.
-        </p>
-        <router-link
-          to="/login"
-          class="block w-full mb-4 px-4 py-2 bg-green-600 text-white rounded text-center transition duration-300 ease-in-out hover:bg-green-500 hover:scale-105"
-          @click="close"
-        >
-          Перейти к авторизации
-        </router-link>
+      <div class="relative bg-white pt-6 pb-8 px-8 rounded-xl shadow-2xl max-w-sm w-full m-4 animate-slideIn">
         <button
-          @click="close"
-          class="w-full px-4 py-2 bg-gray-600 text-white rounded transition duration-300 ease-in-out hover:bg-gray-500 hover:scale-105"
+           @click="close"
+           class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 rounded-full p-1"
+           aria-label="Закрыть"
         >
-          Закрыть
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
+
+        <div class="text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-emerald-500 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <h2 class="text-xl font-semibold text-slate-800 mb-2">Требуется вход в аккаунт</h2>
+          <p class="text-slate-600 text-sm mb-6">
+            Пожалуйста, войдите в систему или зарегистрируйтесь, чтобы продолжить.
+          </p>
+        </div>
+
+        <div class="space-y-3">
+           <router-link
+              :to="{ name: 'login' }"
+              class="block w-full px-5 py-2.5 bg-emerald-600 text-white font-medium rounded-lg text-center transition duration-200 ease-in-out hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              @click="close"
+           >
+             Войти
+           </router-link>
+           <button
+             @click="close"
+             class="w-full px-5 py-2.5 bg-slate-100 text-slate-700 font-medium rounded-lg transition duration-200 ease-in-out hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-1"
+           >
+             Позже
+           </button>
+        </div>
       </div>
     </div>
   </teleport>
 </template>
 
 <style lang="scss" scoped>
-.bg-white {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  font-family: 'Arial', sans-serif;
-}
-
-p {
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-button,
-.router-link {
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-button:hover,
-.router-link:hover {
-  transform: translateY(-2px);
-}
-
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(-20px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.5s ease-in-out forwards;
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
 .animate-slideIn {
-  animation: slideIn 0.5s ease-in-out forwards;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.backdrop-blur-sm {
+    @supports (backdrop-filter: blur(4px)) {
+        backdrop-filter: blur(4px);
+    }
+}
+
+button:focus-visible {
+    outline: 2px solid theme('colors.emerald.500');
+    outline-offset: 2px;
 }
 </style>
