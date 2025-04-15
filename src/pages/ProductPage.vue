@@ -19,11 +19,221 @@ const isFavorite = ref(false)
 
 
 const categories = ref([
-  { id: 13077, name: 'Овощи и фрукты' },
-  { id: 2, name: 'Молочные продукты' },
-  { id: 7544, name: 'Мясо и рыба' },
-
+{ id: 13077, name: 'Овощи и фрукты' },
+  { id: 2127, name: 'Молочные продукты' },
+  { id: 17397, name: 'Мясные продукты' },
+  { id: 13211, name: 'Хлебные изделия' },
+  { id: 7556, name: 'Напитки' },
+  { id: 6595, name: 'Другое' },
+  { id: 5391, name: 'Овощи' },
+  { id: 2256, name: 'Зелень' },
+  { id: 6785, name: 'Фрукты' },
+  { id: 6565, name: 'Ягоды' },
+  { id: 17953, name: 'Косточковые фрукты' },
+  { id: 19644, name: 'Тропические фрукты' },
+  { id: 15654, name: 'Сушеные фрукты' },
+  { id: 6648, name: 'Молоко' },
+  { id: 19585, name: 'Альтернативное молоко' },
+  { id: 6943, name: 'Творог' },
+  { id: 6528, name: 'Сыры' },
+  { id: 7587, name: 'Йогурты' },
+  { id: 17564, name: 'Сметана и сливки' },
+  { id: 18788, name: 'Кисломолочные напитки' },
+  { id: 7789, name: 'Десерты' },
+  { id: 7023, name: 'Говядина' },
+  { id: 7246, name: 'Свинина' },
+  { id: 6846, name: 'Птица' },
+  { id: 5512, name: 'Фарш' },
+  { id: 16129, name: 'Колбасные изделия' },
+  { id: 9683, name: 'Деликатесы' },
+  { id: 13990, name: 'Полуфабрикаты' },
+  { id: 8021, name: 'Субпродукты' },
+  { id: 6601, name: 'Булочки' },
+  { id: 5459, name: 'Киноа' },
+  { id: 15332, name: 'Баранки и сушки' },
+  { id: 5639, name: 'Соки' },
+  { id: 2272, name: 'Чай' },
+  { id: 5482, name: 'Кофе' },
+  { id: 19560, name: 'Газированные напитки' },
+  { id: 5344, name: 'Вода' },
+  { id: 15620, name: 'Морсы и компоты' },
+  { id: 18762, name: 'Растительные напитки' },
+  { id: 19066, name: 'Концентраты напитков' },
+  { id: 15753, name: 'Соки и нектары' },
+  { id: 21047, name: 'Спортивное питание' },
+  { id: 8956, name: 'Консервы' },
+  { id: 15112, name: 'Соусы и приправы' },
+  { id: 6489, name: 'Томаты' },
+  { id: 6501, name: 'Огурцы' },
+  { id: 6620, name: 'Перец' },
+  { id: 7120, name: 'Морковь' },
+  { id: 20115, name: 'Капуста белокочанная' },
+  { id: 7664, name: 'Брокколи' },
+  { id: 18936, name: 'Цветная капуста' },
+  { id: 6800, name: 'Салат' },
+  { id: 7439, name: 'Шпинат' },
+  { id: 7314, name: 'Руккола' },
+  { id: 7824, name: 'Петрушка' },
+  { id: 6923, name: 'Укроп' },
+  { id: 6565, name: 'Яблоки' },
+  { id: 6643, name: 'Груши' },
+  { id: 6865, name: 'Бананы' },
+  { id: 17660, name: 'Апельсины' },
+  { id: 7849, name: 'Клубника' },
+  { id: 6954, name: 'Малина' },
+  { id: 17198, name: 'Черника' },
+  { id: 7565, name: 'Персики' },
+  { id: 6546, name: 'Сливы' },
+  { id: 7241, name: 'Вишня' },
+  { id: 6480, name: 'Манго' },
+  { id: 5346, name: 'Киви' },
+  { id: 7308, name: 'Ананас' },
+  { id: 6366, name: 'Изюм' },
+  { id: 6845, name: 'Курага' },
+  { id: 16317, name: 'Чернослив' },
+  { id: 15117, name: 'Пастеризованное' },
+  { id: 20227, name: 'Ультрапастеризованное' },
+  { id: 10057, name: 'Органическое' },
+  { id: 15074, name: 'Безлактозное' },
+  { id: 6511, name: 'Соевое' },
+  { id: 16908, name: 'Миндальное' },
+  { id: 6781, name: 'Овсяное' },
+  { id: 16310, name: 'Кокосовое' },
+  { id: 11821, name: 'Классический' },
+  { id: 10542, name: 'Обезжиренный' },
+  { id: 10225, name: 'Зерненый' },
+  { id: 22486, name: 'Твердые (Чеддер, Гауда)' },
+  { id: 23020, name: 'Полутвердые (Российский, Эдам)' },
+  { id: 18154, name: 'Мягкие (Бри, Камамбер)' },
+  { id: 22107, name: 'Рассольные (Фета, Сулугуни)' },
+  { id: 21398, name: 'Натуральные (Без добавок)' },
+  { id: 11090, name: 'Фруктовые' },
+  { id: 8366, name: 'Питьевые' },
+  { id: 10359, name: 'Греческие' },
+  { id: 15368, name: 'Сметана (10%, 15%, 20%)' },
+  { id: 14841, name: 'Сливки (10%, 20%, 33%, для взбивания)' },
+  { id: 6593, name: 'Кефир' },
+  { id: 8008, name: 'Ряженка' },
+  { id: 5032, name: 'Айран' },
+  { id: 5108, name: 'Тан' },
+  { id: 7365, name: 'Творожки' },
+  { id: 15632, name: 'Сырковые массы' },
+  { id: 6872, name: 'Муссы' },
+  { id: 7376, name: 'Вырезка' },
+  { id: 17233, name: 'Стейки (Рибай, Стриплойн)' },
+  { id: 5512, name: 'Фарш' },
+  { id: 5573, name: 'Ребра' },
+  { id: 8236, name: 'Лопатка' },
+  { id: 6741, name: 'Шейка' },
+  { id: 7107, name: 'Корейка' },
+  { id: 16978, name: 'Курица (Тушка, Филе, Крылья, Бедра)' },
+  { id: 15878, name: 'Индейка (Филе, Фарш)' },
+  { id: 5348, name: 'Утка' },
+  { id: 5265, name: 'Гусь' },
+  { id: 7771, name: 'Говяжий' },
+  { id: 7994, name: 'Свиной' },
+  { id: 6835, name: 'Куриный' },
+  { id: 7574, name: 'Индейки' },
+  { id: 9774, name: 'Смешанный' },
+  { id: 21805, name: 'Вареные колбасы (Докторская, Молочная)' },
+  { id: 24892, name: 'Полукопченые колбасы (Краковская, Сервелат)' },
+  { id: 21800, name: 'Сырокопченые колбасы (Салями)' },
+  { id: 17546, name: 'Сосиски и сардельки' },
+  { id: 7811, name: 'Ветчина' },
+  { id: 9702, name: 'Буженина' },
+  { id: 10185, name: 'Карбонад' },
+  { id: 16859, name: 'Копчености' },
+  { id: 7638, name: 'Пельмени' },
+  { id: 6448, name: 'Манты' },
+  { id: 7208, name: 'Котлеты' },
+  { id: 18492, name: 'Блинчики с мясом' },
+  { id: 7091, name: 'Печень' },
+  { id: 7062, name: 'Сердце' },
+  { id: 6552, name: 'Почки' },
+  { id: 6681, name: 'Язык' },
+  { id: 7128, name: 'Сладкие' },
+  { id: 7920, name: 'Сорубной' },
+  { id: 7829, name: 'Тостовый' },
+  { id: 5377, name: 'Белая' },
+  { id: 7250, name: 'Красная' },
+  { id: 7150, name: 'Сдобные' },
+  { id: 9152, name: 'Дляленые' },
+  { id: 17724, name: 'Для гамбургеров' },
+  { id: 16943, name: 'Для хот-догов' },
+  { id: 6956, name: 'С маком' },
+  { id: 7236, name: 'С солью' },
+  { id: 7148, name: 'Простые' },
+  { id: 22755, name: 'Фруктовые (Яблочный, Апельсиновый, Виноградный)' },
+  { id: 20578, name: 'Овощные (Томатный, Морковный)' },
+  { id: 9409, name: 'Смешанные' },
+  { id: 6780, name: 'Черный' },
+  { id: 7124, name: 'Зеленый' },
+  { id: 6490, name: 'Белый' },
+  { id: 20287, name: 'Травяной (Ромашка, Мята)' },
+  { id: 10789, name: 'Фруктовый' },
+  { id: 7272, name: 'Зерновой' },
+  { id: 7280, name: 'Молотый' },
+  { id: 9406, name: 'Растворимый' },
+  { id: 10174, name: 'Капсульный' },
+  { id: 18379, name: 'Кофе без кофеина' },
+  { id: 5246, name: 'Кола' },
+  { id: 7729, name: 'Лимонад' },
+  { id: 7202, name: 'Тоник' },
+  { id: 17508, name: 'Газированная вода' },
+  { id: 10472, name: 'Энергетики' },
+  { id: 18769, name: 'Минеральная (Газированная, Негазированная)' },
+  { id: 17771, name: 'Питьевая (Очищенная, Артезианская)' },
+  { id: 15570, name: 'Клюквенный морс' },
+  { id: 15918, name: 'Брусничный морс' },
+  { id: 18839, name: 'Компот из сухофруктов' },
+  { id: 16030, name: 'Ягодный компот' },
+  { id: 15830, name: 'Соевое молоко' },
+  { id: 16908, name: 'Миндальное молоко' },
+  { id: 6781, name: 'Овсяное молоко' },
+  { id: 16310, name: 'Кокосовое молоко' },
+  { id: 6987, name: 'Сиропы' },
+  { id: 20049, name: 'Растворимые напитки (Чай, Какао, Кисель)' },
+  { id: 15753, name: 'Соки и нектары' },
+  { id: 2272, name: 'Чай' },
+  { id: 5482, name: 'Кофе' },
+  { id: 19560, name: 'Газированные напитки' },
+  { id: 5344, name: 'Вода' },
+  { id: 21047, name: 'Спортивное питание' },
+  { id: 8956, name: 'Консервы' },
+  { id: 15112, name: 'Соусы и приправы' },
+  { id: 11565, name: 'Апельсиновый' },
+  { id: 10637, name: 'Яблочный' },
+  { id: 10856, name: 'Томатный' },
+  { id: 12459, name: 'Мультифрукт' },
+  { id: 12554, name: 'Виноградный' },
+  { id: 22370, name: 'Чёрный (Английский завтрак, Дарджилинг)' },
+  { id: 20994, name: 'Зелёный (Сенча, Ганпаудер)' },
+  { id: 20287, name: 'Травяной (Ромашка, Мята)' },
+  { id: 10789, name: 'Фруктовый' },
+  { id: 7272, name: 'Зерновой' },
+  { id: 7280, name: 'Молотый' },
+  { id: 9406, name: 'Растворимый' },
+  { id: 10174, name: 'В капсулах' },
+  { id: 5246, name: 'Кола' },
+  { id: 7729, name: 'Лимонад' },
+  { id: 7202, name: 'Тоник' },
+  { id: 19978, name: 'Сладкая газированная вода' },
+  { id: 18769, name: 'Минеральная (Газированная, Негазированная)' },
+  { id: 17771, name: 'Питьевая (Очищенная, Артезианская)' },
+  { id: 23909, name: 'Протеиновые батончики' },
+  { id: 16539, name: 'Энергетические гели' },
+  { id: 9598, name: 'Изотоники' },
+  { id: 8282, name: 'Овощные' },
+  { id: 8329, name: 'Фруктовые' },
+  { id: 9234, name: 'Мясные' },
+  { id: 8164, name: 'Рыбные' },
+  { id: 7274, name: 'Кетчуп' },
+  { id: 7850, name: 'Майонез' },
+  { id: 7157, name: 'Горчица' },
+  { id: 15118, name: 'Соевый соус' },
+  { id: 16227, name: 'Растительное масло' }
 ])
+
 
 const productInCart = computed(() => {
   if (!product.value) return null
@@ -82,7 +292,6 @@ const loadProduct = async (id) => {
 }
 
 const loadReviews = async (productId) => {
-  // ... (без изменений)
    if (!productId) return
   try {
     const reviewsResponse = await axios.get(
@@ -95,7 +304,6 @@ const loadReviews = async (productId) => {
 }
 
 const submitReview = async () => {
-  // ... (без изменений)
    if (!newReviewUserName.value.trim()) return alert('Пожалуйста, введите ваше имя.')
   if (newReviewRating.value === 0) return alert('Пожалуйста, поставьте оценку.')
   if (!newReviewText.value.trim()) return alert('Пожалуйста, напишите текст отзыва.')
@@ -124,13 +332,12 @@ const submitReview = async () => {
 }
 
 const handleIncrement = () => {
-  // ... (без изменений)
    if (product.value) {
     const productToAdd = {
       id: product.value.id,
       title: product.value.title,
       price: product.value.price,
-      imageUrl: product.value.imageUrl // Уже содержит imgUrl или плейсхолдер
+      imageUrl: product.value.imageUrl 
     }
     addFoodToCart(productToAdd)
   }
@@ -168,8 +375,8 @@ watch(
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+  <div class="min-h-screen ">
+    <div class="container border-t mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
 
       <div v-if="isLoading && !product && !error" class="text-center py-24">
       </div>
@@ -179,21 +386,21 @@ watch(
 
       <div
         v-else-if="product"
-        class="bg-white rounded-xl shadow-lg overflow-hidden"
+        class="bg-white rounded-xl shadow-md overflow-hidden"
         :class="{ 'opacity-75 transition-opacity duration-300': isLoading }"
       >
 
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+        <div class="grid grid-cols-1  md:grid-cols-2 gap-0">
 
-          <div class="flex justify-center items-center bg-gray-100 p-6 md:p-10 lg:p-12 min-h-[300px] md:min-h-[400px] max-h-[550px] md:rounded-l-xl">
+          <div class="flex justify-center mt-0 items-center border-r p-6 md:p-10 lg:p-12 min-h-[300px] md:min-h-[400px] max-h-[550px] md:rounded-l-xl">
             <img :src="product.imageUrl" :alt="product.title || 'Изображение товара'" class="max-w-full max-h-full h-auto object-contain transition-opacity duration-500 ease-in-out" :class="{ 'opacity-0': !product.imageUrl }" @load="(e) => e.target.classList.add('opacity-100')" @error="(e) => { e.target.src = '/placeholder-food.svg'; e.target.classList.add('opacity-100', 'w-32', 'h-32', 'img-error'); }" />
           </div>
 
           <div class="flex flex-col p-6 md:p-8 lg:p-10 space-y-5">
 
-            <div v-if="productCategories.length > 0" class="mb-2 text-sm">
-              <span class="text-gray-500">Категории: </span>
+            <div v-if="productCategories.length > 0" class="mb-1 mt-[-2em] text-sm">
+              <span class="text-gray-500 ">Категории: </span>
               <template v-for="(category, index) in productCategories" :key="category.id">
                 <router-link
                   :to="`/catalog/${category.id}`"
@@ -207,7 +414,7 @@ watch(
 
             <h1 class="text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">{{ product.title }}</h1>
 
-            <p v-if="product.description" class="text-gray-600 leading-relaxed text-base lg:text-lg">
+            <p v-if="product.description" class="product-description">
               {{ product.description }}
             </p>
 
@@ -222,7 +429,7 @@ watch(
               <span class="text-4xl font-extrabold text-emerald-600">{{ product.price }} ₽</span>
               <span v-if="product.oldPrice && product.oldPrice > product.price" class="text-lg text-gray-400 line-through">{{ product.oldPrice }} ₽</span>
             </div>
-            <p v-if="product.discount" class="text-sm font-medium text-red-600 bg-red-100 px-2.5 py-1 rounded-full inline-block self-start">
+            <p v-if="product.discount" class="text-sm w-[10em] font-medium text-red-600 bg-red-100 px-2.5 py-1 rounded-full inline-block self-start">
               Скидка: {{ product.discount }}%
             </p>
 
@@ -233,10 +440,10 @@ watch(
                   <span>В корзину</span>
                 </button>
               </div>
-              <div v-else class="flex items-center border border-emerald-300 rounded-lg overflow-hidden shadow-sm flex-grow sm:flex-grow-0">
-                  <button @click="handleDecrement" :disabled="isLoading" class="px-4 py-3 text-emerald-700 hover:bg-emerald-100 focus:outline-none focus:bg-emerald-100 transition duration-150 disabled:opacity-50" aria-label="Уменьшить количество"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" /></svg></button>
-                  <span class="px-5 py-3 text-lg font-semibold text-emerald-800 bg-emerald-50 min-w-[60px] text-center">{{ quantityInCart }}</span>
-                  <button @click="handleIncrement" :disabled="isLoading" class="px-4 py-3 text-emerald-700 hover:bg-emerald-100 focus:outline-none focus:bg-emerald-100 transition duration-150 disabled:opacity-50" aria-label="Увеличить количество"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" /></svg></button>
+              <div v-else class="flex rounded-full items-center border border-emerald-300 overflow-hidden shadow-sm flex-grow sm:flex-grow-0">
+                  <button @click="handleDecrement" :disabled="isLoading" class="px-3 py-4 text-emerald-700 hover:bg-emerald-100  focus:bg-emerald-50 transition duration-150 disabled:opacity-50" aria-label="Уменьшить количество"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" /></svg></button>
+                  <span class="px-5 py-3 text-lg font-semibold text-emerald-800 bg-emerald-150 min-w-[60px] text-center">{{ quantityInCart }}</span>
+                  <button @click="handleIncrement" :disabled="isLoading" class="px-3 py-4 text-emerald-700 hover:bg-emerald-100 focus:outline-none focus:bg-emerald-50 transition duration-150 disabled:opacity-40" aria-label="Увеличить количество"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" /></svg></button>
               </div>
 
               <button @click="toggleFavorite" :disabled="isLoading" class="p-3 rounded-lg border transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50" :class="isFavorite ? 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100 hover:border-red-300' : 'bg-gray-100 border-gray-200 text-gray-600 hover:bg-gray-200 hover:border-gray-300'" :aria-label="isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'" title="Добавить в избранное">
@@ -364,5 +571,11 @@ img.img-error {
 .break-words {
     word-break: break-word;
     overflow-wrap: break-word;
+}
+.product-description {
+  width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
 }
 </style>

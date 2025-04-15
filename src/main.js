@@ -57,3 +57,5 @@ app.use(pinia)
 app.use(router)
 app.use(autoAnimatePlugin)
 app.mount('#app')
+
+
