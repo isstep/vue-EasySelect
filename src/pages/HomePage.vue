@@ -156,7 +156,7 @@ watch(filters, fetchFoods)
         </div>
       </div> -->
     </div>
-    <div class="mt-5">
+    <div class="mt-5">  
       <CardList
         :foods="foods"
         @add-to-favorite="addToFavorite"

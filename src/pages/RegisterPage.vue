@@ -52,7 +52,7 @@ const close = () => {
   <teleport to="body">
     <div
       id="registerModal"
-      class="fixed inset-0 flex z-50 items-center justify-center bg-black/70 backdrop-blur-sm animate-fadeIn"
+      class="fixed inset-0 flex z-50 items-center justify-center bg-white/100 backdrop-blur-sm animate-fadeIn"
       @click.self="close"
     >
       <div class="relative bg-white pt-6 pb-8 px-8 rounded-xl shadow-2xl w-full max-w-md m-4 animate-slideIn">

@@ -85,7 +85,7 @@ provide('cartFoodActions', {
 </script>
 
 <template>
-  <div>
+  <div class="">
     <DrawerComponent v-if="drawerOpen" :total-price="totalPrice" :vat-price="vatPrice" />
     <CatalogFood v-if="catalogOpen" />
 

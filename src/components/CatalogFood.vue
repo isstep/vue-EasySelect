@@ -8,7 +8,7 @@
       {
         title: 'Овощи и фрукты',
         subcategories: [
-          { category: 'Овощи', subcategories: ['Помидоры', 'Морковь', 'Огурцы'] },
+          { category: 'Овощи', subcategories: ['Помидоры', 'Морковь', 'Огурцы', 'Огурцы'] },
           { category: 'Фрукты', subcategories: ['Яблоки', 'Бананы', 'Виноград'] },
           { category: 'Зелень', subcategories: ['Петрушка', 'Кинза'] },
           { category: 'Грибы', subcategories: ['Шампиньоны', 'Шиитаке'] },
@@ -121,16 +121,17 @@
 
 
     <template>
+
       <div class="fixed top-0 left-0 h-full w-full z-40 flex">
         <div @click="closeCatalog" class="fixed top-0 left-0 h-full w-full bg-black opacity-80 cursor-pointer z-30">
           <button @click="closeCatalog" class="absolute bottom-10 left-1/2 mt-[44em] transform -translate-x-1/2 text-gray-500">
             Закрыть каталог
           </button>
         </div>
-
-        <div class="relative flex">
-          <div class="fixed bg-white w-full h-full fixed p-4 bottom-24 z-40">
-            <ul class="px-10 mt-[5.3em] mt-[10.9em] max-w-7xl mx-auto">
+        <div class=""></div>
+        <div class="relative  flex">
+          <div class="fixed bg-white   w-full h-full fixed p-4 bottom-24 z-40">
+            <ul class="px-10 mt-[11.3em] mt-[10.9em] max-w-7xl mx-auto">
               <li v-for="(category, index) in catalog" :key="category.title" class="border-r border-gray-300 w-[15em]" @mouseenter="handleCategoryMouseEnter(category.title)">
                 <h3
                   :id="'category-' + index"

@@ -1,11 +1,11 @@
   <script setup>
-  import { reactive, ref, watch, onMounted, inject } from 'vue'  // добавьте inject
+  import { reactive, ref, watch, onMounted, inject } from 'vue' 
   import { useRoute } from 'vue-router'
   import axios from 'axios'
   import debounce from 'lodash.debounce'
   import CardList from '../components/CardList.vue'
 
-  const { cartFood, addFoodToCart, removeFoodFromCart } = inject('cartFoodActions')  // используем inject для доступа к действиям
+  const { cartFood, addFoodToCart, removeFoodFromCart } = inject('cartFoodActions')  
 
   const foods = ref([])
 
@@ -14,9 +14,9 @@
     searchQuery: ''
   })
 
-  const route = useRoute()  // доступ к параметрам маршрута
+  const route = useRoute()  
 
-  const categoryId = ref(route.params.categoryId)  // получаем categoryId из маршрута
+  const categoryId = ref(route.params.categoryId)  
 
   const incrementFoodQuantity = (food) => {
     addFoodToCart(food)
@@ -94,12 +94,12 @@
 
       const { data } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/foods', { params })
       
-      // Логируем данные, чтобы понять, что приходит
+      
       console.log('Полученные данные продуктов:', data)
 
-      // Фильтруем продукты по категории
+   
       foods.value = data
-    .filter(food => Array.isArray(food.categoryIds) && food.categoryIds.includes(Number(categoryId.value)))  // проверяем, что categoryIds — массив
+    .filter(food => Array.isArray(food.categoryIds) && food.categoryIds.includes(Number(categoryId.value)))  
     .map((obg) => ({
       ...obg,
       isFavorite: false,
@@ -107,7 +107,7 @@
       favoriteId: null,
       quantity: 0
     }))
-      // Логируем отфильтрованные продукты
+
       console.log('Отфильтрованные продукты:', foods.value)
 
     } catch (err) {

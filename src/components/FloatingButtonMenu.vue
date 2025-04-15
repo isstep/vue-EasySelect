@@ -1,226 +1,325 @@
 <script setup>
-import { ref } from 'vue'
-
+import { ref, nextTick, watch } from 'vue'
+import { useAuthStore } from '../stores/auth'; 
+import { PaperAirplaneIcon, ChatBubbleLeftRightIcon, XMarkIcon } from '@heroicons/vue/24/solid' 
 const chatOpen = ref(false)
 const userMessage = ref('')
-const chatMessages = ref([{ id: 1, from: 'support', text: 'Здравствуйте! Как я могу помочь?' }])
-const showForm = ref(false)
-const formData = ref({ userName: '', reason: '', userMessage: '' })
-const step = ref(0)
+const chatMessages = ref([]) 
+const formData = ref({ userIdentifier: '', reason: '', userMessage: '' }) 
+const step = ref(0) 
 const isLoading = ref(false)
+const chatHistoryRef = ref(null) 
+
+const authStore = useAuthStore();
 
 const toggleChat = () => {
   chatOpen.value = !chatOpen.value
-  if (chatOpen.value) {
+  if (chatOpen.value && step.value === 0) { 
     startChat()
-  }
+  } 
 }
 
 const startChat = () => {
-  step.value = 1
-  chatMessages.value.push({ id: 2, from: 'support', text: 'Как вас зовут?' })
+  chatMessages.value = [{ id: Date.now(), from: 'support', text: 'Здравствуйте!' }]; 
+  isLoading.value = false;
+
+  if (authStore.isAuthenticated && authStore.user?.email) {
+    formData.value.userIdentifier = authStore.user.email; 
+    chatMessages.value.push({
+      id: Date.now() + 1,
+      from: 'support',
+      text: `Рады видеть вас, ${authStore.user.email}! Какая причина вашего обращения?`
+    });
+    step.value = 2; 
+  } else {
+    chatMessages.value.push({
+      id: Date.now() + 1,
+      from: 'support',
+      text: 'Пожалуйста, введите ваш email для связи.' 
+    });
+    step.value = 1; 
+  }
+  scrollToBottom();
 }
 
 const sendMessage = async () => {
-  if (userMessage.value.trim() === '') {
-    alert('Сообщение не может быть пустым!')
-    return
-  }
+  const messageText = userMessage.value.trim();
+  if (messageText === '') return; 
 
   chatMessages.value.push({
-    id: chatMessages.value.length + 1,
+    id: Date.now(), 
     from: 'user',
-    text: userMessage.value
-  })
+    text: messageText
+  });
+  userMessage.value = '';
+  isLoading.value = true; 
+  scrollToBottom(); 
 
-  isLoading.value = true
+  await nextTick(); 
 
-  if (step.value === 1) {
-    formData.value.userName = userMessage.value
-    step.value = 2
-    chatMessages.value.push({
-      id: chatMessages.value.length + 1,
-      from: 'support',
-      text: 'Какая причина обращения?'
-    })
-  } else if (step.value === 2) {
-    formData.value.reason = userMessage.value
-    step.value = 3
-    chatMessages.value.push({
-      id: chatMessages.value.length + 1,
-      from: 'support',
-      text: 'Введите ваше сообщение.'
-    })
-  } else if (step.value === 3) {
-    formData.value.userMessage = userMessage.value
-    step.value = 4
-    chatMessages.value.push({
-      id: chatMessages.value.length + 1,
-      from: 'support',
-      text: 'Подготовка к отправке запроса...'
-    })
-    await submitForm()
+  try {
+    let responseMessage = '';
+
+    if (step.value === 1) { 
+
+      if (!/\S+@\S+\.\S+/.test(messageText)) {
+         responseMessage = 'Пожалуйста, введите корректный email.';
+         step.value = 1; 
+      } else {
+        formData.value.userIdentifier = messageText;
+        responseMessage = 'Спасибо! Теперь укажите причину обращения.';
+        step.value = 2; 
+      }
+    } else if (step.value === 2) { 
+      formData.value.reason = messageText;
+      responseMessage = 'Отлично. Теперь опишите ваш вопрос или проблему.';
+      step.value = 3; 
+    } else if (step.value === 3) {
+      formData.value.userMessage = messageText;
+      responseMessage = 'Спасибо! Ваш запрос обрабатывается и отправляется...';
+      step.value = 4; 
+      await submitForm(); 
+    
+    }
+
+   
+    if (step.value < 4) { 
+       chatMessages.value.push({
+         id: Date.now() + 1,
+         from: 'support',
+         text: responseMessage
+       });
+    }
+
+  } catch (error) {
+     console.error("Ошибка в логике sendMessage:", error);
+     chatMessages.value.push({
+       id: Date.now() + 1,
+       from: 'support',
+       text: 'Произошла внутренняя ошибка. Попробуйте позже.'
+     });
+     step.value = 5; 
+  } finally {
+    
+    if (step.value !== 4) {
+       isLoading.value = false;
+    }
+    scrollToBottom();
   }
+};
 
-  userMessage.value = ''
-  isLoading.value = false
-}
 
 const submitForm = async () => {
-  if (!formData.value.userName || !formData.value.reason || !formData.value.userMessage) {
-    alert('Пожалуйста, заполните все поля!')
-    return
+
+  if (!formData.value.userIdentifier || !formData.value.reason || !formData.value.userMessage) {
+    console.error('Попытка отправки неполных данных:', formData.value);
+    chatMessages.value.push({
+      id: Date.now(),
+      from: 'support',
+      text: 'Не удалось собрать все данные для отправки. Пожалуйста, попробуйте начать чат заново.'
+    });
+    step.value = 5; 
+    isLoading.value = false;
+    scrollToBottom();
+    return;
+  }
+
+  isLoading.value = true; 
+  chatMessages.value.push({
+      id: Date.now(),
+      from: 'support',
+      text: 'Отправляем ваш запрос...'
+  });
+  scrollToBottom();
+
+  let userIdInfo = '';
+  if (authStore.isAuthenticated && authStore.user?.id && authStore.user.id !== formData.value.userIdentifier) {
+      userIdInfo = `\nUser ID: ${authStore.user.id}`;
   }
 
   const formattedMessage = `
-    Заявка от пользователя: ${formData.value.userName}
+    Заявка от: ${formData.value.userIdentifier}${userIdInfo}
     Причина: ${formData.value.reason}
-    Сообщение: ${formData.value.userMessage}
-  `
-  await sendToTelegram(formattedMessage)
+    --------------------
+    Сообщение:
+    ${formData.value.userMessage}
+  `;
 
-  chatMessages.value.push({
-    id: chatMessages.value.length + 1,
-    from: 'support',
-    text: 'Заявка успешно отправлена!'
-  })
-  formData.value = { userName: '', reason: '', userMessage: '' }
-  step.value = 0
-  showForm.value = false
-}
+  try {
+    await sendToTelegram(formattedMessage);
+    chatMessages.value.push({
+      id: Date.now() + 1,
+      from: 'support',
+      text: 'Ваш запрос успешно отправлен! Мы скоро с вами свяжемся.'
+    });
+    step.value = 5; 
+   
+  } catch (error) {
+     chatMessages.value.push({
+       id: Date.now() + 1,
+       from: 'support',
+       text: `Произошла ошибка при отправке: ${error.message}. Попробуйте еще раз или свяжитесь с нами другим способом.`
+     });
+     step.value = 5; 
+  } finally {
+    isLoading.value = false;
+    scrollToBottom();
+  }
+};
 
 const sendToTelegram = async (message) => {
-  const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN
-  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID
+  const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
 
-  const url = `https://api.telegram.org/bot${token}/sendMessage`
+  if (!token || !chatId) {
+    throw new Error("Конфигурация Telegram не завершена."); 
+  }
 
+  const url = `https://api.telegram.org/bot${token}/sendMessage`;
   const params = new URLSearchParams({
     chat_id: chatId,
-    text: message
-  })
+    text: message,
+    parse_mode: 'HTML' 
+  });
 
   try {
     const response = await fetch(url, {
       method: 'POST',
       body: params
-    })
-    const data = await response.json()
+    });
+    const data = await response.json();
     if (!response.ok) {
+      console.error('Telegram API Error:', data);
       throw new Error(
-        `Ошибка при отправке сообщения. Код ошибки: ${response.status}. Ответ: ${JSON.stringify(data)}`
-      )
+        `Ошибка Telegram: ${data.description || response.status}`
+      );
     }
-    console.log('Сообщение отправлено в Telegram:', data)
+    console.log('Сообщение отправлено в Telegram:', data);
   } catch (error) {
-    console.error('Ошибка при отправке в Telegram:', error)
-    alert('Ошибка при отправке сообщения в Telegram!')
+    console.error('Ошибка при отправке в Telegram:', error);
+    throw new Error('Не удалось отправить сообщение в Telegram.');
   }
-}
+};
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    const chatHistory = chatHistoryRef.value;
+    if (chatHistory) {
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+  });
+};
+
+watch(chatMessages, () => {
+  scrollToBottom();
+}, { deep: true });
+
 </script>
 
 <template>
-  <div class="fixed bottom-4 right-4">
+  <div class="fixed bottom-5 right-5 z-[100]">
     <button
-      class="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center hover:bg-gray-100 transition"
+      class="w-14 h-14 rounded-full bg-emerald-600 text-white shadow-lg flex items-center justify-center hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150"
       @click="toggleChat"
+      aria-label="Открыть чат поддержки"
     >
-    <div class="opacity-70 hover:opacity-90">
-      💬
-    </div>
+      <transition
+        enter-active-class="transition ease-out duration-200 transform"
+        enter-from-class="opacity-0 scale-75"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition ease-in duration-150 transform"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-75"
+        mode="out-in"
+      >
+        <XMarkIcon v-if="chatOpen" class="w-7 h-7" />
+        <ChatBubbleLeftRightIcon v-else class="w-7 h-7" />
+      </transition>
     </button>
-
-    <div
-      v-if="chatOpen"
-      class="fixed bottom-16 right-4 w-80 bg-white shadow-xl rounded-lg p-4 border border-gray-200 transition-all ease-in-out transform"
+    <transition
+      enter-active-class="transition ease-out duration-300"
+      enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+      enter-to-class="opacity-100 translate-y-0 sm:scale-100"
+      leave-active-class="transition ease-in duration-200"
+      leave-from-class="opacity-100 translate-y-0 sm:scale-100"
+      leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     >
-      <div class="flex justify-between items-center mb-2">
-        <h3 class="text-lg font-semibold text-gray-700">Чат с поддержкой</h3>
-        <button @click="toggleChat" class="text-gray-500 hover:text-gray-700">X</button>
-      </div>
-      <div class="h-48 overflow-y-auto mb-4 bg-gray-50 p-2 rounded-lg">
-        <div
-          v-for="message in chatMessages"
-          :key="message.id"
-          :class="message.from === 'user' ? 'text-right' : 'text-left'"
-        >
-          <p
-            :class="
-              message.from === 'user'
-                ? ' mt-[2px] bg-green-100 text-black-400'
-                : 'bg-gray-200 mb-[2px] text-gray-700'
-            "
-            class="inline-block rounded-lg p-2 max-w-xs"
+      <div
+        v-if="chatOpen"
+        class="fixed bottom-20 right-5 w-[calc(100vw-40px)] max-w-sm h-[60vh] max-h-[500px] bg-white shadow-xl rounded-lg border border-gray-200 flex flex-col overflow-hidden"
+      >
+        <div class="flex-shrink-0 flex justify-between items-center p-3 border-b border-gray-200 bg-gray-50">
+          <h3 class="text-base font-semibold text-gray-800">Чат с поддержкой</h3>
+          <button @click="toggleChat" class="text-gray-400 hover:text-gray-600" aria-label="Закрыть чат">
+             <XMarkIcon class="w-5 h-5" />
+          </button>
+        </div>
+        <div ref="chatHistoryRef" class="flex-grow overflow-y-auto p-4 space-y-3 bg-gray-100/50">
+          <div
+            v-for="message in chatMessages"
+            :key="message.id"
+            :class="['flex', message.from === 'user' ? 'justify-end' : 'justify-start']"
           >
-            {{ message.text }}
-          </p>
+            <p
+              :class="[
+                'inline-block rounded-xl py-2 px-3 max-w-[80%] break-words text-sm',
+                 message.from === 'user'
+                  ? 'bg-emerald-500 text-white rounded-br-none' 
+                  : 'bg-gray-200 text-gray-800 rounded-bl-none' 
+              ]"
+            >
+              {{ message.text }}
+            </p>
+          </div>
+           <div v-if="isLoading && step === 4" class="flex justify-start">
+                <span class="inline-block bg-gray-200 text-gray-600 rounded-xl py-2 px-3 text-sm rounded-bl-none">
+                    <span class="animate-pulse">Отправка...</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="flex-shrink-0 p-3 border-t border-gray-200 bg-gray-50">
+          <form @submit.prevent="sendMessage" class="flex items-center space-x-2">
+            <input
+              v-model="userMessage"
+              type="text"
+              class="flex-1 border border-gray-300 p-2 rounded-md text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+              placeholder="Введите сообщение..."
+              :disabled="isLoading || step >= 4"
+              autocomplete="off"
+            />
+            <button
+              type="submit"
+              class="p-2 rounded-md text-white transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+              :class="{
+                'bg-emerald-600 hover:bg-emerald-700': !isLoading && step < 4, 
+                'bg-gray-400 cursor-not-allowed': isLoading || step >= 4 
+              }"
+              :disabled="isLoading || step >= 4"
+              aria-label="Отправить сообщение"
+            >
+              <PaperAirplaneIcon class="w-5 h-5" />
+            </button>
+          </form>
         </div>
       </div>
-
-      <div v-if="step === 1" class="flex flex-col gap-4">
-        <input
-          v-model="formData.userName"
-          type="text"
-          class="border p-2 rounded-lg text-gray-700"
-          placeholder="Введите ваше имя"
-        />
-        <select v-model="formData.reason" class="border p-2 rounded-lg text-gray-700">
-          <option value="" disabled selected>Выберите причину обращения</option>
-          <option value="return">Запрос о возврате товара</option>
-          <option value="order">Вопрос по заказу</option>
-          <option value="feedback">Обратная связь</option>
-        </select>
-        <input
-          v-model="formData.userMessage"
-          type="text"
-          class="border p-2 rounded-lg text-gray-700"
-          placeholder="Введите ваше сообщение"
-        />
-        <button
-          @click="submitForm"
-          class="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600 transition"
-        >
-          Отправить
-        </button>
-      </div>
-
-      <div v-else class="flex">
-        <input
-          v-model="userMessage"
-          type="text"
-          class="flex-1 border p-2 rounded-l-lg text-gray-700"
-          placeholder="Напишите сообщение..."
-        />
-        <button
-          @click="sendMessage"
-          class="bg-green-500 text-white p-2 rounded-r-lg hover:bg-green-600 transition"
-          :disabled="isLoading"
-        >
-          {{ isLoading ? 'Отправка...' : 'Отправить' }}
-        </button>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <style scoped>
-button {
-  transition: background-color 0.3s;
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
 }
-
-.bg-green-500 {
-  background-color: rgb(22, 163, 74) !important;
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
 }
-
-.bg-green-600 {
-  background-color: rgb(16, 128, 58) !important;
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); 
+  border-radius: 3px;
 }
-
-.text-green-700 {
-  color: rgb(22, 163, 74) !important;
-}
-
-.bg-green-100 {
-  background-color: rgb(167, 243, 208) !important;
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 </style>

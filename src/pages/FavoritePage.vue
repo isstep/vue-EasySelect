@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router'
 const favorites = ref([])
 const router = useRouter()
 
-onMounted(async () => {
+const loadFavorites = async () => {
   try {
     const { data } = await axios.get(
       `https://f4f1d0c1ac4cb845.mokky.dev/favorites?_relations=foods`
@@ -16,10 +16,27 @@ onMounted(async () => {
   } catch (err) {
     console.log(err)
   }
+}
+
+onMounted(async () => {
+  await loadFavorites()
 })
 
 const goToHome = () => {
   router.push('/')
+}
+
+const removeFromFavorites = async (foodId) => {
+  try {
+    await axios.delete(`https://f4f1d0c1ac4cb845.mokky.dev/favorites/${foodId}`)
+
+    favorites.value = favorites.value.filter((food) => food.id !== foodId)
+
+
+
+  } catch (error) {
+    console.error('Ошибка при удалении из избранного:', error)
+  }
 }
 </script>
 
@@ -37,6 +54,6 @@ const goToHome = () => {
       </button>
     </div>
 
-    <CardList v-else :foods="favorites" is-favorites />
+    <CardList v-else :foods="favorites" is-favorites @remove-from-favorites="removeFromFavorites" />
   </div>
 </template>

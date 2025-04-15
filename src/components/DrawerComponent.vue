@@ -1,44 +1,78 @@
 <script setup>
-import { ref, computed, inject } from 'vue'
-import axios from 'axios'
-import DrawerHead from './DrawerHead.vue'
-import CardItemList from './CardItemList.vue'
-import InfoBlock from './InfoBlock.vue'
+import { ref, computed, inject, onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router'; 
+import DrawerHead from './DrawerHead.vue';
+import CardItemList from './CardItemList.vue';
+import InfoBlock from './InfoBlock.vue';
+import { useAuthStore } from '../stores/auth';
 
 const props = defineProps({
   totalPrice: Number,
-  vatPrice: Number
-})
+  vatPrice: Number,
+});
 
-const { cartFood, closeDrawer } = inject('cartFoodActions')
+const { cartFood, closeDrawer } = inject('cartFoodActions');
+const authStore = useAuthStore();
+const router = useRouter(); 
 
-const isCreatingOrder = ref(false)
-const orderID = ref(null)
+const isCreatingOrder = ref(false);
+const orderID = ref(null);
+const orderError = ref(null); 
 
-const cartIsEmpty = computed(() => cartFood.value.length === 0)
+const cartIsEmpty = computed(() => cartFood.value.length === 0);
 
-const buttonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value)
+const buttonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value || !authStore.isAuthenticated);
 
 const totalPriceWithDiscount = computed(() => {
-  return (props.totalPrice - props.vatPrice).toFixed(2)
-})
+  return (props.totalPrice - props.vatPrice).toFixed(2);
+});
+
+
+onMounted(() => {
+  if (!authStore.isAuthenticated) {
+    router.push({ path: '/login', query: { redirect: router.currentRoute.value.fullPath } });
+  }
+});
 
 const createOrder = async () => {
+  if (!authStore.isAuthenticated) {
+    console.warn('User not authenticated, cannot create order.');
+    router.push({ path: '/login', query: { redirect: router.currentRoute.value.fullPath } });
+    return; 
+  }
+
   try {
-    isCreatingOrder.value = true
+    isCreatingOrder.value = true;
+    orderError.value = null; 
+
+
+    if (!authStore.user?.id) {
+      console.error("User ID is not available in the auth store.");
+      orderError.value = "Could not get user ID. Please try again.";
+      return;
+    }
+
     const { data } = await axios.post(`https://f4f1d0c1ac4cb845.mokky.dev/orders`, {
       foods: cartFood.value,
-      totalPrice: props.totalPrice.toFixed(2) - props.vatPrice
-    })
-    cartFood.value = []
-
-    orderID.value = data.id
+      totalPrice: parseFloat(totalPriceWithDiscount.value), 
+      userId: authStore.user.id,
+    });
+    cartFood.value = [];
+    orderID.value = data.id;
+    console.log("Order created successfully:", data);
   } catch (err) {
-    console.log(err)
+    console.error("Error creating order:", err);
+    orderError.value = "An error occurred while creating the order. Please try again.";
+    if (err.response) {
+        console.error("Response data:", err.response.data);
+        console.error("Response status:", err.response.status);
+        orderError.value += ` (Status: ${err.response.status})`;  
+      }
   } finally {
-    isCreatingOrder.value = false
+    isCreatingOrder.value = false;
   }
-}
+};
 </script>
 
 <template>
@@ -46,9 +80,9 @@ const createOrder = async () => {
   <div class="bg-white w-96 h-full fixed right-0 top-0 z-50 p-8 overflow-y-auto">
     <DrawerHead :totalPrice="props.totalPrice" />
 
-    <div v-if="!props.totalPrice || orderID" class="flex h-full items-center">
+    <div v-if="!props.totalPrice || orderID || orderError" class="flex h-full items-center">
       <InfoBlock
-        v-if="!props.totalPrice && !orderID"
+        v-if="!props.totalPrice && !orderID && !orderError"
         title="В корзине пусто"
         description="Ищите товары в каталоге и поиске, смотрите интересные подборки на главной"
         imgUrl="/package-icon.png"
@@ -60,6 +94,13 @@ const createOrder = async () => {
         :description="`Ваш заказ #${orderID} скоро будет передан курьерской доставке`"
         imgUrl="/order-success-icon.png"
       />
+
+      <InfoBlock
+        v-if="orderError"
+        title="Ошибка при оформлении заказа"
+        :description="orderError"
+        imgUrl="/error-icon.png"
+        />
     </div>
 
     <div v-else class="mb-[6.3em] mt-[3.3em]">
@@ -78,8 +119,6 @@ const createOrder = async () => {
             <b>{{ totalPriceWithDiscount }} р.</b>
           </div>
 
-            <router-link
-            to="/login"> 
           <button
             :disabled="buttonDisabled"
             @click="createOrder"
@@ -87,7 +126,15 @@ const createOrder = async () => {
           >
             Оформить заказ
           </button>
-        </router-link>
+
+          <!-- Conditional rendering for login button (now redundant) -->
+         <!--
+          <router-link v-if="!authStore.isAuthenticated" to="/login">
+            <button class="mt-3 transition bg-blue-500 w-full rounded-xl py-[0.7em] text-white hover:bg-blue-700">
+              Войти для оформления заказа
+            </button>
+          </router-link>
+        -->
         </div>
       </div>
     </div>

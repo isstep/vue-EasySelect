@@ -45,6 +45,7 @@ const routes = [
   { path: '/paymentDelivery', name: 'paymentDelivery', component: PaymentDeliveryPage, meta: false },
   { path: '/pickupPointsPage', name: 'pickupPointsPage', component: PickupPointsPage, meta: false },
   { path: '/partnership', name: 'partnership', component: PartnerShip, meta: { hideFooter: true } }
+
 ]
 
 const router = createRouter({
