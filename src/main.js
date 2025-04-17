@@ -12,15 +12,12 @@ import OrderPage from './pages/OrderPage.vue'
 import NewsPage from './components/FooterPages/NewsPage.vue'
 import ContactsPage from './components/FooterPages/ContactsPage.vue'
 import PaymentDeliveryPage from './components/FooterPages/PaymentDeliveryPage.vue'
-import PickupPointsPage from './components/FooterPages/PickupPointsPage.vue'
 import AboutPage from './components/FooterPages/AboutPage.vue'
-import FAQPage from './components/FooterPages/FAQPage.vue'
 import LoginComponent from './pages/LoginPage.vue'
 import SuccessPage from './pages/SuccessPage.vue'
 import RegisterPage from './pages/RegisterPage.vue'
 import ConfirmationPage from './pages/ConfirmationPage.vue'
 import ProductPage from './pages/ProductPage.vue'
-import PartnerShip from './components/FooterPages/PartnerShip.vue'
 import CatalogProductListPage from './pages/CatalogProductListPage.vue'
 import ProductCreate from './components/Admin/ProductCreate.vue'
 
@@ -40,11 +37,8 @@ const routes = [
   { path: '/order', name: 'order', component: OrderPage, meta: { hideHeader: false } },
   { path: '/news', name: 'news', component: NewsPage, meta: false },
   { path: '/about', name: 'about', component: AboutPage, meta: false },
-  { path: '/FAQ', name: 'FAQ', component: FAQPage, meta: false },
   { path: '/contacts', name: 'contacts', component: ContactsPage, meta: false },
   { path: '/paymentDelivery', name: 'paymentDelivery', component: PaymentDeliveryPage, meta: false },
-  { path: '/pickupPointsPage', name: 'pickupPointsPage', component: PickupPointsPage, meta: false },
-  { path: '/partnership', name: 'partnership', component: PartnerShip, meta: { hideFooter: true } }
 
 ]
 
