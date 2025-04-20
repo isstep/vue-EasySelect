@@ -30,7 +30,7 @@ const routes = [
   { path: '/product/:id', name: 'ProductPage', component: ProductPage, props: true },
   { path: '/confirmation', name: 'ConfirmationPage', component: ConfirmationPage,  meta: { hideHeader: true, hideFooter: true }},
   { path: '/register', name: 'RegisterPage', component: RegisterPage, meta: { hideHeader: true } },
-  { path: '/succses/',name: 'SuccessPage',component: SuccessPage, meta: { hideHeader: true, hideFooter: true } },
+  { path: '/success/',name: 'SuccessPage',component: SuccessPage, meta: { hideHeader: true, hideFooter: true } },
   { path: '/', name: '', component: HomePage, meta: { hideHeader: false } },
   { path: '/favorites', name: 'favorites', component: FavoritePage, meta: { hideHeader: false } },
   { path: '/login', name: 'login', component: LoginComponent, meta: { hideHeader: true } },

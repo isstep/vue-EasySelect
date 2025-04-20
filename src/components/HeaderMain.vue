@@ -163,7 +163,7 @@ watch(router.currentRoute, () => {
     >
       <div class="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm">
         <span class="text-gray-600 flex items-center gap-2">
-          <img class="h-4 w-4" src="/public/123.svg" alt="Location" />
+          <img class="h-4 w-4" src="/123.svg" alt="Location" />
           <span class="text-blue-600 font-medium hover:underline cursor-pointer"
             >Укажите адрес</span
           >
