@@ -368,7 +368,7 @@ const close = () => {
 }
 
 .bg-black\/60 {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgb(255, 255, 255);
 }
 
 .backdrop-blur-sm {
