@@ -13,7 +13,7 @@ const isLoading = ref(false)
 const country = 'Беларусь'
 const city = 'Минск'
 const phoneCode = '+375'
-const targetPhoneLength = 9 
+const targetPhoneLength = 9
 
 const street = ref('')
 const houseNumber = ref('')
@@ -26,7 +26,7 @@ const passwordMismatchError = ref(false)
 const streetError = ref(false)
 const houseNumberError = ref(false)
 const phoneRestError = ref(false)
-const genericApiError = ref('') 
+const genericApiError = ref('')
 
 const fullAddress = computed(() => {
   let addr = `${country}, г. ${city}, ул. ${street.value}, д. ${houseNumber.value}`
@@ -48,13 +48,15 @@ const fullPhoneNumber = computed(() => {
 const phoneCharsInfo = computed(() => {
   const currentLength = cleanedPhoneRest.value.length;
   if (currentLength >= targetPhoneLength) {
-    return { text: '✓', remaining: 0, isComplete: true };
+
+    const text = currentLength === targetPhoneLength ? '✓' : `Нужно ${targetPhoneLength} цифр`;
+    return { text: text, remaining: 0, isComplete: currentLength === targetPhoneLength };
   }
   const remaining = targetPhoneLength - currentLength;
-  let suffix = 'символов';
-  if (remaining === 1) suffix = 'символ';
-  else if (remaining >= 2 && remaining <= 4) suffix = 'символа';
-  return { text: `Осталось ввести ${remaining} ${suffix}`, remaining: remaining, isComplete: false };
+  let suffix = 'цифр';
+  if (remaining === 1) suffix = 'цифру';
+  else if (remaining >= 2 && remaining <= 4) suffix = 'цифры';
+  return { text: `Осталось ${remaining} ${suffix}`, remaining: remaining, isComplete: false };
 });
 
 
@@ -63,7 +65,7 @@ const validateInputs = () => {
   streetError.value = false
   houseNumberError.value = false
   phoneRestError.value = false
-  genericApiError.value = '' 
+  genericApiError.value = ''
   let hasErrors = false
 
   if (password.value !== confirmPassword.value) {
@@ -81,30 +83,30 @@ const validateInputs = () => {
     hasErrors = true
   }
 
-  if (!phoneRest.value) { 
+  if (!phoneRest.value) {
      phoneRestError.value = true
      hasErrors = true
-  } else if (cleanedPhoneRest.value.length !== targetPhoneLength) { 
+  } else if (cleanedPhoneRest.value.length !== targetPhoneLength) {
       phoneRestError.value = true
       hasErrors = true
   }
-  return !hasErrors 
+  return !hasErrors
 }
 
 const register = async () => {
   if (!validateInputs()) {
-    return 
+    return
   }
 
   isLoading.value = true
-  genericApiError.value = '' 
+  genericApiError.value = ''
 
   try {
     const response = await axios.post('https://nodejs-server-sfel.onrender.com/signup', {
       firstName: firstName.value,
       lastName: lastName.value,
       address: fullAddress.value,
-      phoneNumber: fullPhoneNumber.value, 
+      phoneNumber: fullPhoneNumber.value,
       email: email.value,
       password: password.value,
       confirmPassword: confirmPassword.value
@@ -129,13 +131,13 @@ const close = () => {
   <teleport to="body">
     <div
       id="registerModal"
-      class="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto py-10 px-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+      class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-10 px-4 bg-black/60 backdrop-blur-sm animate-fadeIn" 
       aria-labelledby="registerModalTitle"
       role="dialog"
       aria-modal="true"
     >
       <div
-        class="relative bg-white pt-6 pb-8 px-6 sm:px-8 rounded-xl shadow-2xl w-full max-w-lg m-auto animate-slideIn max-h-[95vh] overflow-y-auto"
+        class="relative bg-white pt-6 pb-8 px-6 sm:px-8 rounded-xl shadow-2xl w-full max-w-xl m-auto animate-slideIn"
       >
 
         <button
@@ -248,8 +250,8 @@ const close = () => {
                 id="phoneRest"
                 v-model="phoneRest"
                 placeholder="(XX) XXX-XX-XX"
-                inputmode="numeric"  
-                maxlength="9" 
+                inputmode="numeric"
+                maxlength="15"  
                 class="flex-grow min-w-0 px-4 py-2 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-2 shadow-sm placeholder-gray-400"
                 :class="[
                   phoneRestError
@@ -262,15 +264,11 @@ const close = () => {
                 aria-describedby="phone-error phone-hint"
               />
             </div>
-     
             <p v-if="phoneRestError" id="phone-error" class="mt-1 text-xs text-red-600">
               Требуется ввести ровно {{ targetPhoneLength }} цифр номера телефона.
             </p>
-     
              <p v-if="!phoneRestError" id="phone-hint" class="text-xs mt-1" :class="phoneCharsInfo.isComplete ? 'text-green-600' : 'text-gray-500'">
                {{ phoneCharsInfo.text }}
-             </p>
-             <p v-if="!phoneRestError && !phoneRest.value" class="text-xs text-gray-500 mt-1">
              </p>
           </div>
 
@@ -287,7 +285,7 @@ const close = () => {
             />
           </div>
 
-         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             <div>
               <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Пароль *</label>
               <input
@@ -377,6 +375,7 @@ const close = () => {
     }
 }
 
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -386,6 +385,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+
 button:focus-visible, a:focus-visible {
     outline: 2px solid theme('colors.emerald.500');
     outline-offset: 2px;
@@ -393,21 +393,8 @@ button:focus-visible, a:focus-visible {
 .absolute.top-3.right-3:focus-visible {
      outline: 2px solid theme('colors.gray.500');
 }
-
 input:focus-visible {
-    outline: none;
-}
-
-#registerModal > div::-webkit-scrollbar {
-  width: 6px;
-}
-#registerModal > div::-webkit-scrollbar-track {
-  background: transparent;
-}
-#registerModal > div::-webkit-scrollbar-thumb {
-  background-color: theme('colors.gray.400');
-  border-radius: 3px;
-  border: 1px solid theme('colors.white');
+    outline: none; 
 }
 
 .border-red-500 {
@@ -425,5 +412,22 @@ input:focus-visible {
 }
 .text-green-600 {
     color: theme('colors.green.600');
+}
+
+#registerModal::-webkit-scrollbar {
+  width: 8px;
+}
+#registerModal::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+#registerModal::-webkit-scrollbar-thumb {
+  background-color: theme('colors.gray.500');
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+#registerModal::-webkit-scrollbar-thumb:hover {
+  background-color: theme('colors.gray.600');
 }
 </style>
