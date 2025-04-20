@@ -49,7 +49,7 @@ const phoneCharsInfo = computed(() => {
   const currentLength = cleanedPhoneRest.value.length;
   if (currentLength >= targetPhoneLength) {
 
-    const text = currentLength === targetPhoneLength ? '✓' : `Нужно ${targetPhoneLength} цифр`;
+    const text = currentLength === targetPhoneLength ? 'Подтверждено ✓' : `Нужно ${targetPhoneLength} цифр`;
     return { text: text, remaining: 0, isComplete: currentLength === targetPhoneLength };
   }
   const remaining = targetPhoneLength - currentLength;
@@ -251,7 +251,7 @@ const close = () => {
                 v-model="phoneRest"
                 placeholder="(XX) XXX-XX-XX"
                 inputmode="numeric"
-                maxlength="15"  
+                maxlength="9"  
                 class="flex-grow min-w-0 px-4 py-2 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-2 shadow-sm placeholder-gray-400"
                 :class="[
                   phoneRestError
