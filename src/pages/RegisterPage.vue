@@ -32,8 +32,7 @@ const register = async () => {
     })
 
     console.log('Регистрация выполнена успешно:', response.data)
-    alert('Регистрация успешна! Проверьте свою почту для подтверждения.')
-    router.push('/confirmation') 
+    router.push('/confirmation')   
   } catch (error) {
     console.error('Ошибка при регистрации:', error.response?.data || error.message)
     alert('Ошибка при регистрации: ' + (error.response?.data.error || error.message))

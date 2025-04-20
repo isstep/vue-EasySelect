@@ -30,7 +30,7 @@ const routes = [
   { path: '/product/:id', name: 'ProductPage', component: ProductPage, props: true },
   { path: '/confirmation', name: 'ConfirmationPage', component: ConfirmationPage,  meta: { hideHeader: true, hideFooter: true }},
   { path: '/register', name: 'RegisterPage', component: RegisterPage, meta: { hideHeader: true } },
-  { path: '/success',name: 'SuccessPage',component: SuccessPage, meta: { hideHeader: true, hideFooter: true } },
+  { path: '/succses/',name: 'SuccessPage',component: SuccessPage, meta: { hideHeader: true, hideFooter: true } },
   { path: '/', name: '', component: HomePage, meta: { hideHeader: false } },
   { path: '/favorites', name: 'favorites', component: FavoritePage, meta: { hideHeader: false } },
   { path: '/login', name: 'login', component: LoginComponent, meta: { hideHeader: true } },
@@ -38,8 +38,7 @@ const routes = [
   { path: '/news', name: 'news', component: NewsPage, meta: false },
   { path: '/about', name: 'about', component: AboutPage, meta: false },
   { path: '/contacts', name: 'contacts', component: ContactsPage, meta: false },
-  { path: '/paymentDelivery', name: 'paymentDelivery', component: PaymentDeliveryPage, meta: false },
-
+  { path: '/paymentDelivery', name: 'paymentDelivery', component: PaymentDeliveryPage, meta: false }
 ]
 
 const router = createRouter({
