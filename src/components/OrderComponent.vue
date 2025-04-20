@@ -97,7 +97,7 @@ const hasOrders = computed(() => orders.value.length > 0)
     </h1>
 
     <div v-if="isLoading" class="text-center py-10">
-      <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <svg class="animate-spin h-8 w-8 text-emerald-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
@@ -119,7 +119,7 @@ const hasOrders = computed(() => orders.value.length > 0)
       <h3 class="mt-2 text-sm font-medium text-gray-900">У вас пока нет заказов</h3>
       <p class="mt-1 text-sm text-gray-500">Начните делать покупки, чтобы увидеть здесь свои заказы.</p>
       <div class="mt-6">
-        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none ">
           <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
           </svg>
@@ -137,7 +137,7 @@ const hasOrders = computed(() => orders.value.length > 0)
         <div class="bg-gray-50 px-4 py-4 sm:px-6 border-b border-gray-200">
           <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
             <div>
-              <p class="text-sm font-medium text-indigo-600">
+              <p class="text-sm font-medium text-emerald-600">
                 Заказ #{{ order.id }}
               </p>
             </div>
@@ -154,14 +154,12 @@ const hasOrders = computed(() => orders.value.length > 0)
           <Carousel :settings="carouselSettings" :breakpoints="carouselBreakpoints">
             <Slide v-for="food in order.foods" :key="food.id" class="pr-2 md:pr-3">
                <a :href="`/product/${food.id}`" class="block group">
-                  <div class="h-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm p-3 flex flex-col hover:border-indigo-500 transition-colors duration-200">
+                  <div class="h-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm p-3 flex flex-col hover:border-emerald-500 transition-colors duration-200">
                       <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md mb-3 flex-shrink-0">
                           <img
                             :src="food.imgUrl || '/placeholder-image.png'"
                             :alt="food.title"
-                            class="w-full h-full object-cover object-center group-hover:opacity-90 transition-opacity"
-                            @error="($event.target.src = '/placeholder-image.png')" 
-                          />
+                            class="w-full h-full object-cover object-center group-hover:opacity-90 transition-opacity"                          />
                       </div>
                       <div class="flex-grow flex flex-col justify-between text-left">
                           <h4 class="text-xs font-medium text-gray-800 leading-tight mb-1 line-clamp-2" :title="food.title">
@@ -184,7 +182,7 @@ const hasOrders = computed(() => orders.value.length > 0)
             <button
               @click="handleRepeatOrder(order.id)"
               type="button"
-              class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 group"
+              class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
             >
               <img
                 class="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500 transition-colors"
@@ -192,7 +190,7 @@ const hasOrders = computed(() => orders.value.length > 0)
                 alt="Повторить"
                 aria-hidden="true"
               />
-              <span>Повторить заказ</span>
+             
             </button>
           </div>
         </div>
@@ -225,7 +223,7 @@ const hasOrders = computed(() => orders.value.length > 0)
 }
 
 .carousel__icon {
-  fill: #4f46e5;
+  fill: #000000;
   width: 20px;
   height: 20px;
 }
@@ -238,7 +236,6 @@ const hasOrders = computed(() => orders.value.length > 0)
 
 .aspect-w-1 { --tw-aspect-w: 1; }
 .aspect-h-1 { --tw-aspect-h: 1; }
-.aspect-w-1.aspect-h-1 { padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%); position: relative; }
-.aspect-w-1.aspect-h-1 > * { position: absolute; height: 100%; width: 100%; top: 0; right: 0; bottom: 0; left: 0; }
+
 
 </style>

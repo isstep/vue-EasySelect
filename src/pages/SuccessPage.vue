@@ -7,14 +7,14 @@ const router = useRouter()
 onMounted(() => {
   setTimeout(() => {
     router.push('/')
-  }, 1700)
+  }, 2000)
 })
 </script>
 
 <template>
   <div class="flex justify-center items-center h-[80vh] bg-gradient-to-br">
     <div class="text-center">
-      <h1 class="text-6xl font-bold text-green-600 animate-easy-select">Почта подтверждена</h1>
+      <h1 class="text-6xl font-bold text-green-600 animate-easy-select">EasySelect</h1>
     </div>
   </div>
   <router-link to="/"> </router-link>
