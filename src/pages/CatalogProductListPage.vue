@@ -25,7 +25,7 @@
   const onChangeSearchInput = debounce((event) => {
   filters.searchQuery = event.target.value
 }, 500)
-g
+
   const decrementFoodQuantity = (food) => {
     if (food.isAdded) {
       removeFoodFromCart(food)
