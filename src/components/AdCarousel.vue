@@ -6,21 +6,17 @@ import 'vue3-carousel/dist/carousel.css'
 
 const images = ref([
   {
-    src: './12333.webp',
+    src: './AQ6i9t4ouAw.jpg',
     alt: 'Product 1'
   },
   {
-    src: './123334.webp',
+    src: './2e31d3f2f.png',
     alt: 'Product 2'
   },
   {
-    src: './12333.webp',
+    src: './super-aliments.jpg',
     alt: 'Product 3'
   },
-  {
-    src: './123334.webp',
-    alt: 'Product 4'
-  }
 ])
 </script>
   
