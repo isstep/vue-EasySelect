@@ -285,6 +285,7 @@ const loadProduct = async (id) => {
   } catch (err) {
     console.error('Ошибка загрузки продукта:', err)
     error.value = `Не удалось загрузить информацию о товаре. ${err.message || ''}`
+    route.push({ name: 'Error404' });
     product.value = null
   } finally {
     isLoading.value = false

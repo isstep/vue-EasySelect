@@ -10,10 +10,6 @@ const images = ref([
     alt: 'Product 1'
   },
   {
-    src: './2e31d3f2f.png',
-    alt: 'Product 2'
-  },
-  {
     src: './super-aliments.jpg',
     alt: 'Product 3'
   },
