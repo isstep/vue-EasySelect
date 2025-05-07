@@ -82,6 +82,8 @@ provide('cartFoodActions', {
   openCatalog,
   closeCatalog,
 });
+
+
 </script>
 
 <template>

@@ -3,7 +3,7 @@ import { ref, computed, inject, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router'; 
 import DrawerHead from './DrawerHead.vue';
-import CardItemList from './CardItemList.vue';
+import CartItemList from './CartItemList.vue';
 import InfoBlock from './InfoBlock.vue';
 import { useAuthStore } from '../stores/auth';
 
@@ -79,7 +79,6 @@ const createOrder = async () => {
   <div @click="closeDrawer" class="fixed top-0 left-0 h-full w-full bg-black z-50 opacity-70"></div>
   <div class="bg-white w-96 h-full fixed right-0 top-0 z-50 p-8 overflow-y-auto">
     <DrawerHead :totalPrice="props.totalPrice" />
-
     <div v-if="!props.totalPrice || orderID || orderError" class="flex h-full items-center">
       <InfoBlock
         v-if="!props.totalPrice && !orderID && !orderError"
@@ -104,7 +103,7 @@ const createOrder = async () => {
     </div>
 
     <div v-else class="mb-[6.3em] mt-[3.3em]">
-      <CardItemList v-if="props.totalPrice" />
+      <CartItemList v-if="props.totalPrice" />
       <div class="fixed bottom-0 right-0 w-96 h-[8em] bg-white p-3 z-50 border-t border-gray-300">
         <div class="flex flex-col">
           <div class="flex gap-2">

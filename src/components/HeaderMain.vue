@@ -5,9 +5,8 @@ import { useRouter } from 'vue-router'
 import AuthModal from './AuthModal.vue'
 
 const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
-const authStore = useAuthStore()
+  const authStore = useAuthStore()
 const router = useRouter()
-
 const showAuthModal = ref(false)
 const isSticky = ref(false)
 const isCollapsed = ref(false)
@@ -16,6 +15,7 @@ const isProfileDropdownOpen = ref(false)
 const isSearchDropdownOpen = ref(false)
 const searchResults = ref([])
 const searchQuery = ref('')
+const UserName = localStorage.getItem('UserName');
 
 const profileMenuTrigger = ref(null)
 const profileMenuDropdown = ref(null)
@@ -26,9 +26,9 @@ const NumberFoods = computed(() => cartFood.value?.length || 0)
 
 const userDisplayName = computed(() => {
   if (authStore.isAuthenticated && authStore.user) {
-    return authStore.user.firstName || authStore.user.email || 'Профиль'
+    return UserName;
   }
-  return 'Войти'
+  return 'Войти';
 })
 
 const handleScroll = () => {
@@ -270,6 +270,7 @@ watch(router.currentRoute, () => {
             aria-haspopup="true"
           >
             <img class="w-6 h-6" src="/profile1.svg" alt="profile" />
+            <span> {{}}</span>
             <span class="hidden lg:inline text-sm font-medium">{{ userDisplayName }}</span>
             <svg
               v-if="authStore.isAuthenticated"

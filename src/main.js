@@ -20,6 +20,7 @@ import ConfirmationPage from './pages/ConfirmationPage.vue'
 import ProductPage from './pages/ProductPage.vue'
 import CatalogProductListPage from './pages/CatalogProductListPage.vue'
 import ProductCreate from './components/Admin/ProductCreate.vue'
+import Error404 from './components/ErrorFrom404.vue'
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -38,7 +39,8 @@ const routes = [
   { path: '/news', name: 'news', component: NewsPage, meta: false },
   { path: '/about', name: 'about', component: AboutPage, meta: false },
   { path: '/contacts', name: 'contacts', component: ContactsPage, meta: false },
-  { path: '/paymentDelivery', name: 'paymentDelivery', component: PaymentDeliveryPage, meta: false }
+  { path: '/paymentDelivery', name: 'paymentDelivery', component: PaymentDeliveryPage, meta: false },
+  { path: '/:pathMatch(.*)*', name: 'Error404', component: Error404 } 
 ]
 
 const router = createRouter({

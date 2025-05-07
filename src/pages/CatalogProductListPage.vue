@@ -53,7 +53,7 @@
         food.favoriteId = null
       }
     } catch (err) {
-      console.log(err)
+      route.push({ name: 'Error404' })
     }
   }
 
