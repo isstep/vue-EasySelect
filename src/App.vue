@@ -6,6 +6,8 @@ import FooterComponent from './components/FooterComponent.vue';
 import CatalogFood from './components/CatalogFood.vue';
 import AuthModal from './components/AuthModal.vue';
 import FloatingButtonMenu from './components/FloatingButtonMenu.vue';
+import { useCart } from './stores/cartStore'
+
 
 const cartFood = ref([]);
 const drawerOpen = ref(false);
@@ -79,9 +81,12 @@ provide('cartFoodActions', {
   openDrawer,
   addFoodToCart,
   removeFoodFromCart,
+  useCart,
   openCatalog,
   closeCatalog,
 });
+
+
 </script>
 
 <template>
