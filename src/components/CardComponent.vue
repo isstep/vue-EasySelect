@@ -10,15 +10,15 @@ const props = defineProps({
   isFavorite: Boolean,
   onClickFavorite: Function,
   reviewCount: {
-    type: Number,
+    type: Number
   },
   isFavoritesPage: Boolean
 })
 
 const emit = defineEmits(['remove-from-favorites'])
 
-const reviews = ref([]) 
-const averageRating = ref(0) 
+const reviews = ref([])
+const averageRating = ref(0)
 
 const loadReviews = async (productId) => {
   if (!productId) return
@@ -26,23 +26,24 @@ const loadReviews = async (productId) => {
     const reviewsResponse = await axios.get(
       `https://f4f1d0c1ac4cb845.mokky.dev/reviews?productId=${productId}`
     )
-    reviews.value = reviewsResponse.data.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    reviews.value = reviewsResponse.data.sort(
+      (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+    )
   } catch (err) {
     console.error('Ошибка загрузки отзывов:', err)
   }
 }
 
 onMounted(async () => {
-  await loadReviews(props.id) 
+  await loadReviews(props.id)
 
   if (reviews.value.length > 0) {
-    const totalRating = reviews.value.reduce((sum, review) => sum + review.rating, 0);
-    averageRating.value = parseFloat((totalRating / reviews.value.length).toFixed(1)); 
+    const totalRating = reviews.value.reduce((sum, review) => sum + review.rating, 0)
+    averageRating.value = parseFloat((totalRating / reviews.value.length).toFixed(1))
   } else {
-    averageRating.value = 0; 
+    averageRating.value = 0
   }
 })
-
 
 const renderStars = computed(() => {
   const starCount = 5
@@ -65,21 +66,21 @@ const handleFavoriteClick = () => {
 }
 
 const { cartFood, addFoodToCart, removeFoodFromCart } = inject('cartFoodActions', {
-  cartFood: ([]),
+  cartFood: [],
   addFoodToCart: () => console.warn('addFoodToCart not provided'),
   removeFoodFromCart: () => console.warn('removeFoodFromCart not provided')
-});
+})
 
 const cartItem = computed(() => {
   if (!cartFood || !Array.isArray(cartFood.value)) {
-    console.warn('Injected cartFood is not available or not an array');
-    return null;
+    console.warn('Injected cartFood is not available or not an array')
+    return null
   }
-  return cartFood.value.find(item => item.id === props.id);
-});
+  return cartFood.value.find((item) => item.id === props.id)
+})
 
-const isAdded = computed(() => !!cartItem.value);
-const quantity = computed(() => cartItem.value?.quantity || 0);
+const isAdded = computed(() => !!cartItem.value)
+const quantity = computed(() => cartItem.value?.quantity || 0)
 
 const handleIncrement = () => {
   addFoodToCart({
@@ -87,26 +88,26 @@ const handleIncrement = () => {
     title: props.title,
     price: props.price,
     imgUrl: props.imgUrl || '/placeholder-food.svg'
-  });
+  })
 }
 
 const handleDecrement = () => {
   if (cartItem.value) {
-    removeFoodFromCart(cartItem.value);
+    removeFoodFromCart(cartItem.value)
   }
 }
-
 </script>
 
 <template>
-  <div class="relative bg-white border border-slate-100 rounded-xl p-4 cursor-pointer transition hover:-translate-y-2 hover:shadow-xl flex flex-col h-full">
-
+  <div
+    class="relative bg-white border border-slate-100 rounded-xl p-4 cursor-pointer transition hover:-translate-y-2 hover:shadow-xl flex flex-col h-full"
+  >
     <button
       @click="handleFavoriteClick"
-      class="absolute top-4 left-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 rounded z-10"
+      class="absolute top-4 left-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 rounded z-0"
       :aria-label="isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'"
     >
-      <img :src="favoriteImageUrl" alt="Favorite" class="w-6 h-6" />
+      <img :src="favoriteImageUrl" alt="Favorite" class="w-6 h-6 relative" />
     </button>
 
     <router-link :to="`/product/${id}`" class="flex flex-col flex-grow">
@@ -114,16 +115,14 @@ const handleDecrement = () => {
         :src="imgUrl || '/placeholder-food.svg'"
         class="w-full h-40 object-contain mb-3"
         alt="Food item"
-        @error="(e) => e.target.src = '/placeholder-food.svg'"
+        @error="(e) => (e.target.src = '/placeholder-food.svg')"
       />
       <h3 class="font-medium text-gray-800 text-sm mb-1 flex-grow">{{ title }}</h3>
     </router-link>
 
     <div class="flex items-center mb-2">
       <div class="mr-2" v-html="renderStars"></div>
-      <span class="text-sm text-gray-500">
-        {{ averageRating }} ({{ reviews.length }})
-      </span>
+      <span class="text-sm text-gray-500"> {{ averageRating }} ({{ reviews.length }}) </span>
     </div>
 
     <div class="flex justify-between items-center mt-auto pt-2">
@@ -146,10 +145,16 @@ const handleDecrement = () => {
             viewBox="0 0 20 20"
             fill="currentColor"
           >
-            <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
+            <path
+              fill-rule="evenodd"
+              d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
-        <span v-if="isAdded" class="font-medium text-sm mx-2 w-6 text-center" aria-live="polite">{{ quantity }}</span>
+        <span v-if="isAdded" class="font-medium text-sm mx-2 w-6 text-center" aria-live="polite">{{
+          quantity
+        }}</span>
         <button
           @click="handleIncrement"
           class="p-1 text-emerald-600 hover:text-white hover:bg-emerald-500 rounded-full transition border border-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
@@ -171,4 +176,4 @@ const handleDecrement = () => {
       </div>
     </div>
   </div>
-</template> 
+</template>
