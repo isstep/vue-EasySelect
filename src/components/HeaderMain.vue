@@ -3,9 +3,10 @@ import { ref, onMounted, onUnmounted, computed, inject, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import AuthModal from './AuthModal.vue'
+import axios from 'axios'
 
 const emit = defineEmits(['openDrawer', 'openCatalog', 'closeCatalog'])
-  const authStore = useAuthStore()
+const authStore = useAuthStore()
 const router = useRouter()
 const showAuthModal = ref(false)
 const isSticky = ref(false)
@@ -15,7 +16,7 @@ const isProfileDropdownOpen = ref(false)
 const isSearchDropdownOpen = ref(false)
 const searchResults = ref([])
 const searchQuery = ref('')
-const UserName = localStorage.getItem('UserName');
+
 
 const profileMenuTrigger = ref(null)
 const profileMenuDropdown = ref(null)
@@ -24,12 +25,78 @@ const searchInputContainer = ref(null)
 const { cartFood } = inject('cartFoodActions')
 const NumberFoods = computed(() => cartFood.value?.length || 0)
 
+const userDeliveryAddress = ref('Укажите адрес')
+const isEditingAddress = ref(false)
+const newAddressInput = ref('')
+const serverApiBaseUrl = import.meta.env.VITE_URL_SERVER
+
 const userDisplayName = computed(() => {
   if (authStore.isAuthenticated && authStore.user) {
-    return UserName;
+    return authStore.user.firstName 
   }
-  return 'Войти';
+  return 'Войти'
 })
+
+const fetchUserAddress = async () => {
+  if (authStore.isAuthenticated && authStore.token) {
+    try {
+      const response = await axios.get(`${serverApiBaseUrl}/user/address`, {
+        headers: { Authorization: `Bearer ${authStore.token}` }
+      })
+      if (response.data.address) {
+        userDeliveryAddress.value = response.data.address
+        newAddressInput.value = response.data.address 
+      } else {
+        userDeliveryAddress.value = 'Укажите адрес'
+      }
+    } catch (error) {
+      console.error('Ошибка получения адреса пользователя:', error)
+      userDeliveryAddress.value = 'Не удалось загрузить адрес'
+    }
+  } else {
+    userDeliveryAddress.value = 'Укажите адрес'
+  }
+}
+
+const handleAddressClick = () => {
+  if (authStore.isAuthenticated) {
+    isEditingAddress.value = true
+  } else {
+    showAuthModal.value = true
+  }
+}
+
+const saveNewAddress = async () => {
+  if (!newAddressInput.value.trim()) {
+    return
+  }
+  if (authStore.isAuthenticated && authStore.token) {
+    try {
+      const response = await axios.put(
+        `${serverApiBaseUrl}/user/address`,
+        { newAddress: newAddressInput.value.trim() },
+        { headers: { Authorization: `Bearer ${authStore.token}` } }
+      )
+      userDeliveryAddress.value = response.data.address
+      isEditingAddress.value = false
+    } catch (error) {
+      console.error('Ошибка обновления адреса:', error)
+    }
+  }
+}
+
+watch(
+  () => authStore.isAuthenticated,
+  (newAuthStatus) => {
+    if (newAuthStatus) {
+      fetchUserAddress()
+    } else {
+      userDeliveryAddress.value = 'Укажите адрес'
+      isEditingAddress.value = false
+    }
+  },
+  { immediate: true }
+)
 
 const handleScroll = () => {
   const scrollThreshold = 50
@@ -136,6 +203,9 @@ const headerClasses = computed(() => ({
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   document.addEventListener('click', handleClickOutside)
+  if (authStore.isAuthenticated) {
+    fetchUserAddress()
+  }
 })
 
 onUnmounted(() => {
@@ -164,18 +234,40 @@ watch(router.currentRoute, () => {
       <div class="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm">
         <span class="text-gray-600 flex items-center gap-2">
           <img class="h-4 w-4" src="/123.svg" alt="Location" />
-          <span class="text-blue-600 font-medium hover:underline cursor-pointer"
-            >Укажите адрес</span
+          <span
+            v-if="!isEditingAddress"
+            @click="handleAddressClick"
+            class="text-blue-600 font-medium hover:underline cursor-pointer"
           >
-          <span class="text-gray-500">Сегодня, 10:00 - 21:00</span>
+            {{ userDeliveryAddress }}
+          </span>
+          <div v-if="isEditingAddress" class="flex items-center gap-2">
+            <input
+              type="text"
+              v-model="newAddressInput"
+              placeholder="Введите новый адрес"
+              class="text-sm px-2 py-1 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            <button
+              @click="saveNewAddress"
+              class="text-xs px-2 py-1 bg-emerald-500 text-white rounded-md hover:bg-emerald-600"
+            >
+              Сохранить
+            </button>
+            <button
+              @click="isEditingAddress = false"
+              class="text-xs px-2 py-1 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+            >
+              Отмена
+            </button>
+          </div>
+          <span v-if="!isEditingAddress" class="text-gray-500">Сегодня, 10:00 - 21:00</span>
         </span>
         <nav class="flex items-center space-x-4 text-gray-600">
           <a href="/paymentDelivery" class="hover:text-emerald-600 transition-colors">Доставка и оплата</a>
           <a href="/news" class="hover:text-emerald-600 transition-colors">Новости</a>
-
           <a href="/contacts" class="hover:text-emerald-600 transition-colors">Контакты</a>
           <a href="/about" class="hover:text-emerald-600 transition-colors">EasySelect</a>
-
         </nav>
       </div>
     </div>
@@ -270,7 +362,6 @@ watch(router.currentRoute, () => {
             aria-haspopup="true"
           >
             <img class="w-6 h-6" src="/profile1.svg" alt="profile" />
-            <span> {{}}</span>
             <span class="hidden lg:inline text-sm font-medium">{{ userDisplayName }}</span>
             <svg
               v-if="authStore.isAuthenticated"
@@ -312,6 +403,7 @@ watch(router.currentRoute, () => {
 
               <a
                 href="#"
+                @click.prevent="handleAuthenticatedAction('/settings')"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 role="menuitem"
                 >Настройки</a
@@ -364,6 +456,7 @@ watch(router.currentRoute, () => {
 
         <button
           class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-inset"
+           @click="toggleCatalog"
         >
           <span class="sr-only">Открыть меню</span>
           <svg

@@ -1,150 +1,151 @@
-  <script setup>
-  import { reactive, ref, watch, onMounted, inject } from 'vue' 
-  import { useRoute } from 'vue-router'
-  import axios from 'axios'
-  import debounce from 'lodash.debounce'
-  import CardList from '../components/CardList.vue'
+<script setup>
+import { reactive, ref, watch, onMounted, inject } from 'vue'
+import { useRoute } from 'vue-router'
+import axios from 'axios'
+import debounce from 'lodash.debounce'
+import CardList from '../components/CardList.vue'
 
-  const { cartFood, addFoodToCart, removeFoodFromCart } = inject('cartFoodActions')  
+const { cartFood, addFoodToCart, removeFoodFromCart } = inject('cartFoodActions')
 
-  const foods = ref([])
+const foods = ref([])
 
-  const filters = reactive({
-    sortBy: 'title',
-    searchQuery: ''
-  })
+const filters = reactive({
+  sortBy: 'title',
+  searchQuery: ''
+})
 
-  const route = useRoute()  
+const route = useRoute()
 
-  const categoryId = ref(route.params.categoryId)  
+const categoryId = ref(route.params.categoryId)
 
-  const incrementFoodQuantity = (food) => {
-    addFoodToCart(food)
-  }
+const incrementFoodQuantity = (food) => {
+  addFoodToCart(food)
+}
 
-  const onChangeSearchInput = debounce((event) => {
+const onChangeSearchInput = debounce((event) => {
   filters.searchQuery = event.target.value
 }, 500)
 
-  const decrementFoodQuantity = (food) => {
-    if (food.isAdded) {
-      removeFoodFromCart(food)
-    }
+const decrementFoodQuantity = (food) => {
+  if (food.isAdded) {
+    removeFoodFromCart(food)
   }
+}
 
-  const onChangeSelect = (event) => {
-    filters.sortBy = event.target.value
-  }
+const onChangeSelect = (event) => {
+  filters.sortBy = event.target.value
+}
 
-
-  const addToFavorite = async (food) => {
-    try {
-      if (!food.isFavorite) {
-        const obj = {
-          parentId: food.id,
-          food
-        }
-        food.isFavorite = true
-        const { data } = await axios.post('https://f4f1d0c1ac4cb845.mokky.dev/favorites', obj)
-        food.favoriteId = data.id
-      } else {
-        food.isFavorite = false
-        await axios.delete(`https://f4f1d0c1ac4cb845.mokky.dev/favorites/${food.favoriteId}`)
-        food.favoriteId = null
+const addToFavorite = async (food) => {
+  try {
+    if (!food.isFavorite) {
+      const obj = {
+        parentId: food.id,
+        food
       }
-    } catch (err) {
-      route.push({ name: 'Error404' })
+      food.isFavorite = true
+      const { data } = await axios.post('https://f4f1d0c1ac4cb845.mokky.dev/favorites', obj)
+      food.favoriteId = data.id
+    } else {
+      food.isFavorite = false
+      await axios.delete(`https://f4f1d0c1ac4cb845.mokky.dev/favorites/${food.favoriteId}`)
+      food.favoriteId = null
     }
+  } catch (err) {
+    route.push({ name: 'Error404' })
   }
+}
 
-  const fetchFavorites = async () => {
-    try {
-      const { data: favorites } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/favorites')
-      const favoritesMap = favorites.reduce((acc, favorite) => {
-        acc[favorite.parentId] = favorite
-        return acc
-      }, {})
+const fetchFavorites = async () => {
+  try {
+    const { data: favorites } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/favorites')
+    const favoritesMap = favorites.reduce((acc, favorite) => {
+      acc[favorite.parentId] = favorite
+      return acc
+    }, {})
 
-      foods.value = foods.value.map((food) => {
-        const favorite = favoritesMap[food.id]
+    foods.value = foods.value.map((food) => {
+      const favorite = favoritesMap[food.id]
 
-        if (!favorite) {
-          return food
-        }
-
-        return {
-          ...food,
-          isFavorite: true,
-          favoriteId: favorite.id
-        }
-      })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const fetchFoods = async () => {
-    try {
-      const params = { sortBy: filters.sortBy }
-      if (filters.searchQuery) {
-        params.title = `*${filters.searchQuery}*`
+      if (!favorite) {
+        return food
       }
 
-      const { data } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/foods', { params })
-      
-      
-      console.log('Полученные данные продуктов:', data)
-
-   
-      foods.value = data
-    .filter(food => Array.isArray(food.categoryIds) && food.categoryIds.includes(Number(categoryId.value)))  
-    .map((obg) => ({
-      ...obg,
-      isFavorite: false,
-      isAdded: false,
-      favoriteId: null,
-      quantity: 0
-    }))
-
-      console.log('Отфильтрованные продукты:', foods.value)
-
-    } catch (err) {
-      console.log(err)
-    }
+      return {
+        ...food,
+        isFavorite: true,
+        favoriteId: favorite.id
+      }
+    })
+  } catch (err) {
+    console.log(err)
   }
+}
 
-  onMounted(async () => {
-    const localCartFood = localStorage.getItem('cartFood')
-    cartFood.value = localCartFood ? JSON.parse(localCartFood) : []
-    await fetchFoods()
-    await fetchFavorites()
+const fetchFoods = async () => {
+  try {
+    const params = { sortBy: filters.sortBy }
+    if (filters.searchQuery) {
+      params.title = `*${filters.searchQuery}*`
+    }
 
-    foods.value = foods.value.map((food) => ({
-      ...food,
-      isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id),
-      quantity: cartFood.value.find((cartItemFood) => cartItemFood.id === food.id)?.quantity || 0
-    }))
-  })
+    const { data } = await axios.get('https://f4f1d0c1ac4cb845.mokky.dev/foods', { params })
 
-  watch(cartFood, () => {
-    foods.value = foods.value.map((food) => ({
-      ...food,
-      isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id),
-      quantity: cartFood.value.find((cartItemFood) => cartItemFood.id === food.id)?.quantity || 0
-    }))
-  })
+    console.log('Полученные данные продуктов:', data)
 
-  watch(filters, fetchFoods)
+    foods.value = data
+      .filter(
+        (food) =>
+          Array.isArray(food.categoryIds) && food.categoryIds.includes(Number(categoryId.value))
+      )
+      .map((obg) => ({
+        ...obg,
+        isFavorite: false,
+        isAdded: false,
+        favoriteId: null,
+        quantity: 0
+      }))
 
-  watch(() => route.params.categoryId, async (newCategoryId) => {
+    console.log('Отфильтрованные продукты:', foods.value)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+onMounted(async () => {
+  const localCartFood = localStorage.getItem('cartFood')
+  cartFood.value = localCartFood ? JSON.parse(localCartFood) : []
+  await fetchFoods()
+  await fetchFavorites()
+
+  foods.value = foods.value.map((food) => ({
+    ...food,
+    isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id),
+    quantity: cartFood.value.find((cartItemFood) => cartItemFood.id === food.id)?.quantity || 0
+  }))
+})
+
+watch(cartFood, () => {
+  foods.value = foods.value.map((food) => ({
+    ...food,
+    isAdded: cartFood.value.some((cartItemFood) => cartItemFood.id === food.id),
+    quantity: cartFood.value.find((cartItemFood) => cartItemFood.id === food.id)?.quantity || 0
+  }))
+})
+
+watch(filters, fetchFoods)
+
+watch(
+  () => route.params.categoryId,
+  async (newCategoryId) => {
     categoryId.value = newCategoryId
     await fetchFoods()
-  })
-  </script>
+  }
+)
+</script>
 
-
-  <template>
-    <div class="mt-[65px]">
+<template>
+  <div class="mt-[65px]">
     <div class="mt-5 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
       <h2 class="text-xl sm:text-1xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-0">Каталог</h2>
 
@@ -174,13 +175,13 @@
         </div>
       </div>
     </div>
-      <div class="mt-5">
-        <CardList
-          :foods="foods"
-          @add-to-favorite="addToFavorite"
-          @increment="incrementFoodQuantity"
-          @decrement="decrementFoodQuantity"
-        />
-      </div>
+    <div class="mt-5">
+      <CardList
+        :foods="foods"
+        @add-to-favorite="addToFavorite"
+        @increment="incrementFoodQuantity"
+        @decrement="decrementFoodQuantity"
+      />
     </div>
-  </template>
+  </div>
+</template>
