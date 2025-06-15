@@ -25,13 +25,13 @@ const decrementFoodQuantity = (food) => {
   }
 }
 
-const onChangeSelect = (event) => {
-  filters.sortBy = event.target.value
-}
+// const onChangeSelect = (event) => {
+//   filters.sortBy = event.target.value
+// }
 
-const onChangeSearchInput = debounce((event) => {
-  filters.searchQuery = event.target.value
-}, 500)
+// const onChangeSearchInput = debounce((event) => {
+//   filters.searchQuery = event.target.value
+// }, 500)
 
 const addToFavorite = async (food) => {
   try {
@@ -131,16 +131,16 @@ watch(filters, fetchFoods)
       <h2 class="text-xl sm:text-1xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-0">Популярное</h2>
 
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <select
+        <!-- <select
           @change="onChangeSelect"
           class="py-2 px-3 border border-gray-300 rounded-md outline-none text-sm sm:text-base focus:ring focus:ring-gray-300"
         >
           <option value="title">По названию</option>
           <option value="price">По цене (дешевые)</option>
           <option value="-price">По цене (дорогие)</option>
-        </select>
+        </select> -->
 
-        <div class="absoulute top-0">
+        <!-- <div class="absoulute top-0">
           <div class="relative">
             <img
               class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
@@ -153,7 +153,7 @@ watch(filters, fetchFoods)
               placeholder="Поиск..."
             />
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="mt-5">  

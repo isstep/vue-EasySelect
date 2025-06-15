@@ -256,13 +256,13 @@ const hasOrders = computed(() => orders.value.length > 0)
             >
               <a :href="`/product/${food.id || food.productId}`" class="block group">
                 <div
-                  class="h-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm p-3 flex flex-col hover:border-emerald-500 transition-colors duration-200"
+                  class="h-[270px] bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm p-3 flex flex-col hover:border-emerald-500 transition-colors duration-200"
                 >
                   <div
                     class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md mb-3 flex-shrink-0"
                   >
                     <img
-                      :src="food.imgUrl || '/placeholder-image.png'"
+                      :src="food.imgUrl"
                       :alt="food.title"
                       class="w-full h-full object-cover object-center group-hover:opacity-90 transition-opacity"
                     />
@@ -317,7 +317,7 @@ const hasOrders = computed(() => orders.value.length > 0)
   border-radius: 50%;
   width: 36px;
   height: 36px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   transition: background-color 0.3s ease;
 }
 .carousel__prev:hover,
@@ -326,11 +326,11 @@ const hasOrders = computed(() => orders.value.length > 0)
 }
 
 .carousel__prev {
-  left: -10px;
+  left: -10px; 
 }
 
 .carousel__next {
-  right: -10px;
+  right: -10px; 
 }
 
 .carousel__icon {
@@ -343,26 +343,10 @@ const hasOrders = computed(() => orders.value.length > 0)
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 
-.aspect-w-1 {
-  --tw-aspect-w: 1;
-}
-.aspect-h-1 {
-  --tw-aspect-h: 1;
-}
-.aspect-w-1.aspect-h-1 {
-  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
-  position: relative;
-}
-.aspect-w-1.aspect-h-1 > * {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+.aspect-w-1 { --tw-aspect-w: 1; }
+.aspect-h-1 { --tw-aspect-h: 1; }
+
+
 </style>
