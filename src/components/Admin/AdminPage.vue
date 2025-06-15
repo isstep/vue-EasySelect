@@ -39,8 +39,7 @@ const userInitial = computed(() => {
   }
   return '?'
 })
-const serverApiBaseUrl = import.meta.env.VITE_URL_SERVER
-const logisticsApiBaseUrl = `${serverApiBaseUrl}/api/logistics`
+const logisticsApiBaseUrl = `${import.meta.env.VITE_URL_SERVER}/api/logistics`
 let pointMarkersOnMap = []
 let routePolylineOnMap = null
 onMounted(async () => {
@@ -386,7 +385,7 @@ const addVehicle = async () => {
 const fetchAdminPendingOrders = async () => {
   apiError.value = null
   try {
-    const response = await axios.get(`${serverApiBaseUrl}/api/admin/orders`, {
+    const response = await axios.get(`${import.meta.env.VITE_URL_SERVER}/api/admin/orders`, {
       headers: { Authorization: `Bearer ${authStore.token}` }
     })
     adminPendingOrders.value = response.data
@@ -408,7 +407,7 @@ const markOrderAsDelivered = async (orderDocId, orderId) => {
   apiError.value = null
   try {
     await axios.put(
-      `${serverApiBaseUrl}/api/admin/orders/${orderDocId}/status`,
+      `${import.meta.env.VITE_URL_SERVERl}/api/admin/orders/${orderDocId}/status`,
       { status: 'delivered' },
       { headers: { Authorization: `Bearer ${authStore.token}` } }
     )
@@ -445,7 +444,7 @@ const addOrderAddressToRoutePlanner = async (orderAddress) => {
 const fetchActivityLog = async () => {
   apiError.value = null
   try {
-    const response = await axios.get(`${serverApiBaseUrl}/api/admin/activity-log`, {
+    const response = await axios.get(`${import.meta.env.VITE_URL_SERVER}/api/admin/activity-log`, {
       headers: { Authorization: `Bearer ${authStore.token}` }
     })
     activityLogData.value = response.data
@@ -459,7 +458,7 @@ const downloadWordReport = async () => {
   apiError.value = null
   reportLoading.value = true
   try {
-    const url = `${serverApiBaseUrl}/api/reports/orders-word?year=${reportYear.value}&month=${reportMonth.value}`
+    const url = `${import.meta.env.VITE_URL_SERVER}/api/reports/orders-word?year=${reportYear.value}&month=${reportMonth.value}`
     const response = await axios.get(url, {
       headers: { Authorization: `Bearer ${authStore.token}` },
       responseType: 'blob'
