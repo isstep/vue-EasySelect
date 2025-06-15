@@ -17,7 +17,6 @@ const isSearchDropdownOpen = ref(false)
 const searchResults = ref([])
 const searchQuery = ref('')
 
-
 const profileMenuTrigger = ref(null)
 const profileMenuDropdown = ref(null)
 const searchInputContainer = ref(null)
@@ -28,11 +27,10 @@ const NumberFoods = computed(() => cartFood.value?.length || 0)
 const userDeliveryAddress = ref('Укажите адрес')
 const isEditingAddress = ref(false)
 const newAddressInput = ref('')
-const serverApiBaseUrl = import.meta.env.VITE_URL_SERVER
 
 const userDisplayName = computed(() => {
   if (authStore.isAuthenticated && authStore.user) {
-    return authStore.user.firstName 
+    return authStore.user.firstName
   }
   return 'Войти'
 })
@@ -40,12 +38,12 @@ const userDisplayName = computed(() => {
 const fetchUserAddress = async () => {
   if (authStore.isAuthenticated && authStore.token) {
     try {
-      const response = await axios.get(`${serverApiBaseUrl}/user/address`, {
+      const response = await axios.get(`${import.meta.env.VITE_URL_SERVER}/user/address`, {
         headers: { Authorization: `Bearer ${authStore.token}` }
       })
       if (response.data.address) {
         userDeliveryAddress.value = response.data.address
-        newAddressInput.value = response.data.address 
+        newAddressInput.value = response.data.address
       } else {
         userDeliveryAddress.value = 'Укажите адрес'
       }
@@ -73,7 +71,7 @@ const saveNewAddress = async () => {
   if (authStore.isAuthenticated && authStore.token) {
     try {
       const response = await axios.put(
-        `${serverApiBaseUrl}/user/address`,
+        `${import.meta.env.VITE_URL_SERVER}/user/address`,
         { newAddress: newAddressInput.value.trim() },
         { headers: { Authorization: `Bearer ${authStore.token}` } }
       )
@@ -264,7 +262,9 @@ watch(router.currentRoute, () => {
           <span v-if="!isEditingAddress" class="text-gray-500">Сегодня, 10:00 - 21:00</span>
         </span>
         <nav class="flex items-center space-x-4 text-gray-600">
-          <a href="/paymentDelivery" class="hover:text-emerald-600 transition-colors">Доставка и оплата</a>
+          <a href="/paymentDelivery" class="hover:text-emerald-600 transition-colors"
+            >Доставка и оплата</a
+          >
           <a href="/news" class="hover:text-emerald-600 transition-colors">Новости</a>
           <a href="/contacts" class="hover:text-emerald-600 transition-colors">Контакты</a>
           <a href="/about" class="hover:text-emerald-600 transition-colors">EasySelect</a>
@@ -456,7 +456,7 @@ watch(router.currentRoute, () => {
 
         <button
           class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-inset"
-           @click="toggleCatalog"
+          @click="toggleCatalog"
         >
           <span class="sr-only">Открыть меню</span>
           <svg

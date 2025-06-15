@@ -12,7 +12,6 @@ const successMessage = ref('')
 const isError = ref(false)
 const isLoading = ref(false)
 const forgotPasswordMode = ref(false)
-const serverApiBaseUrl = import.meta.env.VITE_URL_SERVER
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
@@ -22,7 +21,7 @@ const login = async () => {
   isLoading.value = true
   successMessage.value = ''
   try {
-    const response = await axios.post(`${serverApiBaseUrl}/login`, {
+    const response = await axios.post(`${import.meta.env.VITE_URL_SERVER}/login`, {
       email: email.value,
       password: password.value
     })
@@ -60,7 +59,7 @@ const handleForgotPassword = async () => {
     return
   }
   try {
-    const response = await axios.post(`${serverApiBaseUrl}/forgot-password`, {
+    const response = await axios.post(`${import.meta.env.VITE_URL_SERVER}/forgot-password`, {
       email: email.value
     })
     successMessage.value = response.data.message
