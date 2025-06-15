@@ -34,22 +34,32 @@
         <div>
           <h3 class="text-lg font-bold mb-4 text-gray-900">Сотрудничество</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-customGreen transition-colors">Для поставщиков</a></li>
+            <li>
+              <a href="#" class="hover:text-customGreen transition-colors">Для поставщиков</a>
+            </li>
             <li>
               <a href="#" class="hover:text-customGreen transition-colors">Для рекламодателей</a>
             </li>
-            <li><a href="#" class="hover:text-customGreen transition-colors">Стать продавцом</a></li>
             <li>
-              <a href="#" class="hover:text-customGreen transition-colors">Корпоративная доставка</a>
+              <a href="#" class="hover:text-customGreen transition-colors">Стать продавцом</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-customGreen transition-colors"
+                >Корпоративная доставка</a
+              >
             </li>
           </ul>
         </div>
         <div>
           <h3 class="text-lg font-bold mb-4 text-gray-900">Покупателям</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-customGreen transition-colors">Оплата и доставка</a></li>
+            <li>
+              <a href="#" class="hover:text-customGreen transition-colors">Оплата и доставка</a>
+            </li>
             <li><a href="#" class="hover:text-customGreen transition-colors">Пункты выдачи</a></li>
-            <li><a href="#" class="hover:text-customGreen transition-colors">Вопросы и ответы</a></li>
+            <li>
+              <a href="#" class="hover:text-customGreen transition-colors">Вопросы и ответы</a>
+            </li>
             <li>
               <a href="#" class="hover:text-customGreen transition-colors"
                 >Пользовательское соглашение</a
@@ -112,12 +122,13 @@
       </div>
       <div class="mt-8">
         <div class="flex flex-wrap justify-between items-center">
-          <button
-            class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full hover:bg-customGreen transition duration-300 mb-4 lg:mb-0 lg:mr-12"
-          >
-            Связаться с нами
-          </button>
-
+          <router-link to="/contacts">
+            <button
+              class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full hover:bg-customGreen transition duration-300 mb-4 lg:mb-0 lg:mr-12"
+            >
+              Связаться с нами
+            </button>
+          </router-link>
           <div class="flex flex-wrap justify-center lg:justify-end space-x-4">
             <img
               src="/payment/rWaaDdpvYwXfYzhvC8aAarYG72zA5MIV8MljqWVf.svg"

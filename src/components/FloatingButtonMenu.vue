@@ -1,220 +1,212 @@
 <script setup>
-import { ref, nextTick, watch } from 'vue'
-import { useAuthStore } from '../stores/auth'
-import { PaperAirplaneIcon, ChatBubbleLeftRightIcon, XMarkIcon } from '@heroicons/vue/24/solid'
-const chatOpen = ref(false)
-const userMessage = ref('')
-const chatMessages = ref([])
-const formData = ref({ userIdentifier: '', reason: '', userMessage: '' })
-const step = ref(0)
-const isLoading = ref(false)
-const chatHistoryRef = ref(null)
-
-const authStore = useAuthStore()
-
+import { ref, nextTick, watch, computed } from 'vue'; 
+import { useRoute } from 'vue-router'; 
+import { useAuthStore } from '../stores/auth';
+import { PaperAirplaneIcon, ChatBubbleLeftRightIcon, XMarkIcon } from '@heroicons/vue/24/solid';
+const chatOpen = ref(false);
+const userMessage = ref('');
+const chatMessages = ref([]);
+const formData = ref({ userIdentifier: '', reason: '', userMessage: '' });
+const step = ref(0);
+const isLoading = ref(false);
+const chatHistoryRef = ref(null);
+const authStore = useAuthStore();
+const route = useRoute(); 
+const shouldShowChatButton = computed(() => {
+  return !(route.meta && (route.meta.hideFloatingButton === true || route.meta.hideChat === true));
+});
 const toggleChat = () => {
-  chatOpen.value = !chatOpen.value
+  chatOpen.value = !chatOpen.value;
   if (chatOpen.value && step.value === 0) {
-    startChat()
+    startChat();
   }
-}
-
+};
 const startChat = () => {
-  chatMessages.value = [{ id: Date.now(), from: 'support', text: 'Здравствуйте!' }]
-  isLoading.value = false
-
+  chatMessages.value = [{ id: Date.now(), from: 'support', text: 'Здравствуйте!' }];
+  isLoading.value = false;
   if (authStore.isAuthenticated && authStore.user?.email) {
-    formData.value.userIdentifier = authStore.user.email
+    formData.value.userIdentifier = authStore.user.email;
     chatMessages.value.push({
       id: Date.now() + 1,
       from: 'support',
-      text: `Рады видеть вас, ${authStore.user.email}! Какая причина вашего обращения?`
-    })
-    step.value = 2
+      text: `Рады видеть вас, ${authStore.user.firstName || authStore.user.email}! Какова причина вашего обращения?` 
+    });
+    step.value = 2;
   } else {
     chatMessages.value.push({
       id: Date.now() + 1,
       from: 'support',
       text: 'Пожалуйста, введите ваш email для связи.'
-    })
-    step.value = 1
+    });
+    step.value = 1;
   }
-  scrollToBottom()
-}
-
+  scrollToBottom();
+};
 const sendMessage = async () => {
-  const messageText = userMessage.value.trim()
-  if (messageText === '') return
-
+  const messageText = userMessage.value.trim();
+  if (messageText === '') return;
   chatMessages.value.push({
     id: Date.now(),
     from: 'user',
     text: messageText
-  })
-  userMessage.value = ''
-  isLoading.value = true
-  scrollToBottom()
-
-  await nextTick()
-
+  });
+  const currentMessageText = userMessage.value; 
+  userMessage.value = '';
+  isLoading.value = true;
+  scrollToBottom();
+  await nextTick();
   try {
-    let responseMessage = ''
-
+    let responseMessage = '';
     if (step.value === 1) {
-      if (!/\S+@\S+\.\S+/.test(messageText)) {
-        responseMessage = 'Пожалуйста, введите корректный email.'
-        step.value = 1
+      if (!/\S+@\S+\.\S+/.test(currentMessageText)) { 
+        responseMessage = 'Пожалуйста, введите корректный email.';
+        step.value = 1; 
       } else {
-        formData.value.userIdentifier = messageText
-        responseMessage = 'Спасибо! Теперь укажите причину обращения.'
-        step.value = 2
+        formData.value.userIdentifier = currentMessageText;
+        responseMessage = 'Спасибо! Теперь укажите причину обращения.';
+        step.value = 2;
       }
     } else if (step.value === 2) {
-      formData.value.reason = messageText
-      responseMessage = 'Отлично. Теперь опишите ваш вопрос или проблему.'
-      step.value = 3
+      formData.value.reason = currentMessageText;
+      responseMessage = 'Отлично. Теперь опишите ваш вопрос или проблему.';
+      step.value = 3;
     } else if (step.value === 3) {
-      formData.value.userMessage = messageText
-      responseMessage = 'Спасибо! Ваш запрос обрабатывается и отправляется...'
-      step.value = 4
-      await submitForm()
+      formData.value.userMessage = currentMessageText;
+      step.value = 4; 
+      await submitForm(); 
+      return; 
     }
-
-    if (step.value < 4) {
+    if (step.value < 4 && responseMessage) { 
       chatMessages.value.push({
-        id: Date.now() + 1,
+        id: Date.now() + Date.now().toString(36), 
         from: 'support',
         text: responseMessage
-      })
+      });
     }
   } catch (error) {
-    console.error('Ошибка в логике sendMessage:', error)
+    console.error('Ошибка в логике sendMessage:', error);
     chatMessages.value.push({
-      id: Date.now() + 1,
+      id: Date.now() + Date.now().toString(36),
       from: 'support',
       text: 'Произошла внутренняя ошибка. Попробуйте позже.'
-    })
-    step.value = 5
+    });
+    step.value = 5; 
   } finally {
-    if (step.value !== 4) {
-      isLoading.value = false
+    if (step.value !== 4) { 
+      isLoading.value = false;
     }
-    scrollToBottom()
+    scrollToBottom();
   }
-}
-
+};
 const submitForm = async () => {
   if (!formData.value.userIdentifier || !formData.value.reason || !formData.value.userMessage) {
-    console.error('Попытка отправки неполных данных:', formData.value)
+    console.error('Попытка отправки неполных данных:', formData.value);
     chatMessages.value.push({
-      id: Date.now(),
+      id: Date.now() + Date.now().toString(36),
       from: 'support',
       text: 'Не удалось собрать все данные для отправки. Пожалуйста, попробуйте начать чат заново.'
-    })
-    step.value = 5
-    isLoading.value = false
-    scrollToBottom()
-    return
+    });
+    step.value = 5;
+    isLoading.value = false;
+    scrollToBottom();
+    return;
   }
-
-  isLoading.value = true
+  isLoading.value = true; 
   chatMessages.value.push({
-    id: Date.now(),
+    id: Date.now() + Date.now().toString(36),
     from: 'support',
     text: 'Отправляем ваш запрос...'
-  })
-  scrollToBottom()
-
-  let userIdInfo = ''
+  });
+  scrollToBottom();
+  let userIdInfo = '';
   if (
     authStore.isAuthenticated &&
-    authStore.user?.id &&
-    authStore.user.id !== formData.value.userIdentifier
+    authStore.user?.uid && 
+    authStore.user.uid !== formData.value.userIdentifier 
   ) {
-    userIdInfo = `\nUser ID: ${authStore.user.id}`
+     userIdInfo = `\nUser ID: ${authStore.user.uid}`;
   }
-
   const formattedMessage = `
     Заявка от: ${formData.value.userIdentifier}${userIdInfo}
     Причина: ${formData.value.reason}
     --------------------
     Сообщение:
     ${formData.value.userMessage}
-  `
-
+  `;
   try {
-    await sendToTelegram(formattedMessage)
+    await sendToTelegram(formattedMessage);
     chatMessages.value.push({
-      id: Date.now() + 1,
+      id: Date.now() + Date.now().toString(36),
       from: 'support',
       text: 'Ваш запрос успешно отправлен! Мы скоро с вами свяжемся.'
-    })
-    step.value = 5
+    });
+    step.value = 5; 
   } catch (error) {
     chatMessages.value.push({
-      id: Date.now() + 1,
+      id: Date.now() + Date.now().toString(36),
       from: 'support',
       text: `Произошла ошибка при отправке: ${error.message}. Попробуйте еще раз или свяжитесь с нами другим способом.`
-    })
-    step.value = 5
+    });
+    step.value = 5; 
   } finally {
-    isLoading.value = false
-    scrollToBottom()
+    isLoading.value = false;
+    scrollToBottom();
   }
-}
-
+};
 const sendToTelegram = async (message) => {
-  const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN
-  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID
-
+  const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
   if (!token || !chatId) {
-    throw new Error('Конфигурация Telegram не завершена.')
+    console.error('Telegram Bot Token or Chat ID is not configured in .env');
+    throw new Error('Конфигурация Telegram не завершена.');
   }
-
-  const url = `https://api.telegram.org/bot${token}/sendMessage`
-  const params = new URLSearchParams({
-    chat_id: chatId,
-    text: message,
-    parse_mode: 'HTML'
-  })
-
+  const url = `https://api.telegram.org/bot${token}/sendMessage`;
+  const formDataTg = new FormData();
+  formDataTg.append('chat_id', chatId);
+  formDataTg.append('text', message);
+  formDataTg.append('parse_mode', 'HTML');
   try {
     const response = await fetch(url, {
       method: 'POST',
-      body: params
-    })
-    const data = await response.json()
+      body: formDataTg 
+    });
+    const data = await response.json();
     if (!response.ok) {
-      console.error('Telegram API Error:', data)
-      throw new Error(`Ошибка Telegram: ${data.description || response.status}`)
+      console.error('Telegram API Error:', data);
+      throw new Error(`Ошибка Telegram: ${data.description || response.statusText || response.status}`);
     }
-    console.log('Сообщение отправлено в Telegram:', data)
+    console.log('Сообщение отправлено в Telegram:', data);
   } catch (error) {
-    console.error('Ошибка при отправке в Telegram:', error)
-    throw new Error('Не удалось отправить сообщение в Telegram.')
+    console.error('Ошибка при отправке в Telegram:', error);
+    if (error instanceof Error) throw error;
+    throw new Error('Не удалось отправить сообщение в Telegram.');
   }
-}
-
+};
 const scrollToBottom = () => {
   nextTick(() => {
-    const chatHistory = chatHistoryRef.value
+    const chatHistory = chatHistoryRef.value;
     if (chatHistory) {
-      chatHistory.scrollTop = chatHistory.scrollHeight
+      chatHistory.scrollTop = chatHistory.scrollHeight;
     }
-  })
-}
-
+  });
+};
 watch(
   chatMessages,
   () => {
-    scrollToBottom()
+    scrollToBottom();
   },
   { deep: true }
-)
+);
+watch(route, (newRoute) => {
+    if (newRoute.meta && (newRoute.meta.hideFloatingButton === true || newRoute.meta.hideChat === true)) {
+        if (chatOpen.value) {
+            chatOpen.value = false;
+        }
+    }
+});
 </script>
-
 <template>
-  <div class="fixed bottom-5 right-5">
+  <div v-if="shouldShowChatButton" class="fixed bottom-5 right-5 z-[10]"> 
     <button
       class="w-14 h-14 rounded-full bg-emerald-600 text-white shadow-lg flex items-center justify-center hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150"
       @click="toggleChat"
@@ -243,7 +235,7 @@ watch(
     >
       <div
         v-if="chatOpen"
-        class="fixed bottom-20 z-[50]  right-5 w-[calc(100vw-40px)] max-w-sm h-[60vh] max-h-[500px] bg-white shadow-xl rounded-lg border border-gray-200 flex flex-col overflow-hidden"
+        class="fixed bottom-24 right-5 w-[calc(100vw-40px)] max-w-sm h-[calc(100vh-120px)] sm:h-[60vh] max-h-[500px] bg-white shadow-xl rounded-lg border border-gray-200 flex flex-col overflow-hidden z-[99]" 
       >
         <div
           class="flex-shrink-0 flex justify-between items-center p-3 border-b border-gray-200 bg-gray-50"
@@ -270,11 +262,10 @@ watch(
                   ? 'bg-emerald-500 text-white rounded-br-none'
                   : 'bg-gray-200 text-gray-800 rounded-bl-none'
               ]"
-            >
-              {{ message.text }}
-            </p>
+              v-html="message.text" 
+            ></p>
           </div>
-          <div v-if="isLoading && step === 4" class="flex justify-start">
+          <div v-if="isLoading && (step === 4 || (step === 3 && formData.userMessage))" class="flex justify-start"> 
             <span
               class="inline-block bg-gray-200 text-gray-600 rounded-xl py-2 px-3 text-sm rounded-bl-none"
             >
@@ -282,14 +273,13 @@ watch(
             </span>
           </div>
         </div>
-
         <div class="flex-shrink-0 p-3 border-t border-gray-200 bg-gray-50">
           <form @submit.prevent="sendMessage" class="flex items-center space-x-2">
             <input
               v-model="userMessage"
               type="text"
               class="flex-1 border border-gray-300 p-2 rounded-md text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
-              placeholder="Введите сообщение..."
+              :placeholder="step === 1 ? 'Ваш email...' : step === 2 ? 'Причина обращения...' : step === 3 ? 'Ваш вопрос...' : 'Чат завершен'"
               :disabled="isLoading || step >= 4"
               autocomplete="off"
             />
@@ -300,7 +290,7 @@ watch(
                 'bg-emerald-600 hover:bg-emerald-700': !isLoading && step < 4,
                 'bg-gray-400 cursor-not-allowed': isLoading || step >= 4
               }"
-              :disabled="isLoading || step >= 4"
+              :disabled="isLoading || step >= 4 || userMessage.trim() === ''"
               aria-label="Отправить сообщение"
             >
               <PaperAirplaneIcon class="w-5 h-5" />
@@ -311,7 +301,6 @@ watch(
     </transition>
   </div>
 </template>
-
 <style scoped>
 .overflow-y-auto::-webkit-scrollbar {
   width: 6px;

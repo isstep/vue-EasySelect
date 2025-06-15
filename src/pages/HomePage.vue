@@ -2,7 +2,7 @@
 import { reactive, ref, watch, onMounted } from 'vue'
 import { inject } from 'vue'
 import axios from 'axios'
-// import debounce from 'lodash.debounce'
+import debounce from 'lodash.debounce'
 import CardList from '../components/CardList.vue'
 import AdCarouse from '../components/AdCarousel.vue'
 
@@ -25,13 +25,13 @@ const decrementFoodQuantity = (food) => {
   }
 }
 
-// const onChangeSelect = (event) => {
-//   filters.sortBy = event.target.value
-// }
+const onChangeSelect = (event) => {
+  filters.sortBy = event.target.value
+}
 
-// const onChangeSearchInput = debounce((event) => {
-//   filters.searchQuery = event.target.value
-// }, 500)
+const onChangeSearchInput = debounce((event) => {
+  filters.searchQuery = event.target.value
+}, 500)
 
 const addToFavorite = async (food) => {
   try {
@@ -130,7 +130,7 @@ watch(filters, fetchFoods)
     <div class="mt-5 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
       <h2 class="text-xl sm:text-1xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-0">Популярное</h2>
 
-      <!-- <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
         <select
           @change="onChangeSelect"
           class="py-2 px-3 border border-gray-300 rounded-md outline-none text-sm sm:text-base focus:ring focus:ring-gray-300"
@@ -154,7 +154,7 @@ watch(filters, fetchFoods)
             />
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="mt-5">  
       <CardList

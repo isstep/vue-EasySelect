@@ -46,19 +46,18 @@ const fullPhoneNumber = computed(() => {
 })
 
 const phoneCharsInfo = computed(() => {
-  const currentLength = cleanedPhoneRest.value.length;
+  const currentLength = cleanedPhoneRest.value.length
   if (currentLength >= targetPhoneLength) {
-
-    const text = currentLength === targetPhoneLength ? 'Подтверждено ✓' : `Нужно ${targetPhoneLength} цифр`;
-    return { text: text, remaining: 0, isComplete: currentLength === targetPhoneLength };
+    const text =
+      currentLength === targetPhoneLength ? 'Подтверждено ✓' : `Нужно ${targetPhoneLength} цифр`
+    return { text: text, remaining: 0, isComplete: currentLength === targetPhoneLength }
   }
-  const remaining = targetPhoneLength - currentLength;
-  let suffix = 'цифр';
-  if (remaining === 1) suffix = 'цифру';
-  else if (remaining >= 2 && remaining <= 4) suffix = 'цифры';
-  return { text: `Осталось ${remaining} ${suffix}`, remaining: remaining, isComplete: false };
-});
-
+  const remaining = targetPhoneLength - currentLength
+  let suffix = 'цифр'
+  if (remaining === 1) suffix = 'цифру'
+  else if (remaining >= 2 && remaining <= 4) suffix = 'цифры'
+  return { text: `Осталось ${remaining} ${suffix}`, remaining: remaining, isComplete: false }
+})
 
 const validateInputs = () => {
   passwordMismatchError.value = false
@@ -84,11 +83,11 @@ const validateInputs = () => {
   }
 
   if (!phoneRest.value) {
-     phoneRestError.value = true
-     hasErrors = true
+    phoneRestError.value = true
+    hasErrors = true
   } else if (cleanedPhoneRest.value.length !== targetPhoneLength) {
-      phoneRestError.value = true
-      hasErrors = true
+    phoneRestError.value = true
+    hasErrors = true
   }
   return !hasErrors
 }
@@ -102,7 +101,7 @@ const register = async () => {
   genericApiError.value = ''
 
   try {
-    const response = await axios.post('https://nodejs-server-sfel.onrender.com/signup', {
+    const response = await axios.post(`${import.meta.env.VITE_URL_SERVER}/signup`, {
       firstName: firstName.value,
       lastName: lastName.value,
       address: fullAddress.value,
@@ -116,7 +115,10 @@ const register = async () => {
     router.push('/confirmation')
   } catch (error) {
     console.error('Ошибка при регистрации:', error.response?.data || error.message)
-    genericApiError.value = error.response?.data?.message || error.response?.data?.error || 'Неизвестная ошибка при регистрации. Попробуйте позже.'
+    genericApiError.value =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      'Неизвестная ошибка при регистрации. Попробуйте позже.'
   } finally {
     isLoading.value = false
   }
@@ -131,7 +133,7 @@ const close = () => {
   <teleport to="body">
     <div
       id="registerModal"
-      class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-10 px-4 bg-black/60 backdrop-blur-sm animate-fadeIn" 
+      class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-10 px-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
       aria-labelledby="registerModalTitle"
       role="dialog"
       aria-modal="true"
@@ -139,26 +141,37 @@ const close = () => {
       <div
         class="relative bg-white pt-6 pb-8 px-6 sm:px-8 rounded-xl shadow-2xl w-full max-w-xl m-auto animate-slideIn"
       >
-
         <button
           type="button"
           class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 rounded-full p-1 z-10"
           aria-label="Закрыть"
           @click="close"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <h2 id="registerModalTitle" class="text-2xl font-semibold text-slate-800 mb-6 text-center pr-8">
+        <h2
+          id="registerModalTitle"
+          class="text-2xl font-semibold text-slate-800 mb-6 text-center pr-8"
+        >
           Регистрация
         </h2>
 
         <form @submit.prevent="register" class="space-y-4 sm:space-y-5">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             <div>
-              <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Имя *</label>
+              <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1"
+                >Имя *</label
+              >
               <input
                 type="text"
                 id="firstName"
@@ -170,7 +183,9 @@ const close = () => {
               />
             </div>
             <div>
-              <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Фамилия *</label>
+              <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1"
+                >Фамилия *</label
+              >
               <input
                 type="text"
                 id="lastName"
@@ -184,9 +199,13 @@ const close = () => {
           </div>
 
           <fieldset class="border border-gray-300 p-4 rounded-lg space-y-4">
-            <legend class="text-sm font-medium text-gray-700 px-1">Адрес ({{ country }}, {{ city }})</legend>
+            <legend class="text-sm font-medium text-gray-700 px-1">
+              Адрес ({{ country }}, {{ city }})
+            </legend>
             <div>
-              <label for="street" class="block text-sm font-medium text-gray-700 mb-1">Улица *</label>
+              <label for="street" class="block text-sm font-medium text-gray-700 mb-1"
+                >Улица *</label
+              >
               <input
                 type="text"
                 id="street"
@@ -203,11 +222,15 @@ const close = () => {
                 aria-invalid="streetError"
                 aria-describedby="street-error"
               />
-              <p v-if="streetError" id="street-error" class="mt-1 text-xs text-red-600">Поле Улица обязательно.</p>
+              <p v-if="streetError" id="street-error" class="mt-1 text-xs text-red-600">
+                Поле Улица обязательно.
+              </p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label for="houseNumber" class="block text-sm font-medium text-gray-700 mb-1">Дом *</label>
+                <label for="houseNumber" class="block text-sm font-medium text-gray-700 mb-1"
+                  >Дом *</label
+                >
                 <input
                   type="text"
                   id="houseNumber"
@@ -224,10 +247,14 @@ const close = () => {
                   aria-invalid="houseNumberError"
                   aria-describedby="house-error"
                 />
-                 <p v-if="houseNumberError" id="house-error" class="mt-1 text-xs text-red-600">Поле Дом обязательно.</p>
+                <p v-if="houseNumberError" id="house-error" class="mt-1 text-xs text-red-600">
+                  Поле Дом обязательно.
+                </p>
               </div>
               <div>
-                <label for="apartmentNumber" class="block text-sm font-medium text-gray-700 mb-1">Квартира</label>
+                <label for="apartmentNumber" class="block text-sm font-medium text-gray-700 mb-1"
+                  >Квартира</label
+                >
                 <input
                   type="text"
                   id="apartmentNumber"
@@ -242,16 +269,21 @@ const close = () => {
           </fieldset>
 
           <div>
-            <label for="phoneRest" class="block text-sm font-medium text-gray-700 mb-1">Номер телефона *</label>
+            <label for="phoneRest" class="block text-sm font-medium text-gray-700 mb-1"
+              >Номер телефона *</label
+            >
             <div class="flex items-center space-x-2">
-              <span class="flex-shrink-0 px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 whitespace-nowrap">{{ phoneCode }}</span>
+              <span
+                class="flex-shrink-0 px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 whitespace-nowrap"
+                >{{ phoneCode }}</span
+              >
               <input
                 type="tel"
                 id="phoneRest"
                 v-model="phoneRest"
                 placeholder="(XX) XXX-XX-XX"
                 inputmode="numeric"
-                maxlength="9"  
+                maxlength="9"
                 class="flex-grow min-w-0 px-4 py-2 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-2 shadow-sm placeholder-gray-400"
                 :class="[
                   phoneRestError
@@ -267,13 +299,20 @@ const close = () => {
             <p v-if="phoneRestError" id="phone-error" class="mt-1 text-xs text-red-600">
               Требуется ввести ровно {{ targetPhoneLength }} цифр номера телефона.
             </p>
-             <p v-if="!phoneRestError" id="phone-hint" class="text-xs mt-1" :class="phoneCharsInfo.isComplete ? 'text-green-600' : 'text-gray-500'">
-               {{ phoneCharsInfo.text }}
-             </p>
+            <p
+              v-if="!phoneRestError"
+              id="phone-hint"
+              class="text-xs mt-1"
+              :class="phoneCharsInfo.isComplete ? 'text-green-600' : 'text-gray-500'"
+            >
+              {{ phoneCharsInfo.text }}
+            </p>
           </div>
 
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Электронная почта *</label>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1"
+              >Электронная почта *</label
+            >
             <input
               type="email"
               id="email"
@@ -287,7 +326,9 @@ const close = () => {
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             <div>
-              <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Пароль *</label>
+              <label for="password" class="block text-sm font-medium text-gray-700 mb-1"
+                >Пароль *</label
+              >
               <input
                 type="password"
                 id="password"
@@ -304,7 +345,9 @@ const close = () => {
               />
             </div>
             <div>
-              <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Подтвердите пароль *</label>
+              <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1"
+                >Подтвердите пароль *</label
+              >
               <input
                 type="password"
                 id="confirmPassword"
@@ -321,12 +364,18 @@ const close = () => {
                 aria-invalid="passwordMismatchError"
                 aria-describedby="password-match-error"
               />
-              <p v-if="passwordMismatchError" id="password-match-error" class="mt-1 text-xs text-red-600">Пароли не совпадают.</p>
+              <p
+                v-if="passwordMismatchError"
+                id="password-match-error"
+                class="mt-1 text-xs text-red-600"
+              >
+                Пароли не совпадают.
+              </p>
             </div>
           </div>
 
           <p v-if="genericApiError" class="text-sm text-red-600 text-center -mb-2 sm:-mb-1">
-              {{ genericApiError }}
+            {{ genericApiError }}
           </p>
 
           <button
@@ -334,9 +383,26 @@ const close = () => {
             class="w-full flex justify-center items-center bg-emerald-600 text-white font-semibold py-3 px-4 mt-6 rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed"
             :disabled="isLoading"
           >
-            <svg v-if="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              v-if="isLoading"
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
             {{ isLoading ? 'Регистрация...' : 'Зарегистрироваться' }}
           </button>
@@ -348,13 +414,23 @@ const close = () => {
 
 <style lang="scss" scoped>
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-25px) scale(0.95); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  from {
+    transform: translateY(-25px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .animate-fadeIn {
@@ -366,35 +442,34 @@ const close = () => {
 }
 
 .bg-black\/60 {
-    background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
 }
 
 .backdrop-blur-sm {
-    @supports (backdrop-filter: blur(4px)) {
-        backdrop-filter: blur(4px);
-    }
+  @supports (backdrop-filter: blur(4px)) {
+    backdrop-filter: blur(4px);
+  }
 }
 
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
-
-button:focus-visible, a:focus-visible {
-    outline: 2px solid theme('colors.emerald.500');
-    outline-offset: 2px;
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid theme('colors.emerald.500');
+  outline-offset: 2px;
 }
 .absolute.top-3.right-3:focus-visible {
-     outline: 2px solid theme('colors.gray.500');
+  outline: 2px solid theme('colors.gray.500');
 }
 input:focus-visible {
-    outline: none; 
+  outline: none;
 }
 
 .border-red-500 {
@@ -405,20 +480,21 @@ input:focus-visible {
 }
 .focus\:ring-red-500:focus {
   --tw-ring-color: theme('colors.red.500');
-   box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
 }
 .text-red-600 {
-    color: theme('colors.red.600');
+  color: theme('colors.red.600');
 }
 .text-green-600 {
-    color: theme('colors.green.600');
+  color: theme('colors.green.600');
 }
 
 #registerModal::-webkit-scrollbar {
   width: 8px;
 }
 #registerModal::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
 #registerModal::-webkit-scrollbar-thumb {

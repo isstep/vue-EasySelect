@@ -73,7 +73,7 @@ const removeFromFavorites = async (foodId) => {
       <p class="text-lg mb-10">Здесь нету избранных товаров, добавьте их!</p>
       <button
         @click="goToHome"
-        class="h-10 px-5 text-white transition-colors duration-150 bg-customGreen rounded-full focus:shadow-outline hover:bg-green-700"
+        class="h-10  px-5 bg-emerald-500 text-white transition-colors duration-150 bg-customGreen rounded-full focus:shadow-outline hover:bg-emerald-700"
       >
         На главную
       </button>
